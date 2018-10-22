@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:weightSum="10"
+    android:orientation="horizontal"
+    android:background="@drawable/shadow">
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/back_icon"
+        android:padding="19dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/select_icon_background"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="استاد کار"
+            android:textSize="18dp"
+            android:textColor="@color/mainColor"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btnMenu"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/menu_icon"
+        android:padding="17dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/select_icon_background"/>
+
+</RelativeLayout>
