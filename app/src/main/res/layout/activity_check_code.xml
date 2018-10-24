@@ -57,18 +57,17 @@
                 android:id="@+id/fontTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="موبایل"
+                android:text="کد فعال سازی"
                 android:textColor="@color/mainColor"/>
 
             <ir.rahbod.habibi.widget.EditTextFont
                 android:id="@+id/editTextFont"
+                android:hint="کد فعال سازی را وارد کنید"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="09 - -  - - -  - - - -"
-                android:drawableLeft="@drawable/mobile_icon"
+                android:drawableLeft="@drawable/code_icon"
                 android:inputType="number"
-                android:textDirection="ltr"
-                android:drawablePadding="10dp"
+                android:textDirection="rtl"
                 android:maxLength="11"
                 android:background="@drawable/edit_text_background"
                 android:textSize="14sp"
