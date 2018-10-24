@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    tools:context=".pages.BillActivity">
+
+    <include
+        android:id="@+id/actionBar"
+        layout="@layout/actionbar_view" />
+
+    <!--title-->
+    <LinearLayout
+        android:id="@+id/linTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/actionBar"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="2.5"
+            android:background="@color/mainColor" />
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="فاکتور درخواست شما"
+            android:textAlignment="center"
+            android:textColor="@color/mainColor"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="2.5"
+            android:background="@color/mainColor" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linTitle"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/radius_background">
+
+        <LinearLayout
+            android:id="@+id/linDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:layoutDirection="rtl"
+            tools:targetApi="jelly_bean_mr1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gear_icon" />
+
+            <ir.rahbod.habibi.widget.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="اطلاعات دستگاه"
+                android:textColor="@color/mainColor" />
+
+        </LinearLayout>
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:id="@+id/txtDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linDetails"
+            android:text="ماشین لباس شویی"
+            android:textDirection="rtl"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"/>
+
+        <View
+            android:id="@+id/lineDetails"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/txtDetails"
+            android:background="#b6bec2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"/>
+
+        <LinearLayout
+            android:id="@+id/linAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/lineDetails"
+            android:layoutDirection="rtl"
+            tools:targetApi="jelly_bean_mr1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gear_icon" />
+
+            <ir.rahbod.habibi.widget.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="اطلاعات دستگاه"
+                android:textColor="@color/mainColor" />
+
+        </LinearLayout>
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:id="@+id/txtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linAddress"
+            android:text="ماشین لباس شویی"
+            android:textDirection="rtl"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"/>
+
+        <View
+            android:id="@+id/lineAddress"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/txtAddress"
+            android:background="#b6bec2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="20dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
