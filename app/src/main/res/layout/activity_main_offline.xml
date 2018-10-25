@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray">
+
+    <include
+        android:id="@+id/actionBar"
+        layout="@layout/actionbar_view" />
+
+    <ImageView
+        android:id="@+id/imgWifi"
+        android:layout_width="100dp"
+        android:layout_height="88dp"
+        android:src="@drawable/disconnect_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/actionBar"
+        android:layout_marginTop="100dp"/>
+
+    <ir.rahbod.habibi.widget.FontTextView
+        android:id="@+id/txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="دستگاه شما به اینترنت دسترسی ندارد."
+        android:layout_below="@+id/imgWifi"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/mainColor"
+        android:layout_marginTop="40dp"/>
+
+    <ir.rahbod.habibi.widget.ButtonFont
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_gradient"
+        android:text="ثبت درخواست آفلاین"
+        android:textColor="#fff"
+        android:layout_below="@+id/txt"
+        android:layout_marginRight="110dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="30dp"/>
+
+</RelativeLayout>

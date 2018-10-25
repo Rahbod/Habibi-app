@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/radius_background"
+    android:padding="16dp"
+    android:elevation="2dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:id="@+id/txtModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="تست"
+            android:textColor="@color/mainColor" />
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="/"
+            android:textColor="@color/secondColor" />
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="دومین تست"
+            android:textColor="@color/mainColor" />
+
+    </LinearLayout>
+
+    <ir.rahbod.habibi.widget.FontTextView
+        android:textSize="10dp"
+        android:id="@+id/txtCondition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/background_done"
+        android:paddingBottom="3dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="3dp"
+        android:text="انجام شده"
+        android:textColor="#fff" />
+
+</RelativeLayout>

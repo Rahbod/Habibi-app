@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    tools:context=".pages.BillActivity">
+    tools:context=".pages.RequestStepFourActivity">
 
     <include
         android:id="@+id/actionBar"
         layout="@layout/actionbar_view" />
 
-    <ScrollView
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/actionBar">
@@ -40,7 +41,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="فاکتور درخواست شما"
+                    android:text="اطلاعات درخواست شما"
                     android:textAlignment="center"
                     android:textColor="@color/mainColor"
                     android:textSize="17sp" />
@@ -59,11 +60,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linTitle"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/radius_background">
+                android:background="@drawable/radius_background"
+                android:elevation="3dp">
 
                 <!--details-->
                 <LinearLayout
@@ -277,112 +279,45 @@
 
             </RelativeLayout>
 
-            <!--title2-->
+            <!--button-icon-text-->
             <LinearLayout
-                android:id="@+id/linTitle2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/btnPayment"
                 android:layout_below="@+id/card_1"
-                android:layout_margin="16dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/background_gradient"
+                android:elevation="2dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="32dp"
+                android:paddingRight="12dp"
+                android:paddingTop="10dp"
+                tools:targetApi="lollipop">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="3"
-                    android:background="@color/mainColor" />
-
-                <ir.rahbod.habibi.widget.FontTextView
-                    android:layout_width="0dp"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="خدمات ارائه شده"
-                    android:textAlignment="center"
-                    android:textColor="@color/mainColor"
-                    android:textSize="17sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="3"
-                    android:background="@color/mainColor" />
-
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recBill"
-                android:layout_below="@+id/linTitle2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginBottom="14dp"
-                android:layout_marginTop="10dp"/>
-
-            <LinearLayout
-                android:layout_below="@+id/recBill"
-                android:background="@drawable/radius_background"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginBottom="20dp">
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/send_icon" />
 
                 <ir.rahbod.habibi.widget.FontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="مبلغ قابل پرداخت"
-                    android:textColor="@color/mainColor"
-                    android:layout_marginTop="16dp"/>
-
-                <ir.rahbod.habibi.widget.FontTextViewBold
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="60.000 تومان"
-                    android:textSize="24dp"
-                    android:textColor="@color/secondColor" />
-
-                <!--button-icon-text-->
-                <LinearLayout
-                    android:id="@+id/btnPayment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_gradient"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="32dp"
-                    android:layout_marginBottom="20dp"
-                    android:paddingRight="12dp"
-                    android:layout_marginTop="10dp"
-                    android:elevation="2dp"
-                    tools:targetApi="lollipop">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/cart_icon"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp" />
-
-                    <ir.rahbod.habibi.widget.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="پرداخت آنلاین"
-                        android:layout_gravity="center"
-                        android:textSize="16dp"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="#fff"/>
-
-                </LinearLayout>
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:text="ارسال درخواست"
+                    android:textColor="#fff"
+                    android:textSize="16dp" />
 
             </LinearLayout>
 
         </RelativeLayout>
+
     </ScrollView>
 
 </RelativeLayout>
+
+

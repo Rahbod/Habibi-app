@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    tools:context=".pages.RequestStepOneActivity">
+
+    <include
+        android:id="@+id/actionBar"
+        layout="@layout/actionbar_view" />
+
+    <RelativeLayout
+        android:id="@+id/card_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/actionBar"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/radius_background"
+        android:elevation="3dp"
+        tools:targetApi="lollipop">
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="15dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="15dp"
+            android:textSize="16sp"
+            android:text="ماشین لباسشویی"
+            android:textColor="@color/mainColor" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/clock_icon" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/card_2"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card_1"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/radius_background"
+        android:elevation="3dp"
+        tools:targetApi="lollipop"
+        android:orientation="vertical"
+        android:gravity="right">
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="توضیحات"
+            android:textColor="@color/mainColor"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"/>
+
+        <ir.rahbod.habibi.widget.EditTextFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingLeft="16dp"
+            android:textCursorDrawable="@color/mainColor"
+            android:textSize="15sp"
+            android:background="@drawable/edit_text_background"
+            android:lines="4"
+            android:gravity="top"
+            android:hint="شرح حال و عیوب دستگاه را بنویسید"
+            android:textColor="@color/mainColor"
+            android:layout_marginBottom="25dp"/>
+
+    </LinearLayout>
+
+    <!--button-icon-text-->
+    <LinearLayout
+        android:id="@+id/btnPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_gradient"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="32dp"
+        android:layout_marginBottom="20dp"
+        android:paddingRight="12dp"
+        android:layout_marginTop="10dp"
+        android:elevation="2dp"
+        tools:targetApi="lollipop"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_right_icon"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp" />
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ادامه"
+            android:layout_gravity="center"
+            android:textSize="16dp"
+            android:layout_marginLeft="15dp"
+            android:textColor="#fff"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

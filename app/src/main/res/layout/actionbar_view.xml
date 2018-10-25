@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="65dp"
-    android:weightSum="10"
     android:orientation="horizontal"
     android:background="@drawable/shadow">
 

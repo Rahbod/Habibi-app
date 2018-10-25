@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff">
+
+    <ir.rahbod.habibi.widget.FontTextView
+        android:id="@+id/txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:text="آدرس"
+        android:textColor="@color/mainColor"
+        android:textSize="16sp" />
+
+    <ir.rahbod.habibi.widget.EditTextFont
+        android:id="@+id/etGetAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/edit_text_background"
+        android:gravity="top"
+        android:hint="آدرس دقیق را بنویسید"
+        android:lines="3"
+        android:paddingBottom="15dp"
+        android:paddingLeft="16dp"
+        android:textColor="@color/mainColor"
+        android:textCursorDrawable="@color/mainColor"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etGetAddress"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <ir.rahbod.habibi.widget.ButtonFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/background_gradient_sharp"
+            android:text="ثبت"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+        <ir.rahbod.habibi.widget.ButtonFont
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/background_gray_sharp"
+            android:text="انصراف"
+            android:textColor="@color/gray2"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
