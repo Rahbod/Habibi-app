@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import ir.rahbod.habibi.R;
+import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.model.Address;
 
-public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequestStepThere.listViewHolder>{
+public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequestStepThere.listViewHolder> {
 
     List<Address> list;
     Context context;
@@ -30,7 +30,6 @@ public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequest
 
     @Override
     public listViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_item_request_there, parent, false);
         return new listViewHolder(view);
     }
@@ -39,6 +38,13 @@ public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequest
     public void onBindViewHolder(final listViewHolder holder, final int position) {
         holder.radioButton.setText(list.get(position).getAddress());
         holder.radioButton.setChecked(lastPosition == position);
+        holder.radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address_ID, list.get(position).id);
+                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address, holder.radioButton.getText().toString());
+            }
+        });
     }
 
     @Override
@@ -46,7 +52,7 @@ public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequest
         return list.size();
     }
 
-    public class listViewHolder extends RecyclerView.ViewHolder{
+    public class listViewHolder extends RecyclerView.ViewHolder {
 
         TextView txt;
         RadioButton radioButton;

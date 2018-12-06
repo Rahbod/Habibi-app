@@ -6,9 +6,7 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class SessionManager {
     // LogCat tag
@@ -30,9 +28,9 @@ public class SessionManager {
     static int PRIVATE_MODE = 0;
 
     // Shared preferences file name
-    private static final String PREF_NAME = "AppLogin";
-    private static final String PREF_USER = "AppUserInfo";
-    private static final String PREF_EXTRAS = "AppExtras";
+    private static final String PREF_NAME = "HabibiLogin";
+    private static final String PREF_USER = "HabibiUserInfo";
+    private static final String PREF_EXTRAS = "HabibiExtras";
 
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
 
@@ -120,14 +118,6 @@ public class SessionManager {
         return LoginPref.getBoolean(KEY_IS_LOGGEDIN, false);
     }
 
-    public String getAccessToken() {
-        return LoginPref.getString("accessToken", null);
-    }
-
-    public String getRefreshToken() {
-        return LoginPref.getString("refreshToken", null);
-    }
-
     public Long getExpireTime() {
         return LoginPref.getLong("expireIn", 0);
     }
@@ -184,20 +174,13 @@ public class SessionManager {
         extraEditor.putLong(key, value);
         extraEditor.commit();
     }
-    public void putExtra(String key, Set<String> list){
-        extraEditor.putStringSet(key, list);
-        extraEditor.commit();
-    }
 
     public String getString(String key) {
         return ExtrasPref.getString(key, "");
     }
-    public Set<String> getSet(String key){
-        return ExtrasPref.getStringSet(key, null);
-    }
 
-    public int getInt(String key) {
-        return ExtrasPref.getInt(key, -1);
+    public Integer getInt(String key) {
+        return ExtrasPref.getInt(key, 0);
     }
 
     public boolean getBoolean(String key) {
@@ -217,8 +200,30 @@ public class SessionManager {
         return extraEditor.commit();
     }
 
-    public void remove(String key){
-        extraEditor.remove(key);
-        extraEditor.apply();
+    public void setAccessToken(String accessToken, String refreshToken, long expireIn) {
+        extraEditor.putString(PutKey.ACCESS_TOKEN, accessToken);
+        extraEditor.putString(PutKey.REFRESH_TOKEN, refreshToken);
+        extraEditor.putLong(PutKey.TOKEN_EXPIRE_TIME, System.currentTimeMillis() / 1000 + expireIn);
+        extraEditor.putBoolean(PutKey.IS_LOGIN, true);
+        extraEditor.commit();
+    }
+
+    public void updateAccessToken(String accessToken, long expireIn) {
+        extraEditor.putString(PutKey.ACCESS_TOKEN, accessToken);
+        extraEditor.putLong(PutKey.TOKEN_EXPIRE_TIME, System.currentTimeMillis() / 1000 + expireIn);
+        extraEditor.putBoolean(PutKey.IS_LOGIN, true);
+        extraEditor.commit();
+    }
+
+    public String getAccessToken() {
+        return ExtrasPref.getString(PutKey.ACCESS_TOKEN, "");
+    }
+
+    public String getRefreshToken() {
+        return ExtrasPref.getString(PutKey.REFRESH_TOKEN, "");
+    }
+
+    public boolean checkLogin() {
+        return ExtrasPref.getBoolean(PutKey.IS_LOGIN, false);
     }
 }

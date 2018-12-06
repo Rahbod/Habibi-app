@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.RegisterStepOneActivity"
     tools:ignore="MissingConstraints"
     android:background="#fff">
 
@@ -61,21 +60,21 @@
                 android:textColor="@color/mainColor"/>
 
             <ir.rahbod.habibi.widget.EditTextFont
-                android:id="@+id/editTextFont"
+                android:id="@+id/etGetCodeNumber"
                 android:hint="کد فعال سازی را وارد کنید"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/code_icon"
                 android:inputType="number"
                 android:textDirection="rtl"
-                android:maxLength="11"
+                android:maxLength="4"
                 android:background="@drawable/edit_text_background"
                 android:textSize="14sp"
                 android:textColor="@color/mainColor"
                 android:textCursorDrawable="@color/mainColor"/>
 
             <ir.rahbod.habibi.widget.ButtonFont
-                android:id="@+id/btnSave"
+                android:id="@+id/btnOk"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="ادامه"

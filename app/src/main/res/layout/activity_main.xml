@@ -1,32 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/mainBackground">
+    android:layout_width="match_parent"
+    android:id="@+id/drawer"
+    android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/actionBar"
-        layout="@layout/actionbar_view" />
-
-    <ir.rahbod.habibi.widget.FontTextView
-        android:id="@+id/txtBody"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="دستگاه مورد نظر خود را انتخاب کنید"
-        android:textColor="@color/mainColor"
-        android:textSize="16dp"
-        android:layout_below="@+id/actionBar"
-        android:layout_centerHorizontal="true"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/txtBody"
-        android:layout_centerHorizontal="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"/>
+        android:background="@color/mainBackground"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <include
+            android:id="@+id/actionBar"
+            layout="@layout/actionbar_view" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/actionBar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ir.rahbod.habibi.widget.FontTextView
+                    android:id="@+id/txtBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_10"
+                    android:paddingRight="@dimen/_10"
+                    android:paddingTop="@dimen/_10"
+                    android:text="دستگاه مورد نظر خود را انتخاب کنید"
+                    android:textColor="@color/mainColor"
+                    android:textSize="16dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/aboutNavView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/navigation_header">
+
+        <include
+            layout="@layout/body_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="165dp"/>
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

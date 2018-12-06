@@ -1,9 +1,23 @@
 package ir.rahbod.habibi.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Request {
     String name;
     String model;
     String condition;
+    @SerializedName("deviceID")
+    public int deviceID;
+    @SerializedName("addressID")
+    public int addressID;
+    @SerializedName("description")
+    public String description;
+    @SerializedName("date")
+    public String date;
+    @SerializedName("time")
+    public String time;
+    @SerializedName("message")
+    public String message;
 
     public Request() {
    }

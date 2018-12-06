@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    tools:context=".pages.BillActivity">
+    android:orientation="vertical"
+    tools:context=".pages.RequestInfoActivity">
 
-    <include
-        android:id="@+id/actionBar"
-        layout="@layout/actionbar_view" />
+    <include layout="@layout/actionbar_view" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/actionBar">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <!--title-->
             <LinearLayout
-                android:id="@+id/linTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:orientation="horizontal">
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_weight="2.5"
+                    android:layout_weight="1"
                     android:background="@color/mainColor" />
 
                 <ir.rahbod.habibi.widget.FontTextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:paddingLeft="@dimen/_10"
+                    android:paddingRight="@dimen/_10"
                     android:text="فاکتور درخواست شما"
                     android:textAlignment="center"
                     android:textColor="@color/mainColor"
@@ -48,257 +47,329 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_weight="2.5"
+                    android:layout_weight="1"
                     android:background="@color/mainColor" />
 
             </LinearLayout>
 
             <!--card-1-->
-            <RelativeLayout
-                android:id="@+id/card_1"
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linTitle"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/radius_background">
+                app:cardCornerRadius="@dimen/card_view_radius"
+                app:cardElevation="@dimen/card_view_elevation">
 
-                <!--details-->
-                <LinearLayout
-                    android:id="@+id/linDetails"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layoutDirection="rtl"
-                    tools:targetApi="jelly_bean_mr1">
+                    android:layout_height="match_parent">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <!--details-->
+                    <LinearLayout
+                        android:id="@+id/linDetails"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/gear_icon" />
-
-                    <ir.rahbod.habibi.widget.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:text="اطلاعات دستگاه"
-                        android:textColor="@color/mainColor"
-                        android:textSize="16sp" />
+                        android:layout_marginTop="20dp"
+                        android:layoutDirection="rtl"
+                        tools:targetApi="jelly_bean_mr1">
 
-                </LinearLayout>
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:text="اطلاعات دستگاه"
+                            android:textColor="@color/mainColor"
+                            android:textSize="16sp" />
 
-                <ir.rahbod.habibi.widget.FontTextView
-                    android:id="@+id/txtDetails"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linDetails"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="ماشین لباس شویی سامسونگ (A241)"
-                    android:textColor="@color/gray2"
-                    android:textDirection="rtl"
-                    android:textSize="13sp"
-                    tools:targetApi="jelly_bean_mr1" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/gear_icon" />
 
-                <View
-                    android:id="@+id/lineDetails"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/txtDetails"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/gray2" />
-
-                <!--date/time-->
-                <LinearLayout
-                    android:id="@+id/linDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lineDetails"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layoutDirection="rtl"
-                    tools:targetApi="jelly_bean_mr1">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/clock_icon" />
+                    </LinearLayout>
 
                     <ir.rahbod.habibi.widget.FontTextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/txtDetails"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_below="@+id/linDetails"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/gray2"
+                        android:textDirection="rtl"
+                        android:textSize="13sp"
+                        tools:targetApi="jelly_bean_mr1" />
+
+                    <View
+                        android:id="@+id/lineDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/txtDetails"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/gray2" />
+
+                    <!--date/time-->
+                    <LinearLayout
+                        android:id="@+id/linDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lineDetails"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:text="تاریخ و زمان"
-                        android:textColor="@color/mainColor"
-                        android:textSize="16sp" />
+                        android:layout_marginTop="15dp"
+                        android:layoutDirection="rtl"
+                        tools:targetApi="jelly_bean_mr1">
 
-                </LinearLayout>
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/mainColor"
+                            android:textSize="16sp" />
 
-                <ir.rahbod.habibi.widget.FontTextView
-                    android:id="@+id/txtDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linDate"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="2 آبان 1397/بعدازظهر(ساعت 16 الی 20)"
-                    android:textColor="@color/gray2"
-                    android:textDirection="rtl"
-                    android:textSize="13sp"
-                    tools:targetApi="jelly_bean_mr1" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/clock_icon" />
 
-                <View
-                    android:id="@+id/lineDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/txtDate"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/gray2" />
+                    </LinearLayout>
 
-                <!--Address-->
-                <LinearLayout
-                    android:id="@+id/linAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lineDate"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layoutDirection="rtl"
-                    tools:targetApi="jelly_bean_mr1">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/linTime"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/location_icon" />
+                        android:layout_below="@id/linDate"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:id="@+id/txtDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray2"
+                            android:textSize="13sp" />
+
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:id="@+id/txtTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray2"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/lineDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/linTime"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/gray2" />
+
+                    <!--Address-->
+                    <LinearLayout
+                        android:id="@+id/linAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lineDate"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layoutDirection="rtl"
+                        tools:targetApi="jelly_bean_mr1">
+
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:text="آدرس"
+                            android:textColor="@color/mainColor"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/location_icon" />
+
+                    </LinearLayout>
 
                     <ir.rahbod.habibi.widget.FontTextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/txtAddress"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_below="@+id/linAddress"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/gray2"
+                        android:textDirection="rtl"
+                        android:textSize="13sp"
+                        tools:targetApi="jelly_bean_mr1" />
+
+                    <View
+                        android:id="@+id/lineAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/txtAddress"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/gray2" />
+
+                    <!--description-->
+                    <LinearLayout
+                        android:id="@+id/linDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lineAddress"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:text="آدرس"
-                        android:textColor="@color/mainColor"
-                        android:textSize="16sp" />
+                        android:layout_marginTop="15dp"
+                        android:layoutDirection="rtl"
+                        tools:targetApi="jelly_bean_mr1">
 
-                </LinearLayout>
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:text="شرح حال دستگاه"
+                            android:textColor="@color/mainColor"
+                            android:textSize="16sp" />
 
-                <ir.rahbod.habibi.widget.FontTextView
-                    android:id="@+id/txtAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linAddress"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="بلوار کیوانفر، نبش کوچه 8، پلاک 17"
-                    android:textColor="@color/gray2"
-                    android:textDirection="rtl"
-                    android:textSize="13sp"
-                    tools:targetApi="jelly_bean_mr1" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/description_icon" />
 
-                <View
-                    android:id="@+id/lineAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/txtAddress"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/gray2" />
-
-                <!--description-->
-                <LinearLayout
-                    android:id="@+id/linDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lineAddress"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layoutDirection="rtl"
-                    tools:targetApi="jelly_bean_mr1">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/description_icon" />
+                    </LinearLayout>
 
                     <ir.rahbod.habibi.widget.FontTextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/txtDescription"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_below="@+id/linDescription"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/gray2"
+                        android:textDirection="rtl"
+                        android:textSize="13sp"
+                        tools:targetApi="jelly_bean_mr1" />
+
+                    <View
+                        android:id="@+id/lineDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/txtDescription"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/gray2" />
+
+                    <!--status-->
+                    <LinearLayout
+                        android:id="@+id/linStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lineDescription"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:text="شرح حال دستگاه"
-                        android:textColor="@color/mainColor"
-                        android:textSize="16sp" />
+                        android:layout_marginTop="15dp"
+                        android:layoutDirection="rtl"
+                        tools:targetApi="jelly_bean_mr1">
 
-                </LinearLayout>
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:text="وضعیت"
+                            android:textColor="@color/mainColor"
+                            android:textSize="16sp" />
 
-                <ir.rahbod.habibi.widget.FontTextView
-                    android:id="@+id/txtDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linDescription"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است."
-                    android:textColor="@color/gray2"
-                    android:textDirection="rtl"
-                    android:textSize="13sp"
-                    tools:targetApi="jelly_bean_mr1" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/status_icon" />
 
-            </RelativeLayout>
+                    </LinearLayout>
+
+                    <ir.rahbod.habibi.widget.FontTextView
+                        android:id="@+id/txtStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linStatus"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/gray2"
+                        android:textDirection="rtl"
+                        android:textSize="13sp"
+                        tools:targetApi="jelly_bean_mr1" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
 
             <!--title2-->
             <LinearLayout
                 android:id="@+id/linTitle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/card_1"
                 android:layout_margin="16dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:orientation="horizontal">
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_weight="3"
+                    android:layout_weight="1"
                     android:background="@color/mainColor" />
 
                 <ir.rahbod.habibi.widget.FontTextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
+                    android:paddingLeft="@dimen/_10"
+                    android:paddingRight="@dimen/_10"
                     android:text="خدمات ارائه شده"
                     android:textAlignment="center"
                     android:textColor="@color/mainColor"
@@ -307,82 +378,87 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_weight="3"
+                    android:layout_weight="1"
                     android:background="@color/mainColor" />
 
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recBill"
-                android:layout_below="@+id/linTitle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_marginBottom="14dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp" />
 
-            <LinearLayout
-                android:layout_below="@+id/recBill"
-                android:background="@drawable/radius_background"
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_marginRight="16dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginRight="16dp"
+                app:cardCornerRadius="@dimen/card_view_radius"
+                app:cardElevation="@dimen/card_view_elevation">
 
-                <ir.rahbod.habibi.widget.FontTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="مبلغ قابل پرداخت"
-                    android:textColor="@color/mainColor"
-                    android:layout_marginTop="16dp"/>
-
-                <ir.rahbod.habibi.widget.FontTextViewBold
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="60.000 تومان"
-                    android:textSize="24dp"
-                    android:textColor="@color/secondColor" />
-
-                <!--button-icon-text-->
                 <LinearLayout
-                    android:id="@+id/btnPayment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_gradient"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="32dp"
-                    android:layout_marginBottom="20dp"
-                    android:paddingRight="12dp"
-                    android:layout_marginTop="10dp"
-                    android:elevation="2dp"
-                    tools:targetApi="lollipop">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/cart_icon"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp" />
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <ir.rahbod.habibi.widget.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="پرداخت آنلاین"
-                        android:layout_gravity="center"
-                        android:textSize="16dp"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="#fff"/>
+                        android:layout_marginTop="16dp"
+                        android:text="مبلغ قابل پرداخت"
+                        android:textColor="@color/mainColor" />
+
+                    <ir.rahbod.habibi.widget.FontTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="60.000 تومان"
+                        android:textColor="@color/secondColor"
+                        android:textSize="24dp" />
+
+                    <!--button-icon-text-->
+                    <LinearLayout
+                        android:id="@+id/btnPayment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/background_gradient"
+                        android:elevation="2dp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="10dp"
+                        tools:targetApi="lollipop">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/cart_icon" />
+
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:text="پرداخت آنلاین"
+                            android:textColor="#fff"
+                            android:textSize="16dp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

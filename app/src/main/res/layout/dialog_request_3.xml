@@ -26,8 +26,36 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/edit_text_background"
         android:gravity="top"
-        android:hint="آدرس دقیق را بنویسید"
+        android:hint="آدرس دقیق خود را وارد کنید"
         android:lines="3"
+        android:paddingBottom="10dp"
+        android:paddingLeft="16dp"
+        android:textColor="@color/mainColor"
+        android:textCursorDrawable="@color/mainColor"
+        android:textSize="15sp" />
+
+    <ir.rahbod.habibi.widget.FontTextView
+        android:id="@+id/txt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etGetAddress"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="تلفن"
+        android:textColor="@color/mainColor"
+        android:textSize="16sp" />
+
+    <ir.rahbod.habibi.widget.EditTextFont
+        android:id="@+id/etGetTelephone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt2"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/edit_text_background"
+        android:hint="شماره تلفن خود را وارد کنید"
+        android:inputType="number"
         android:paddingBottom="15dp"
         android:paddingLeft="16dp"
         android:textColor="@color/mainColor"
@@ -37,11 +65,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etGetAddress"
+        android:layout_below="@+id/etGetTelephone"
         android:orientation="horizontal"
         android:weightSum="2">
 
         <ir.rahbod.habibi.widget.ButtonFont
+            android:id="@+id/btnAdd"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -51,6 +80,7 @@
             android:textSize="20sp" />
 
         <ir.rahbod.habibi.widget.ButtonFont
+            android:id="@+id/btnCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

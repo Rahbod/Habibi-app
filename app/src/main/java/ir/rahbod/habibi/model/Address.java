@@ -1,14 +1,24 @@
 package ir.rahbod.habibi.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Address {
-    String address;
-    boolean checked = false;
+    private boolean checked = false;
+
+    @SerializedName("id")
+    public int id;
+    @SerializedName("telephone")
+    public String telephone;
+    @SerializedName("address")
+    public String address;
+
 
     public Address(String address) {
         this.address = address;
     }
 
-    public Address() {}
+    public Address() {
+    }
 
     public String getAddress() {
         return address;
@@ -17,6 +27,7 @@ public class Address {
     public void setAddress(String address) {
         this.address = address;
     }
+
     public boolean getChecked() {
         return checked;
     }

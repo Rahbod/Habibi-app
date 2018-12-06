@@ -28,19 +28,19 @@
                 android:layout_margin="16dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:orientation="horizontal">
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_weight="2.5"
+                    android:layout_weight="1"
                     android:background="@color/mainColor" />
 
                 <ir.rahbod.habibi.widget.FontTextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:paddingLeft="@dimen/_10"
+                    android:paddingRight="@dimen/_10"
                     android:text="اطلاعات درخواست شما"
                     android:textAlignment="center"
                     android:textColor="@color/mainColor"
@@ -49,7 +49,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_weight="2.5"
+                    android:layout_weight="1"
                     android:background="@color/mainColor" />
 
             </LinearLayout>
@@ -65,7 +65,8 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/radius_background"
-                android:elevation="3dp">
+                android:elevation="3dp"
+                tools:targetApi="lollipop">
 
                 <!--details-->
                 <LinearLayout
@@ -76,23 +77,25 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
                     android:layoutDirection="rtl"
+                    android:orientation="horizontal"
                     tools:targetApi="jelly_bean_mr1">
+
+                    <ir.rahbod.habibi.widget.FontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:text="اطلاعات دستگاه"
+                        android:textColor="@color/mainColor"
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:src="@drawable/gear_icon" />
-
-                    <ir.rahbod.habibi.widget.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="اطلاعات دستگاه"
-                        android:textColor="@color/mainColor"
-                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -105,7 +108,6 @@
                     android:layout_marginRight="40dp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="ماشین لباس شویی سامسونگ (A241)"
                     android:textColor="@color/gray2"
                     android:textDirection="rtl"
                     android:textSize="13sp"
@@ -131,7 +133,19 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="15dp"
                     android:layoutDirection="rtl"
+                    android:orientation="horizontal"
                     tools:targetApi="jelly_bean_mr1">
+
+                    <ir.rahbod.habibi.widget.FontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:text="تاریخ و زمان"
+                        android:textColor="@color/mainColor"
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -139,38 +153,44 @@
                         android:layout_gravity="center"
                         android:src="@drawable/clock_icon" />
 
-                    <ir.rahbod.habibi.widget.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="تاریخ و زمان"
-                        android:textColor="@color/mainColor"
-                        android:textSize="16sp" />
-
                 </LinearLayout>
 
-                <ir.rahbod.habibi.widget.FontTextView
-                    android:id="@+id/txtDate"
+                <LinearLayout
+                    android:id="@+id/linTxtDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/linDate"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
+                    android:orientation="vertical"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="2 آبان 1397/بعدازظهر(ساعت 16 الی 20)"
-                    android:textColor="@color/gray2"
-                    android:textDirection="rtl"
-                    android:textSize="13sp"
-                    tools:targetApi="jelly_bean_mr1" />
+                    android:paddingTop="10dp">
+
+                    <ir.rahbod.habibi.widget.FontTextView
+                        android:id="@+id/txtDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="@color/gray2"
+                        android:textDirection="rtl"
+                        android:textSize="13sp" />
+
+                    <ir.rahbod.habibi.widget.FontTextView
+                        android:id="@+id/txtTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/gray2"
+                        android:textDirection="rtl"
+                        android:textSize="13sp"
+                        tools:targetApi="jelly_bean_mr1" />
+
+                </LinearLayout>
 
                 <View
                     android:id="@+id/lineDate"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/txtDate"
+                    android:layout_below="@+id/linTxtDate"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="40dp"
                     android:layout_marginTop="8dp"
@@ -186,23 +206,25 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="15dp"
                     android:layoutDirection="rtl"
+                    android:orientation="horizontal"
                     tools:targetApi="jelly_bean_mr1">
+
+                    <ir.rahbod.habibi.widget.FontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:text="آدرس"
+                        android:textColor="@color/mainColor"
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:src="@drawable/location_icon" />
-
-                    <ir.rahbod.habibi.widget.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="آدرس"
-                        android:textColor="@color/mainColor"
-                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -215,7 +237,6 @@
                     android:layout_marginRight="40dp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="بلوار کیوانفر، نبش کوچه 8، پلاک 17"
                     android:textColor="@color/gray2"
                     android:textDirection="rtl"
                     android:textSize="13sp"
@@ -241,23 +262,25 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="15dp"
                     android:layoutDirection="rtl"
+                    android:orientation="horizontal"
                     tools:targetApi="jelly_bean_mr1">
+
+                    <ir.rahbod.habibi.widget.FontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:text="شرح حال دستگاه"
+                        android:textColor="@color/mainColor"
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:src="@drawable/description_icon" />
-
-                    <ir.rahbod.habibi.widget.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="شرح حال دستگاه"
-                        android:textColor="@color/mainColor"
-                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -271,7 +294,6 @@
                     android:layout_marginRight="40dp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است."
                     android:textColor="@color/gray2"
                     android:textDirection="rtl"
                     android:textSize="13sp"
@@ -281,20 +303,31 @@
 
             <!--button-icon-text-->
             <LinearLayout
-                android:id="@+id/btnPayment"
-                android:layout_below="@+id/card_1"
+                android:id="@+id/btnOk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/card_1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="30dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/background_gradient"
                 android:elevation="2dp"
+                android:orientation="horizontal"
                 android:paddingBottom="10dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="12dp"
                 android:paddingTop="10dp"
                 tools:targetApi="lollipop">
+
+                <ir.rahbod.habibi.widget.FontTextView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:text="ارسال درخواست"
+                    android:textColor="#fff"
+                    android:textSize="16dp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -303,15 +336,6 @@
                     android:layout_marginLeft="15dp"
                     android:src="@drawable/send_icon" />
 
-                <ir.rahbod.habibi.widget.FontTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="15dp"
-                    android:text="ارسال درخواست"
-                    android:textColor="#fff"
-                    android:textSize="16dp" />
-
             </LinearLayout>
 
         </RelativeLayout>
@@ -319,5 +343,3 @@
     </ScrollView>
 
 </RelativeLayout>
-
-

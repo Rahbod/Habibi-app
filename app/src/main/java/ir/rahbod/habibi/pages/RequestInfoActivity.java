@@ -16,7 +16,7 @@ import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterBill;
 import ir.rahbod.habibi.model.Bill;
 
-public class BillActivity extends AppCompatActivity {
+public class RequestInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class BillActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<Bill> list = new ArrayList<>();
         Bill bill = new Bill();
-        for (int i = 0; i<30; i++){
+        for (int i = 0; i < 3; i++) {
             bill.setTitle("تعویض تستی");
             bill.setCost("20000 تومان");
             list.add(bill);
@@ -43,7 +43,7 @@ public class BillActivity extends AppCompatActivity {
         btnPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(BillActivity.this, "test", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RequestInfoActivity.this, "Test", Toast.LENGTH_SHORT).show();
             }
         });
     }

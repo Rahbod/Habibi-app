@@ -4,14 +4,6 @@ public class Bill {
     String title;
     String cost;
 
-    public Bill(String title, String cost) {
-        this.title = title;
-        this.cost = cost;
-    }
-
-    public Bill() {
-    }
-
     public String getTitle() {
         return title;
     }

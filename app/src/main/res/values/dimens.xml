@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_view_radius">6dp</dimen>
+    <dimen name="card_view_elevation">3dp</dimen>
+    <dimen name="_10">10dp</dimen>
+</resources>

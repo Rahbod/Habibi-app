@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray">
+    android:background="@color/gray"
+    android:layout_gravity="center"
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/actionBar"
-        layout="@layout/actionbar_view" />
+    <include layout="@layout/actionbar_view" />
 
     <!--button-icon-text-->
     <LinearLayout
         android:id="@+id/btnAddAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/actionBar"
-        android:layout_centerHorizontal="true"
         android:layout_marginLeft="95dp"
         android:layout_marginRight="95dp"
         android:layout_marginTop="20dp"
@@ -51,24 +49,23 @@
         android:id="@+id/linTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnAddAddress"
         android:layout_marginLeft="95dp"
         android:layout_marginRight="95dp"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="2.5"
+            android:layout_weight="1"
             android:background="@color/mainColor" />
 
         <ir.rahbod.habibi.widget.FontTextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:paddingLeft="@dimen/_10"
+            android:paddingRight="@dimen/_10"
             android:text="یا انتخاب کنید"
             android:textAlignment="center"
             android:textColor="@color/mainColor"
@@ -77,7 +74,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="2.5"
+            android:layout_weight="1"
             android:background="@color/mainColor" />
 
     </LinearLayout>
@@ -86,21 +83,19 @@
         android:id="@+id/recRequestStepThere"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnOk"
-        android:layout_below="@+id/linTitle"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:clipToPadding="false"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
 
     <!--button-icon-text-->
     <LinearLayout
         android:id="@+id/btnOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
+        android:layout_gravity="center"
         android:background="@drawable/background_gradient"
         android:elevation="2dp"
         android:layoutDirection="rtl"
@@ -128,4 +123,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

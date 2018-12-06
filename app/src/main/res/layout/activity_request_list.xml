@@ -1,55 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.RequestListActivity"
-    android:background="@color/gray">
+    android:background="@color/gray"
+    android:orientation="vertical"
+    tools:context=".pages.RequestListActivity">
 
-    <include
-        android:id="@+id/actionBar"
-        layout="@layout/actionbar_view" />
+    <include layout="@layout/actionbar_view" />
 
-    <!--title-->
-    <LinearLayout
-        android:id="@+id/linTitle"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/actionBar"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:layout_height="wrap_content">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="2"
-            android:background="@color/mainColor" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ir.rahbod.habibi.widget.FontTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:text="درخواست های ثبت شده"
-            android:textAlignment="center"
-            android:textColor="@color/mainColor"
-            android:textSize="17sp" />
+            <!--title-->
+            <LinearLayout
+                android:id="@+id/linTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="2"
-            android:background="@color/mainColor" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/mainColor" />
 
-    </LinearLayout>
+                <ir.rahbod.habibi.widget.FontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_10"
+                    android:paddingRight="@dimen/_10"
+                    android:text="درخواست های ثبت شده"
+                    android:textAlignment="center"
+                    android:textColor="@color/mainColor"
+                    android:textSize="17sp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recRequestList"
-        android:layout_below="@id/linTitle"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/mainColor" />
 
-</RelativeLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recRequestList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingLeft="16dp"
+                android:overScrollMode="ifContentScrolls"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>
