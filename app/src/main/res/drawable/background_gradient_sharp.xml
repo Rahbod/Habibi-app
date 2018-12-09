@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true">
-        <shape
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle">
-            <gradient
-                android:endColor="#a62867"
-                android:startColor="#c63b5c" />
-        </shape>
-    </item>
-
-    <item>
-        <shape
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle">
-            <gradient
-                android:endColor="@color/thirdColor"
-                android:startColor="@color/secondColor" />
-        </shape>
-    </item>
-</selector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:endColor="@color/thirdColor"
+        android:startColor="@color/secondColor" />
+</shape>

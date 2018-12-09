@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:name=".controller.MyApp"
@@ -32,14 +33,17 @@
             android:name=".pages.UserNameActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".pages.RequestInfoActivity" />
-        <activity android:name=".pages.RequestStepOneActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".pages.RequestStepOneActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".pages.RequestStepTowActivity" />
         <activity android:name=".pages.RequestStepThereActivity" />
         <activity android:name=".pages.RequestStepFourActivity" />
         <activity android:name=".pages.TransactionActivity" />
         <activity android:name=".pages.RequestListActivity" />
         <activity android:name=".pages.TransactionListActivity" />
+        <activity android:name=".pages.CooperationRequestActivity"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

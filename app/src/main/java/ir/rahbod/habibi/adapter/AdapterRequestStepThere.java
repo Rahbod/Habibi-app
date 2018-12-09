@@ -1,6 +1,7 @@
 package ir.rahbod.habibi.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +20,9 @@ import ir.rahbod.habibi.model.Address;
 
 public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequestStepThere.listViewHolder> {
 
-    List<Address> list;
-    Context context;
-    int lastPosition = -1;
+    private List<Address> list;
+    private Context context;
+    private int lastPosition = -1;
 
     public AdapterRequestStepThere(Context context, List<Address> list) {
         this.context = context;
@@ -36,15 +37,8 @@ public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequest
 
     @Override
     public void onBindViewHolder(final listViewHolder holder, final int position) {
-        holder.radioButton.setText(list.get(position).getAddress());
+        holder.txt.setText(list.get(position).getAddress());
         holder.radioButton.setChecked(lastPosition == position);
-        holder.radioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address_ID, list.get(position).id);
-                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address, holder.radioButton.getText().toString());
-            }
-        });
     }
 
     @Override
@@ -52,23 +46,33 @@ public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequest
         return list.size();
     }
 
-    public class listViewHolder extends RecyclerView.ViewHolder {
+    class listViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt;
-        RadioButton radioButton;
-        LinearLayout linItem;
+        private TextView txt;
+        private RadioButton radioButton;
+        private CardView linItem;
 
-        public listViewHolder(View itemView) {
+        private listViewHolder(View itemView) {
             super(itemView);
-
             txt = itemView.findViewById(R.id.txt);
             radioButton = itemView.findViewById(R.id.radioButton);
             linItem = itemView.findViewById(R.id.linItem);
-
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     lastPosition = getAdapterPosition();
+                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address_ID, list.get(getAdapterPosition()).id);
+                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address, txt.getText().toString());
+                    notifyDataSetChanged();
+                }
+            });
+
+            linItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    lastPosition = getAdapterPosition();
+                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address_ID, list.get(getAdapterPosition()).id);
+                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address, txt.getText().toString());
                     notifyDataSetChanged();
                 }
             });

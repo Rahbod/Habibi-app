@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:id="@+id/mainView"
     android:layout_height="match_parent"
     android:background="@color/gray">
 
@@ -8,34 +10,62 @@
         android:id="@+id/actionBar"
         layout="@layout/actionbar_view" />
 
-    <ImageView
-        android:id="@+id/imgWifi"
-        android:layout_width="100dp"
-        android:layout_height="88dp"
-        android:src="@drawable/disconnect_icon"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/actionBar"
-        android:layout_marginTop="100dp"/>
-
-    <ir.rahbod.habibi.widget.FontTextView
-        android:id="@+id/txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="دستگاه شما به اینترنت دسترسی ندارد."
-        android:layout_below="@+id/imgWifi"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/mainColor"
-        android:layout_marginTop="40dp"/>
-
-    <ir.rahbod.habibi.widget.ButtonFont
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_gradient"
-        android:text="ثبت درخواست آفلاین"
-        android:textColor="#fff"
-        android:layout_below="@+id/txt"
-        android:layout_marginRight="110dp"
-        android:layout_marginLeft="110dp"
-        android:layout_marginTop="30dp"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/actionBar"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgWifi"
+            android:layout_width="100dp"
+            android:layout_height="88dp"
+            android:src="@drawable/disconnect_icon" />
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="دستگاه شما به اینترنت دسترسی ندارد."
+            android:textColor="@color/mainColor" />
+
+        <!--Button-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/btnRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10"
+            android:layout_marginTop="@dimen/_10"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:cardCornerRadius="@dimen/card_view_radius"
+            app:cardElevation="@dimen/card_view_elevation">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/background_gradient_sharp"
+                android:gravity="center"
+                android:paddingBottom="@dimen/_10"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="@dimen/_10">
+
+                <ir.rahbod.habibi.widget.FontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-2dp"
+                    android:text="ثبت درخواست آفلاین"
+                    android:textColor="#fff" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
 
 </RelativeLayout>

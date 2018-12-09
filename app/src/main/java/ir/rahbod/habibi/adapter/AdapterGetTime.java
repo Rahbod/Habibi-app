@@ -45,11 +45,11 @@ public class AdapterGetTime extends RecyclerView.Adapter<AdapterGetTime.listView
             holder.endTime.setTextColor(Color.WHITE);
             holder.txt.setTextColor(Color.WHITE);
             if (position == 0)
-                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_TIME, "am");
+                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_TIME, "night");
             else if (position == 1)
                 SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_TIME, "pm");
             else
-                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_TIME, "night");
+                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_TIME, "am");
 
         } else {
             holder.item.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_rec_time));

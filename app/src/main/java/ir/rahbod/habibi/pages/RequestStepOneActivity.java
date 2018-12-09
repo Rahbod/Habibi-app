@@ -1,8 +1,10 @@
 package ir.rahbod.habibi.pages;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -19,9 +21,10 @@ import ir.rahbod.habibi.helper.SessionManager;
 public class RequestStepOneActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView txtServiceTitle;
-    private ImageView icon;
+    private ImageView icon, btnBack;
     private EditText etGEtDescription;
-    private LinearLayout btnOk;
+    private CardView btnOk;
+    public static Activity one;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +34,11 @@ public class RequestStepOneActivity extends AppCompatActivity implements View.On
         txtServiceTitle.setText(SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_TITLE));
         Picasso.with(this).load(SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_ICON)).into(icon);
         btnOk.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
     }
 
     private void bind() {
+        one = this;
         //Set Text Title
         TextView txtTitle = findViewById(R.id.txtTitle);
         txtTitle.setText("درخواست سرویس");
@@ -41,6 +46,7 @@ public class RequestStepOneActivity extends AppCompatActivity implements View.On
         icon = findViewById(R.id.icon);
         etGEtDescription = findViewById(R.id.etGEtDescription);
         btnOk = findViewById(R.id.btnOk);
+        btnBack = findViewById(R.id.btnBack);
     }
 
     @Override
@@ -48,8 +54,19 @@ public class RequestStepOneActivity extends AppCompatActivity implements View.On
         switch (v.getId()) {
             case R.id.btnOk:
                 Intent intent = new Intent(this, RequestStepTowActivity.class);
-                SessionManager.getExtrasPref(this).putExtra(PutKey.SERVICE_DESCRIPTION, etGEtDescription.getText().toString());
+                SessionManager.getExtrasPref(this).putExtra(PutKey.SERVICE_DESCRIPTION, etGEtDescription.getText().toString().trim());
                 startActivity(intent);
+                break;
+            case R.id.btnBack:
+                onBackPressed();
+                break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_DESCRIPTION).isEmpty())
+            SessionManager.getExtrasPref(this).remove(PutKey.SERVICE_DESCRIPTION);
     }
 }

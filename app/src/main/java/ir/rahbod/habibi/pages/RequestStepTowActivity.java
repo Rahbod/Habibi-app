@@ -1,14 +1,15 @@
 package ir.rahbod.habibi.pages;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,12 +19,8 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.squareup.picasso.Picasso;
 
-import java.security.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
 import ir.rahbod.habibi.R;
@@ -34,10 +31,13 @@ import ir.rahbod.habibi.model.GetTime;
 
 public class RequestStepTowActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    private TextView txtServiceTitle, date;
-    private ImageView icon;
+    private TextView txtServiceTitle, date, titleDate, titleTime;
+    private ImageView icon, btnBack;
     private RecyclerView recyclerView;
-    private LinearLayout btnOk;
+    private CardView btnOk;
+    private List<GetTime> list;
+    private int mainDay, mainMonth, mainYear;
+    public static Activity tow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +49,27 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
         Picasso.with(this).load(SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_ICON)).into(icon);
         date.setOnClickListener(this);
         btnOk.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        List<GetTime> list = new ArrayList<>();
-        int a = 8;
-        for (int i = 0; i < 3; i++) {
-            GetTime time = new GetTime();
-            time.startTime = a;
-            time.endTime = a + 4;
-            a = a + 4;
-            list.add(time);
-        }
-        AdapterGetTime adapter = new AdapterGetTime(this, list);
-        recyclerView.setAdapter(adapter);
+        list = new ArrayList<>();
+        GetTime timeAm = new GetTime();
+        timeAm.startTime = 8;
+        timeAm.endTime = 12;
+        list.add(timeAm);
+        GetTime timePm = new GetTime();
+        timePm.startTime = 12;
+        timePm.endTime = 18;
+        list.add(timePm);
+        GetTime timeNight = new GetTime();
+        timeNight.startTime = 18;
+        timeNight.endTime = 22;
+        list.add(timeNight);
+        Collections.reverse(list);
     }
 
     private void bind() {
+        tow = this;
         //Set Text Title
         TextView txtTitle = findViewById(R.id.txtTitle);
         txtTitle.setText("درخواست سرویس");
@@ -73,6 +78,9 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
         date = findViewById(R.id.date);
         recyclerView = findViewById(R.id.recTime);
         btnOk = findViewById(R.id.btnOk);
+        btnBack = findViewById(R.id.btnBack);
+        titleDate = findViewById(R.id.titleDate);
+        titleTime = findViewById(R.id.titleTime);
     }
 
     @Override
@@ -85,30 +93,59 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
                         , calendar.getPersianYear()
                         , calendar.getPersianMonth()
                         , calendar.getPersianDay());
+                mainDay = calendar.getPersianDay();
+                mainMonth = calendar.getPersianMonth();
+                mainYear = calendar.getPersianYear();
                 dialog.show(getFragmentManager(), "Datepickerdialog");
                 dialog.setThemeDark(false);
                 dialog.setCancelable(true);
                 break;
             case R.id.btnOk:
-                Intent intent = new Intent(RequestStepTowActivity.this, RequestStepThereActivity.class);
-                startActivity(intent);
+                if (SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_DATE).isEmpty()
+                        || date.getText().toString().isEmpty()) {
+                    titleDate.setError("لطفا تاریخ مورد نظر را انتخاب کنید");
+                    titleDate.setTextColor(getResources().getColor(R.color.red));
+                } else if (SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_TIME).isEmpty()) {
+                    titleDate.setTextColor(getResources().getColor(R.color.mainColor));
+                    titleTime.setTextColor(getResources().getColor(R.color.red));
+                    titleDate.setError(null);
+                    titleTime.setError("لطفا زمان مورد نظر را انتخاب کنید");
+                } else {
+                    titleDate.setTextColor(getResources().getColor(R.color.mainColor));
+                    titleTime.setTextColor(getResources().getColor(R.color.mainColor));
+                    titleDate.setError(null);
+                    titleTime.setError(null);
+                    Intent intent = new Intent(RequestStepTowActivity.this, RequestStepThereActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.btnBack:
+                onBackPressed();
                 break;
         }
     }
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        monthOfYear = monthOfYear + 1;
-        String strDate = year + " / " + monthOfYear + " / " + dayOfMonth;
-        date.setText(strDate);
-        String month = addZero(monthOfYear + "");
-        String day = addZero(dayOfMonth + "");
-        SessionManager.getExtrasPref(this).putExtra(PutKey.SERVICE_DATE, year + "/" + month + "/" + day);
+
+        if (!checkDate(year, monthOfYear, dayOfMonth)) {
+            Toast.makeText(this, "تاریخ انتخاب شده صحیح نمی باشد", Toast.LENGTH_SHORT).show();
+        } else {
+            monthOfYear = monthOfYear + 1;
+            String strDate = year + " / " + monthOfYear + " / " + dayOfMonth;
+            date.setText(strDate);
+            String month = addZero(monthOfYear + "");
+            String day = addZero(dayOfMonth + "");
+            SessionManager.getExtrasPref(this).putExtra(PutKey.SERVICE_DATE, year + "/" + month + "/" + day);
+        }
+    }
+
+    private boolean checkDate(int year, int monthOfYear, int dayOfMonth) {
+        return year >= mainYear && monthOfYear >= mainMonth && dayOfMonth >= mainDay;
     }
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-
     }
 
     private String addZero(String data) {
@@ -116,5 +153,19 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
             data = "0" + data;
         }
         return data;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        date.setText("");
+        date.setHint("تاریخ حضور سرویس کار");
+        AdapterGetTime adapter = new AdapterGetTime(this, list);
+        recyclerView.setAdapter(adapter);
+        if (!SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_DATE).isEmpty()
+                || !SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_TIME).isEmpty()) {
+            SessionManager.getExtrasPref(this).remove(PutKey.SERVICE_TIME);
+            SessionManager.getExtrasPref(this).remove(PutKey.SERVICE_DATE);
+        }
     }
 }

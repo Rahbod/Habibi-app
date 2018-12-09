@@ -6,7 +6,6 @@ import ir.rahbod.habibi.model.AddressList;
 import ir.rahbod.habibi.model.Authorization;
 import ir.rahbod.habibi.model.CheckCode;
 import ir.rahbod.habibi.model.DevicesList;
-import ir.rahbod.habibi.model.ItemRequest;
 import ir.rahbod.habibi.model.Register;
 import ir.rahbod.habibi.model.Request;
 import ir.rahbod.habibi.model.RequestList;

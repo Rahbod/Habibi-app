@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff">
+    android:background="#fff"
+    android:orientation="vertical">
 
     <ir.rahbod.habibi.widget.FontTextView
         android:id="@+id/txt"
@@ -20,7 +20,6 @@
         android:id="@+id/etGetAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt"
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -38,7 +37,6 @@
         android:id="@+id/txt2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etGetAddress"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:text="تلفن"
@@ -49,10 +47,10 @@
         android:id="@+id/etGetTelephone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt2"
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:maxLength="11"
         android:background="@drawable/edit_text_background"
         android:hint="شماره تلفن خود را وارد کنید"
         android:inputType="number"
@@ -65,7 +63,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etGetTelephone"
         android:orientation="horizontal"
         android:weightSum="2">
 
@@ -75,6 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/background_gradient_sharp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:text="ثبت"
             android:textColor="#fff"
             android:textSize="20sp" />
@@ -85,10 +83,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/background_gray_sharp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:text="انصراف"
             android:textColor="@color/gray2"
             android:textSize="18sp" />
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

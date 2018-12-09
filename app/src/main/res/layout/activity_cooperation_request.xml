@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".pages.CooperationRequestActivity">
+
+    <include
+        android:id="@+id/actionBar"
+        layout="@layout/actionbar_view" />
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/actionBar"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_10"
+            android:orientation="vertical">
+
+            <ir.rahbod.habibi.widget.FontTextViewBold
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_10"
+                android:paddingRight="@dimen/_10"
+                android:paddingTop="@dimen/_10"
+                android:text="جهت ثبت درخواست همکاری فرم زیر را پر کنید."
+                android:textColor="@color/mainColor"
+                android:textSize="15sp" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtTitle"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="@dimen/card_view_radius"
+                app:cardElevation="@dimen/card_view_elevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ir.rahbod.habibi.widget.FontTextViewBold
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="نام و نام خانوادگی"
+                            android:textColor="@color/mainColor" />
+
+                        <ir.rahbod.habibi.widget.EditTextFont
+                            android:id="@+id/userName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10"
+                            android:background="@drawable/edit_text_background"
+                            android:drawableLeft="@drawable/user_icon"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/user_icon"
+                            android:hint="نام و نام خانوادگی خود را بنویسید"
+                            android:textColor="@color/mainColor"
+                            android:textCursorDrawable="@color/mainColor"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ir.rahbod.habibi.widget.FontTextViewBold
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="تخصص"
+                            android:textColor="@color/mainColor" />
+
+                        <ir.rahbod.habibi.widget.EditTextFont
+                            android:id="@+id/expertise"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10"
+                            android:background="@drawable/edit_text_background"
+                            android:drawableLeft="@drawable/expertise_icon"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/expertise_icon"
+                            android:hint="زمینه تخصص خود را بنویسید"
+                            android:textColor="@color/mainColor"
+                            android:textCursorDrawable="@color/mainColor"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ir.rahbod.habibi.widget.FontTextViewBold
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="تجربه"
+                            android:textColor="@color/mainColor" />
+
+                        <ir.rahbod.habibi.widget.EditTextFont
+                            android:id="@+id/experience"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10"
+                            android:background="@drawable/edit_text_background"
+                            android:drawableLeft="@drawable/experience_icon"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/experience_icon"
+                            android:hint="میزان تجربه خود را بنویسید"
+                            android:textColor="@color/mainColor"
+                            android:textCursorDrawable="@color/mainColor"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ir.rahbod.habibi.widget.FontTextViewBold
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="تلفن"
+                            android:textColor="@color/mainColor" />
+
+                        <ir.rahbod.habibi.widget.EditTextFont
+                            android:id="@+id/phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10"
+                            android:background="@drawable/edit_text_background"
+                            android:drawableLeft="@drawable/mobile_icon"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/mobile_icon"
+                            android:hint="شماره تماس خود را بنویسید"
+                            android:textColor="@color/mainColor"
+                            android:textCursorDrawable="@color/mainColor"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/card"
+                android:gravity="center">
+
+                <!--Button-->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btnOk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="@dimen/_10"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    app:cardCornerRadius="@dimen/card_view_radius"
+                    app:cardElevation="@dimen/card_view_elevation">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/background_gradient_sharp"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/_10"
+                        android:paddingLeft="35dp"
+                        android:paddingRight="35dp"
+                        android:paddingTop="@dimen/_10">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ir.rahbod.habibi.widget.FontTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="-2dp"
+                                android:text="ثبت"
+                                android:textColor="#fff"
+                                android:textSize="18sp" />
+
+                            <View
+                                android:layout_width="8dp"
+                                android:layout_height="0dp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/check_icon" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

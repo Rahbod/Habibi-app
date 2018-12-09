@@ -6,6 +6,8 @@
 
     <!--home-->
     <LinearLayout
+        android:onClick="menuItem"
+        android:id="@+id/home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -36,6 +38,8 @@
 
     <!--transaction-->
     <LinearLayout
+        android:onClick="menuItem"
+        android:id="@+id/transaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -64,8 +68,10 @@
 
     </LinearLayout>
 
-    <!--درخواست همکاری-->
+    <!--cooperation-->
     <LinearLayout
+        android:onClick="menuItem"
+        android:id="@+id/cooperation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -96,6 +102,8 @@
 
     <!-- requestList-->
     <LinearLayout
+        android:onClick="menuItem"
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"

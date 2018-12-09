@@ -1,41 +1,56 @@
 package ir.rahbod.habibi.pages;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterRequestStepThere;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
+import ir.rahbod.habibi.helper.PutKey;
+import ir.rahbod.habibi.helper.SessionManager;
+import ir.rahbod.habibi.helper.snackBar.MySnackBar;
+import ir.rahbod.habibi.helper.snackBar.SnackView;
 import ir.rahbod.habibi.model.Address;
 import ir.rahbod.habibi.model.AddressList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RequestStepThereActivity extends AppCompatActivity implements View.OnClickListener {
+public class RequestStepThereActivity extends AppCompatActivity implements View.OnClickListener, SnackView {
 
     private RecyclerView recyclerView;
-    private LinearLayout btnAddAddress;
+    private CardView btnAddAddress;
     private Dialog dialog;
     private EditText etAddress, etPhone;
-    private ApiClient apiClient;
     private ApiService call;
-    private LinearLayout btnOk;
+    private CardView btnOk;
+    private ImageView btnBack;
+    private List<Address> addressList;
+    private MySnackBar snackBar;
+    private LinearLayout layout;
+    public static Activity there;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +58,25 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
         setContentView(R.layout.activity_request_step_there);
         bind();
 
-        //send Request
-        getAddress();
         btnAddAddress.setOnClickListener(this);
         btnOk.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
     }
 
     private void bind() {
+        there = this;
         TextView txtTitle = findViewById(R.id.txtTitle);
         txtTitle.setText("درخواست سرویس");
         recyclerView = findViewById(R.id.recRequestStepThere);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setNestedScrollingEnabled(false);
         btnAddAddress = findViewById(R.id.btnAddAddress);
-        apiClient = new ApiClient();
+        ApiClient apiClient = new ApiClient();
         call = apiClient.getApi();
         btnOk = findViewById(R.id.btnOk);
+        btnBack = findViewById(R.id.btnBack);
+        snackBar = new MySnackBar(this);
+        layout = findViewById(R.id.mainLayout);
     }
 
     private void getAddress() {
@@ -65,15 +84,18 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
             @Override
             public void onResponse(Call<AddressList> call, Response<AddressList> response) {
                 if (response.isSuccessful()) {
+                    addressList = new ArrayList<>();
+                    addressList.addAll(response.body().list);
+                    Collections.reverse(addressList);
                     AdapterRequestStepThere adapter = new AdapterRequestStepThere(
-                            RequestStepThereActivity.this, response.body().list);
+                            RequestStepThereActivity.this, addressList);
                     recyclerView.setAdapter(adapter);
-                }
+                } else snackBar.snackShow(layout);
             }
 
             @Override
             public void onFailure(Call<AddressList> call, Throwable t) {
-
+                snackBar.snackShow(layout);
             }
         });
     }
@@ -88,11 +110,30 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
                 dialog.dismiss();
                 break;
             case R.id.btnAdd:
-                sendAddress(etAddress, etPhone);
+                if (etAddress.getText().toString().trim().isEmpty())
+                    etAddress.setError("لطفا آدرس خود را وارد کنید");
+                else if (etPhone.getText().toString().trim().isEmpty()) {
+                    etAddress.setError(null);
+                    etPhone.setError("لطفا تلفن خود راوارد کنید");
+                } else {
+                    etAddress.setError(null);
+                    etPhone.setError(null);
+                    sendAddress(etAddress, etPhone);
+                }
                 break;
             case R.id.btnOk:
-                Intent intent = new Intent(this, RequestStepFourActivity.class);
-                startActivity(intent);
+                if (addressList.isEmpty())
+                    Toast.makeText(this, "لطفا آدرس خود را وارد کنید", Toast.LENGTH_LONG).show();
+                else if (SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_Address).isEmpty())
+                    Toast.makeText(this, "لطفا آدرس خود را انتخاب کنید", Toast.LENGTH_LONG).show();
+                else {
+                    Intent intent = new Intent(this, RequestStepFourActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.btnBack:
+                onBackPressed();
+                break;
         }
     }
 
@@ -118,22 +159,35 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
         call.addAddress(address).enqueue(new Callback<AddressList>() {
             @Override
             public void onResponse(Call<AddressList> call, Response<AddressList> response) {
-                if (response.isSuccessful())
+                if (response.isSuccessful()) {
+                    dialog.dismiss();
                     getAddress();
-                else {
-                    try {
-                        apiClient.getError(response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                } else
+                    snackBar.snackShow(layout);
             }
 
             @Override
             public void onFailure(Call<AddressList> call, Throwable t) {
-                if (t instanceof IOException)
-                    Toast.makeText(RequestStepThereActivity.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_SHORT).show();
+                snackBar.snackShow(layout);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //send Request
+        addressList = new ArrayList<>();
+        getAddress();
+        AdapterRequestStepThere adapter = new AdapterRequestStepThere(
+                RequestStepThereActivity.this, addressList);
+        recyclerView.setAdapter(adapter);
+        if (!SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_Address).isEmpty())
+            SessionManager.getExtrasPref(this).remove(PutKey.SERVICE_Address);
+    }
+
+    @Override
+    public void retry() {
+        getAddress();
     }
 }

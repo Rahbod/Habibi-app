@@ -1,41 +1,30 @@
 package ir.rahbod.habibi.pages;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import ir.rahbod.habibi.R;
-import ir.rahbod.habibi.api.ApiClient;
-import ir.rahbod.habibi.api.ApiService;
-import ir.rahbod.habibi.model.TransactionList;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class TransactionActivity extends AppCompatActivity implements View.OnClickListener {
+public class CooperationRequestActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transaction);
+        setContentView(R.layout.activity_cooperation_request);
         bind();
-        sendRequest();
         btnBack.setOnClickListener(this);
     }
 
     private void bind() {
         //Set Text Title
         TextView txtTitle = findViewById(R.id.txtTitle);
-        txtTitle.setText("وضعیت تراکنش");
+        txtTitle.setText("درخواست همکاری");
         btnBack = findViewById(R.id.btnBack);
-    }
-
-    private void sendRequest() {
-
     }
 
     @Override

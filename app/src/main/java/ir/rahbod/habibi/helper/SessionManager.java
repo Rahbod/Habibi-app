@@ -226,4 +226,9 @@ public class SessionManager {
     public boolean checkLogin() {
         return ExtrasPref.getBoolean(PutKey.IS_LOGIN, false);
     }
+
+    public void remove(String key){
+        extraEditor.remove(key);
+        extraEditor.apply();
+    }
 }
