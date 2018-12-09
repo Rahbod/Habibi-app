@@ -2,10 +2,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MissingConstraints"
-    android:background="#fff">
+    android:background="#fff"
+    tools:ignore="MissingConstraints">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,46 +45,46 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_below="@+id/txt2"
             android:layout_centerHorizontal="true"
-            android:layout_marginRight="70dp"
+            android:layout_marginBottom="40dp"
             android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
             android:layout_marginTop="100dp"
-            android:layout_marginBottom="40dp">
+            android:orientation="vertical">
 
             <ir.rahbod.habibi.widget.FontTextView
                 android:id="@+id/fontTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="موبایل"
-                android:textColor="@color/mainColor"/>
+                android:textColor="@color/mainColor" />
 
             <ir.rahbod.habibi.widget.EditTextFont
                 android:id="@+id/etGetNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="09 - -  - - -  - - - -"
-                android:drawableLeft="@drawable/mobile_icon"
-                android:inputType="number"
-                android:textDirection="ltr"
-                android:drawablePadding="10dp"
-                android:maxLength="11"
                 android:background="@drawable/edit_text_background"
-                android:textSize="14sp"
+                android:drawableLeft="@drawable/mobile_icon"
+                android:drawablePadding="10dp"
+                android:hint="09 - -  - - -  - - - -"
+                android:inputType="number"
+                android:maxLength="11"
                 android:textColor="@color/mainColor"
-                android:textCursorDrawable="@color/mainColor"/>
+                android:textCursorDrawable="@color/mainColor"
+                android:textDirection="ltr"
+                android:textSize="14sp" />
 
             <ir.rahbod.habibi.widget.ButtonFont
                 android:id="@+id/btnOk"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="ادامه"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/background_gradient"
-                android:textColor="#fff"
-                android:layout_marginTop="50dp" />
+                android:text="ادامه"
+                android:textColor="#fff" />
 
         </LinearLayout>
 

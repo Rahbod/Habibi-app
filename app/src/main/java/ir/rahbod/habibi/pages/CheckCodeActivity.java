@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -16,17 +20,21 @@ import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
+import ir.rahbod.habibi.helper.snackBar.MySnackBar;
+import ir.rahbod.habibi.helper.snackBar.SnackView;
 import ir.rahbod.habibi.model.AccessToken;
 import ir.rahbod.habibi.model.Authorization;
 import ir.rahbod.habibi.model.CheckCode;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class CheckCodeActivity extends AppCompatActivity implements View.OnClickListener {
+public class CheckCodeActivity extends AppCompatActivity implements View.OnClickListener, SnackView, TextWatcher {
     private Button btnOk;
     private EditText etGetCodeNumber;
     public static Activity checkCode;
     private ApiClient apiClient;
+    private MySnackBar snackBar;
+    private ScrollView layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +46,14 @@ public class CheckCodeActivity extends AppCompatActivity implements View.OnClick
         //button
         btnOk = findViewById(R.id.btnOk);
         btnOk.setOnClickListener(this);
-
+        etGetCodeNumber.addTextChangedListener(this);
     }
 
     private void bind() {
         etGetCodeNumber = findViewById(R.id.etGetCodeNumber);
         apiClient = new ApiClient();
+        snackBar = new MySnackBar(this);
+        layout = findViewById(R.id.mainLayout);
     }
 
     @Override
@@ -80,29 +90,42 @@ public class CheckCodeActivity extends AppCompatActivity implements View.OnClick
                                 );
                                 Intent intent = new Intent(CheckCodeActivity.this, UserNameActivity.class);
                                 startActivity(intent);
-                            }
+                            } else snackBar.snackShow(layout);
                         }
 
                         @Override
                         public void onFailure(Call<AccessToken> call, Throwable t) {
-                            if (t instanceof IOException)
-                                Toast.makeText(CheckCodeActivity.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_SHORT).show();
+                            snackBar.snackShow(layout);
                         }
                     });
-                } else {
-                    try {
-                        apiClient.getError(response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                } else
+                    snackBar.snackShow(layout);
             }
 
             @Override
             public void onFailure(Call<Authorization> call, Throwable t) {
-                if (t instanceof IOException)
-                    Toast.makeText(CheckCodeActivity.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_SHORT).show();
+                snackBar.snackShow(layout);
             }
         });
+    }
+
+    @Override
+    public void retry() {
+        sendRequest();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        etGetCodeNumber.setGravity(Gravity.CENTER);
     }
 }

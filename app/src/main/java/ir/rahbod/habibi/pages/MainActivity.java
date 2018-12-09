@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements SnackView {
     private static long backPressed;
     private boolean online;
     private CardView btnRequest;
+    private MySnackBar snackBar;
+    private ScrollView layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements SnackView {
         mainActivity = this;
 
         apiClient = new ApiClient();
+        snackBar = new MySnackBar(this);
         if (SessionManager.getExtrasPref(this).getBoolean(PutKey.REGISTERED)) {
             if (isNetworkConnected()) {
                 setContentView(R.layout.activity_main);
@@ -106,9 +110,9 @@ public class MainActivity extends AppCompatActivity implements SnackView {
 
     public void sendMessage() {
         SmsManager smsManager = SmsManager.getDefault();
-//        smsManager.sendTextMessage
-//                ("30004747473705", null, "1",
-//                        null, null);
+        smsManager.sendTextMessage
+                ("30004747473705", null, "1",
+                        null, null);
         RelativeLayout layout = findViewById(R.id.mainView);
         MySnackBar snackBar = new MySnackBar(this);
         btnRequest.setEnabled(false);
@@ -134,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements SnackView {
     }
 
     private void getDevicesList() {
-        final MySnackBar presenter = new MySnackBar(this);
         recyclerView = findViewById(R.id.recyclerView);
         ApiService call = apiClient.getApi();
         call.getDevices().enqueue(new Callback<DevicesList>() {
@@ -148,17 +151,18 @@ public class MainActivity extends AppCompatActivity implements SnackView {
                         dbHelper.addDevices(response.body().list.get(i).title
                                 , response.body().list.get(i).id);
                     }
-                } else presenter.snackShow(drawer);
+                } else snackBar.snackShow(drawer);
             }
 
             @Override
             public void onFailure(Call<DevicesList> call, Throwable t) {
-                presenter.snackShow(drawer);
+                snackBar.snackShow(drawer);
             }
         });
     }
 
     private void onCreateRegister() {
+        layout = findViewById(R.id.mainLayout);
         SessionManager.getExtrasPref(this).putExtra(PutKey.IS_LOGIN, false);
         Button btnOk = findViewById(R.id.btnOk);
         btnOk.setOnClickListener(new View.OnClickListener() {
@@ -181,19 +185,12 @@ public class MainActivity extends AppCompatActivity implements SnackView {
                                 intent.putExtra(PutKey.MOBILE, etGetNumber.getText().toString());
                                 startActivity(intent);
                             } else
-                                try {
-                                    apiClient.getError(response.errorBody().string());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                snackBar.snackCustomShow(layout, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", "تایید");
                         }
 
                         @Override
                         public void onFailure(Call<Register> call, Throwable t) {
-                            if (t.getMessage().equals("timeout"))
-                                Toast.makeText(MainActivity.this, "سرور با مشکل مواجه شده است، لطفا بعدا دوباره امتحان کنید", Toast.LENGTH_LONG).show();
-                            else if (t instanceof IOException)
-                                Toast.makeText(MainActivity.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_SHORT).show();
+                            snackBar.snackCustomShow(layout, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", "تایید");
                         }
                     });
                 }

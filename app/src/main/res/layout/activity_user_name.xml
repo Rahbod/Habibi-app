@@ -2,10 +2,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MissingConstraints"
-    android:background="#fff">
+    android:background="#fff"
+    tools:ignore="MissingConstraints">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,45 +45,45 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_below="@+id/txt2"
             android:layout_centerHorizontal="true"
-            android:layout_marginRight="70dp"
+            android:layout_marginBottom="40dp"
             android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
             android:layout_marginTop="100dp"
-            android:layout_marginBottom="40dp">
+            android:orientation="vertical">
 
             <ir.rahbod.habibi.widget.FontTextView
                 android:id="@+id/fontTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="نام و نام خانوادگی"
-                android:textColor="@color/mainColor"/>
+                android:textColor="@color/mainColor" />
 
             <ir.rahbod.habibi.widget.EditTextFont
                 android:id="@+id/etGetName"
-                android:hint="نام و نام خانوادگی را وارد کنید"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
                 android:drawableLeft="@drawable/user_icon"
                 android:gravity="right"
+                android:hint="نام و نام خانوادگی را وارد کنید"
                 android:maxLength="11"
-                android:background="@drawable/edit_text_background"
-                android:textSize="14sp"
                 android:textColor="@color/mainColor"
                 android:textCursorDrawable="@color/mainColor"
+                android:textSize="14sp"
                 tools:ignore="RtlHardcoded" />
 
             <ir.rahbod.habibi.widget.ButtonFont
                 android:id="@+id/btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="ثبت نام"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/background_gradient"
-                android:textColor="#fff"
-                android:layout_marginTop="50dp" />
+                android:text="ثبت نام"
+                android:textColor="#fff" />
 
         </LinearLayout>
 

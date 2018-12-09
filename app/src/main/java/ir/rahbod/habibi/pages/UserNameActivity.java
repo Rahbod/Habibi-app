@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -15,16 +16,20 @@ import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
+import ir.rahbod.habibi.helper.snackBar.MySnackBar;
+import ir.rahbod.habibi.helper.snackBar.SnackView;
 import ir.rahbod.habibi.model.UserName;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserNameActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserNameActivity extends AppCompatActivity implements View.OnClickListener, SnackView {
 
     private EditText etGetName;
     private Button btnSave;
     private ApiClient apiClient;
+    private ScrollView layout;
+    private MySnackBar snackBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +44,18 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
         etGetName = findViewById(R.id.etGetName);
         btnSave = findViewById(R.id.btnSave);
         apiClient = new ApiClient();
+        layout = findViewById(R.id.mainLayout);
+        snackBar = new MySnackBar(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSave:
-                sendRequest();
+                if (etGetName.getText().toString().trim().isEmpty())
+                    Toast.makeText(this, "لطفا نام خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                else
+                    sendRequest();
         }
     }
 
@@ -65,18 +75,18 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
                     CheckCodeActivity.checkCode.finish();
                     finish();
                 } else
-                    try {
-                        apiClient.getError(response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    snackBar.snackShow(layout);
             }
 
             @Override
             public void onFailure(Call<UserName> call, Throwable t) {
-                if (t instanceof IOException)
-                    Toast.makeText(UserNameActivity.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_SHORT).show();
+                snackBar.snackShow(layout);
             }
         });
+    }
+
+    @Override
+    public void retry() {
+        sendRequest();
     }
 }
