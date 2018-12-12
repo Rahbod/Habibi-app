@@ -42,7 +42,7 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
 
     private void bind() {
         etGetName = findViewById(R.id.etGetName);
-        btnSave = findViewById(R.id.btnSave);
+        btnSave = findViewById(R.id.btnRegister);
         apiClient = new ApiClient();
         layout = findViewById(R.id.mainLayout);
         snackBar = new MySnackBar(this);
@@ -51,7 +51,7 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnSave:
+            case R.id.btnRegister:
                 if (etGetName.getText().toString().trim().isEmpty())
                     Toast.makeText(this, "لطفا نام خود را وارد کنید", Toast.LENGTH_SHORT).show();
                 else

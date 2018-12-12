@@ -75,6 +75,18 @@
                 android:textDirection="ltr"
                 android:textSize="14sp" />
 
+            <ir.rahbod.habibi.widget.EditTextFont
+                android:id="@+id/token"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:drawableLeft="@drawable/mobile_icon"
+                android:drawablePadding="10dp"
+                android:textColor="@color/mainColor"
+                android:textCursorDrawable="@color/mainColor"
+                android:textDirection="ltr"
+                android:textSize="14sp" />
+
             <ir.rahbod.habibi.widget.ButtonFont
                 android:id="@+id/btnOk"
                 android:layout_width="match_parent"

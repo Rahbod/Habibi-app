@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.io.IOException;
 
 import ir.rahbod.habibi.R;
@@ -88,6 +90,7 @@ public class CheckCodeActivity extends AppCompatActivity implements View.OnClick
                                         response.body().token.getRefreshToken(),
                                         response.body().token.getExpireIn()
                                 );
+                                FirebaseMessaging.getInstance().subscribeToTopic("all");
                                 Intent intent = new Intent(CheckCodeActivity.this, UserNameActivity.class);
                                 startActivity(intent);
                             } else snackBar.snackShow(layout);
