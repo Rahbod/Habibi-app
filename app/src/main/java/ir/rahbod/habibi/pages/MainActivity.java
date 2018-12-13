@@ -35,6 +35,7 @@ import ir.rahbod.habibi.adapter.AdapterMain;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
 import ir.rahbod.habibi.helper.DbHelper;
+import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements SnackView {
     private CardView btnRequest;
     private MySnackBar snackBar;
     private ScrollView layout;
+    private boolean showMain = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +71,12 @@ public class MainActivity extends AppCompatActivity implements SnackView {
             if (isNetworkConnected()) {
                 setContentView(R.layout.activity_main);
                 online = true;
+                showMain = true;
                 onCreateMain();
             } else {
                 setContentView(R.layout.activity_main_offline);
                 online = false;
+                showMain = false;
                 onCreateOffline();
             }
         } else {
@@ -138,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements SnackView {
     }
 
     private void getDevicesList() {
+        MyDialog.show(this);
         recyclerView = findViewById(R.id.recyclerView);
         ApiService call = apiClient.getApi();
         call.getDevices().enqueue(new Callback<DevicesList>() {
@@ -151,11 +156,16 @@ public class MainActivity extends AppCompatActivity implements SnackView {
                         dbHelper.addDevices(response.body().list.get(i).title
                                 , response.body().list.get(i).id);
                     }
-                } else snackBar.snackShow(drawer);
+                    MyDialog.dismiss();
+                } else {
+                    MyDialog.dismiss();
+                    snackBar.snackShow(drawer);
+                }
             }
 
             @Override
             public void onFailure(Call<DevicesList> call, Throwable t) {
+                MyDialog.dismiss();
                 snackBar.snackShow(drawer);
             }
         });
@@ -164,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements SnackView {
     private void onCreateRegister() {
         layout = findViewById(R.id.mainLayout);
         SessionManager.getExtrasPref(this).putExtra(PutKey.IS_LOGIN, false);
-        Button btnOk = findViewById(R.id.btnOk);
+        final Button btnOk = findViewById(R.id.btnOk);
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +184,8 @@ public class MainActivity extends AppCompatActivity implements SnackView {
                 else if (!checkMobileNumber(etGetNumber.getText().toString()))
                     Toast.makeText(MainActivity.this, "شماره تلفن وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
                 else {
+                    btnOk.setEnabled(false);
+                    MyDialog.show(MainActivity.this);
                     ApiService call = apiClient.getApi();
                     Register register = new Register();
                     register.mobile = etGetNumber.getText().toString();
@@ -184,13 +196,18 @@ public class MainActivity extends AppCompatActivity implements SnackView {
                                 Intent intent = new Intent(MainActivity.this, CheckCodeActivity.class);
                                 intent.putExtra(PutKey.MOBILE, etGetNumber.getText().toString());
                                 startActivity(intent);
-                            } else
+                                MyDialog.dismiss();
+                                btnOk.setEnabled(true);
+                            } else {
                                 snackBar.snackCustomShow(layout, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", "تایید");
+                                MyDialog.dismiss();
+                            }
                         }
 
                         @Override
                         public void onFailure(Call<Register> call, Throwable t) {
                             snackBar.snackCustomShow(layout, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", "تایید");
+                            MyDialog.dismiss();
                         }
                     });
                 }
@@ -253,13 +270,16 @@ public class MainActivity extends AppCompatActivity implements SnackView {
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(Gravity.RIGHT))
-            drawer.closeDrawer(Gravity.RIGHT);
-        else if (backPressed + 2000 > System.currentTimeMillis())
+        if (showMain)
+            if (drawer.isDrawerOpen(Gravity.RIGHT))
+                drawer.closeDrawer(Gravity.RIGHT);
+            else if (backPressed + 2000 > System.currentTimeMillis())
+                super.onBackPressed();
+            else {
+                Toast.makeText(mainActivity, "لطفا کلید برگشت را مجددا فشار دهید.", Toast.LENGTH_SHORT).show();
+                backPressed = System.currentTimeMillis();
+            }
+        else
             super.onBackPressed();
-        else {
-            Toast.makeText(mainActivity, "لطفا کلید برگشت را مجددا فشار دهید.", Toast.LENGTH_SHORT).show();
-            backPressed = System.currentTimeMillis();
-        }
     }
 }

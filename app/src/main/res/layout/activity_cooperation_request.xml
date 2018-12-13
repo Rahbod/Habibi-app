@@ -21,8 +21,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/_10"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/_10">
 
             <ir.rahbod.habibi.widget.FontTextViewBold
                 android:id="@+id/txtTitle"
@@ -175,17 +175,19 @@
                 <!--Button-->
                 <android.support.v7.widget.CardView
                     android:id="@+id/btnOk"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginTop="30dp"
                     android:layout_marginBottom="@dimen/_10"
+                    android:layout_marginLeft="90dp"
+                    android:layout_marginRight="90dp"
+                    android:layout_marginTop="30dp"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     app:cardCornerRadius="@dimen/card_view_radius"
                     app:cardElevation="@dimen/card_view_elevation">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@drawable/background_gradient_sharp"

@@ -11,6 +11,7 @@ import ir.rahbod.habibi.model.Request;
 import ir.rahbod.habibi.model.RequestList;
 import ir.rahbod.habibi.model.TransactionList;
 import ir.rahbod.habibi.model.UserName;
+import ir.rahbod.habibi.notification.TokenModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -47,4 +48,7 @@ public interface ApiService {
 
     @GET("api/transactions")
     Call<TransactionList> getTransaction();
+
+    @POST("api/setToken")
+    Call<TokenModel> sendRegToken(@Body TokenModel token);
 }

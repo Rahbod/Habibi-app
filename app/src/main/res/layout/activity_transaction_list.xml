@@ -53,4 +53,14 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
 
+    <ir.rahbod.habibi.widget.FontTextView
+        android:id="@+id/txtEmpty"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="18sp"
+        android:text="شما هیچ تراکنشی نداشته اید."
+        android:textColor="@color/mainColor" />
+
 </RelativeLayout>

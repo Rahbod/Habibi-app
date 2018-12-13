@@ -14,6 +14,7 @@ import java.io.IOException;
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
+import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
@@ -60,6 +61,8 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void sendRequest() {
+        btnSave.setEnabled(false);
+        MyDialog.show(this);
         ApiService call = apiClient.getApi();
         UserName userName = new UserName();
         userName.setName(etGetName.getText().toString());
@@ -74,12 +77,16 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
                     MainActivity.mainActivity.finish();
                     CheckCodeActivity.checkCode.finish();
                     finish();
-                } else
+                    btnSave.setEnabled(true);
+                } else {
+                    MyDialog.dismiss();
                     snackBar.snackShow(layout);
+                }
             }
 
             @Override
             public void onFailure(Call<UserName> call, Throwable t) {
+                MyDialog.dismiss();
                 snackBar.snackShow(layout);
             }
         });

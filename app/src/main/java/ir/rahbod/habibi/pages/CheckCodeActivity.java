@@ -18,6 +18,7 @@ import java.io.IOException;
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
+import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
@@ -60,12 +61,17 @@ public class CheckCodeActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOk:
-                sendRequest();
+                if (etGetCodeNumber.getText().toString().trim().isEmpty())
+                    Toast.makeText(this, "لطفا کد فعال سازی را وارد کنید", Toast.LENGTH_LONG).show();
+                else
+                    sendRequest();
                 break;
         }
     }
 
     private void sendRequest() {
+        btnOk.setEnabled(false);
+        MyDialog.show(this);
         ApiService call = apiClient.getApi();
         CheckCode code = new CheckCode();
         code.mobile = getIntent().getStringExtra(PutKey.MOBILE);
@@ -78,7 +84,6 @@ public class CheckCodeActivity extends AppCompatActivity implements View.OnClick
                     authorization.auth = response.body().getAuth();
                     authorization.grantType = "access_token";
                     ApiService callToken = apiClient.getApi();
-//                    ApiService callToken = apiClient.sendRequest().create(ApiService.class);
                     callToken.getToken(authorization).enqueue(new Callback<AccessToken>() {
                         @Override
                         public void onResponse(Call<AccessToken> call, retrofit2.Response<AccessToken> response) {
@@ -90,20 +95,34 @@ public class CheckCodeActivity extends AppCompatActivity implements View.OnClick
                                 );
                                 Intent intent = new Intent(CheckCodeActivity.this, UserNameActivity.class);
                                 startActivity(intent);
-                            } else snackBar.snackShow(layout);
+                                MyDialog.dismiss();
+                                btnOk.setEnabled(true);
+                            } else {
+                                MyDialog.dismiss();
+                                snackBar.snackShow(layout);
+                            }
                         }
 
                         @Override
                         public void onFailure(Call<AccessToken> call, Throwable t) {
+                            MyDialog.dismiss();
                             snackBar.snackShow(layout);
                         }
                     });
-                } else
-                    snackBar.snackShow(layout);
+                } else {
+                    btnOk.setEnabled(true);
+                    MyDialog.dismiss();
+                    try {
+                        apiClient.getError(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<Authorization> call, Throwable t) {
+                MyDialog.dismiss();
                 snackBar.snackShow(layout);
             }
         });

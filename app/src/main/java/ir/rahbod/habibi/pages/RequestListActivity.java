@@ -12,12 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterRequestList;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
+import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
 import ir.rahbod.habibi.helper.snackBar.SnackView;
 import ir.rahbod.habibi.model.ItemRequest;
@@ -31,8 +33,9 @@ public class RequestListActivity extends AppCompatActivity implements View.OnCli
 
     private RecyclerView recyclerView;
     private ImageView btnBack;
-    private LinearLayout layout;
+    private LinearLayout layout, linTitle;
     private MySnackBar snackBar;
+    private TextView txtEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,24 +57,39 @@ public class RequestListActivity extends AppCompatActivity implements View.OnCli
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setNestedScrollingEnabled(false);
         layout = findViewById(R.id.mainView);
+        linTitle = findViewById(R.id.linTitle);
+        txtEmpty = findViewById(R.id.txtEmpty);
     }
 
     private void sendRequest() {
+        MyDialog.show(this);
         ApiClient apiClient = new ApiClient();
         ApiService call = apiClient.getApi();
         call.getRequest().enqueue(new Callback<RequestList>() {
             @Override
             public void onResponse(Call<RequestList> call, Response<RequestList> response) {
                 if (response.isSuccessful()) {
+                    if (response.body().list.isEmpty()) {
+                        txtEmpty.setVisibility(View.VISIBLE);
+                        linTitle.setVisibility(View.INVISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        txtEmpty.setVisibility(View.INVISIBLE);
+                        linTitle.setVisibility(View.VISIBLE);
+                    }
+                    Collections.reverse(response.body().list);
                     AdapterRequestList adapter = new AdapterRequestList(RequestListActivity.this, response.body().list);
                     recyclerView.setAdapter(adapter);
-                } else
+                    MyDialog.dismiss();
+                } else {
+                    MyDialog.dismiss();
                     snackBar.snackShow(layout);
+                }
             }
 
             @Override
             public void onFailure(Call<RequestList> call, Throwable t) {
-
+                MyDialog.dismiss();
                 snackBar.snackShow(layout);
             }
         });
