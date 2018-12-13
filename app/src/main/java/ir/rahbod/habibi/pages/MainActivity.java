@@ -19,7 +19,6 @@ import android.telephony.SmsManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +27,11 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterMain;
@@ -172,6 +175,26 @@ public class MainActivity extends AppCompatActivity implements SnackView {
     }
 
     private void onCreateRegister() {
+        FirebaseMessaging.getInstance().subscribeToTopic("app-habibi");
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("masoud", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        EditText aa = findViewById(R.id.token);
+                        aa.setText(token);
+                    }
+                });
+
         layout = findViewById(R.id.mainLayout);
         SessionManager.getExtrasPref(this).putExtra(PutKey.IS_LOGIN, false);
         final Button btnOk = findViewById(R.id.btnOk);

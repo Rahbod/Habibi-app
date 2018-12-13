@@ -75,7 +75,7 @@
                 tools:ignore="RtlHardcoded" />
 
             <ir.rahbod.habibi.widget.ButtonFont
-                android:id="@+id/btnSave"
+                android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="3dp"
