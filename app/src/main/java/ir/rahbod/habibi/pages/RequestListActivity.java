@@ -42,7 +42,6 @@ public class RequestListActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_list);
         bind();
-        sendRequest();
         snackBar = new MySnackBar(RequestListActivity.this);
         btnBack.setOnClickListener(this);
     }
@@ -106,6 +105,12 @@ public class RequestListActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void retry() {
+        sendRequest();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         sendRequest();
     }
 }

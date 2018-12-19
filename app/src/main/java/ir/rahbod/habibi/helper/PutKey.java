@@ -18,4 +18,6 @@ public class PutKey {
     public static final String SERVICE_Address = "serviceAddress";
     public static final String SERVICE_Address_ID = "serviceAddressID";
     public static final String REG_TOKEN = "regToken";
+    public static final String REPAIR_MAN = "repairMan";
+    public static final String SERVICE_STATUS = "status";
 }

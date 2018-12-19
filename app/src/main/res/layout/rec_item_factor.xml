@@ -16,13 +16,9 @@
         android:padding="@dimen/_10">
 
         <ir.rahbod.habibi.widget.FontTextView
-            android:id="@+id/txtTitle"
+            android:id="@+id/txtCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="2dp"
-            android:paddingLeft="@dimen/_10"
-            android:paddingRight="@dimen/_10"
-            android:paddingTop="2dp"
             android:textColor="@color/mainColor" />
 
         <View
@@ -31,20 +27,7 @@
             android:layout_weight="1" />
 
         <ir.rahbod.habibi.widget.FontTextView
-            android:id="@+id/txtDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/mainColor" />
-
-        <ir.rahbod.habibi.widget.FontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="/"
-            android:padding="5dp"
-            android:textColor="@color/secondColor" />
-
-        <ir.rahbod.habibi.widget.FontTextView
-            android:id="@+id/txtCost"
+            android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/mainColor" />

@@ -10,14 +10,14 @@ import android.widget.TextView;
 import java.util.List;
 
 import ir.rahbod.habibi.R;
-import ir.rahbod.habibi.model.Bill;
+import ir.rahbod.habibi.model.Factor;
 
-public class AdapterBill extends RecyclerView.Adapter<AdapterBill.listViewHolder>{
+public class AdapterFactor extends RecyclerView.Adapter<AdapterFactor.listViewHolder> {
 
-    List<Bill> list;
-    Context context;
+    private List<Factor> list;
+    private Context context;
 
-    public AdapterBill(Context context, List<Bill> list) {
+    public AdapterFactor(Context context, List<Factor> list) {
         this.context = context;
         this.list = list;
     }
@@ -25,14 +25,14 @@ public class AdapterBill extends RecyclerView.Adapter<AdapterBill.listViewHolder
     @Override
     public listViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_item_bill, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_item_factor, parent, false);
         return new listViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(listViewHolder holder, int position) {
-        holder.title.setText(list.get(position).getTitle());
-        holder.cost.setText(list.get(position).getCost());
+        holder.title.setText(list.get(position).title);
+        holder.cost.setText(list.get(position).cost);
     }
 
     @Override
@@ -40,12 +40,11 @@ public class AdapterBill extends RecyclerView.Adapter<AdapterBill.listViewHolder
         return list.size();
     }
 
-    public class listViewHolder extends RecyclerView.ViewHolder{
+    class listViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title;
-        TextView cost;
+        private TextView title, cost;
 
-        public listViewHolder(View itemView) {
+        private listViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.txtTitle);
             cost = itemView.findViewById(R.id.txtCost);

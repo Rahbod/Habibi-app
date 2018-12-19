@@ -110,8 +110,7 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:textDirection="rtl"
-                    android:textSize="13sp"
-                    tools:targetApi="jelly_bean_mr1" />
+                    android:textSize="13sp"/>
 
                 <View
                     android:id="@+id/lineDetails"

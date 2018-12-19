@@ -27,6 +27,7 @@ import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterRequestStepThere;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
+import ir.rahbod.habibi.helper.DbHelper;
 import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
@@ -94,7 +95,7 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
                         linTitle.setVisibility(View.INVISIBLE);
                         recyclerView.setVisibility(View.GONE);
                         txtEmpty.setVisibility(View.VISIBLE);
-                    } else{
+                    } else {
                         linTitle.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.VISIBLE);
                         txtEmpty.setVisibility(View.INVISIBLE);

@@ -17,7 +17,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.SmsManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -26,12 +25,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterMain;
@@ -155,10 +148,6 @@ public class MainActivity extends AppCompatActivity implements SnackView {
                     recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, Utility.calculateNoOfColumns(MainActivity.this)));
                     AdapterMain adapter = new AdapterMain(MainActivity.this, response.body().list, Utility.calculateNoOfColumns(MainActivity.this));
                     recyclerView.setAdapter(adapter);
-                    for (int i = 0; i < response.body().list.size(); i++) {
-                        dbHelper.addDevices(response.body().list.get(i).title
-                                , response.body().list.get(i).id);
-                    }
                     MyDialog.dismiss();
                 } else {
                     MyDialog.dismiss();
@@ -175,26 +164,6 @@ public class MainActivity extends AppCompatActivity implements SnackView {
     }
 
     private void onCreateRegister() {
-        FirebaseMessaging.getInstance().subscribeToTopic("app-habibi");
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("masoud", "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-
-                        // Log and toast
-                        EditText aa = findViewById(R.id.token);
-                        aa.setText(token);
-                    }
-                });
-
         layout = findViewById(R.id.mainLayout);
         SessionManager.getExtrasPref(this).putExtra(PutKey.IS_LOGIN, false);
         final Button btnOk = findViewById(R.id.btnOk);
