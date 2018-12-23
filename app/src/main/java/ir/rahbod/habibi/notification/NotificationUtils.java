@@ -48,7 +48,7 @@ public class NotificationUtils {
             return;
 
         // notification icon
-        final int icon = R.drawable.logo_white;
+        final int icon = R.drawable.logo;
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(
@@ -103,7 +103,7 @@ public class NotificationUtils {
                     .setContentIntent(resultPendingIntent)
                     .setSound(alarmSound)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationData.getDescription()))
-                    .setSmallIcon(R.drawable.logo_white)
+                    .setSmallIcon(R.drawable.logo)
                     .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                     .setContentText(notificationData.getDescription())
                     .setChannelId(Config.MEY_ChannelId)
@@ -120,7 +120,7 @@ public class NotificationUtils {
                     .setSound(alarmSound)
                     .setStyle(inboxStyle)
 //                .setWhen(getTimeMilliSec(timeStamp))
-                    .setSmallIcon(R.drawable.logo_white)
+                    .setSmallIcon(R.drawable.logo)
                     .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                     .setContentText(notificationData.getDescription())
                     .setChannelId(Config.MEY_ChannelId)
@@ -155,15 +155,15 @@ public class NotificationUtils {
         }
 
         Notification notification;
-        notification = mBuilder.setSmallIcon(R.drawable.logo_white).setTicker(notificationData.getTitle()).setWhen(0)
+        notification = mBuilder.setSmallIcon(R.drawable.logo).setTicker(notificationData.getTitle()).setWhen(0)
                 .setAutoCancel(true)
                 .setContentTitle(notificationData.getTitle())
                 .setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)
                 .setStyle(bigPictureStyle)
 //                .setWhen(getTimeMilliSec(timeStamp))
-                .setSmallIcon(R.drawable.logo_white)
-                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.logo_white))
+                .setSmallIcon(R.drawable.logo)
+                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.logo))
                 .setContentText(notificationData.getDescription())
                 .build();
 

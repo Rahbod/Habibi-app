@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/_10"
                     android:paddingRight="@dimen/_10"
-                    android:text="فاکتور درخواست شما"
+                    android:text="اطلاعات درخواست"
                     android:textAlignment="center"
                     android:textColor="@color/mainColor"
                     android:textSize="17sp" />
@@ -367,7 +367,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
-                            android:text="متخصص"
+                            android:text="سرویس کار"
                             android:textColor="@color/mainColor"
                             android:textSize="16sp" />
 
@@ -459,17 +459,7 @@
                     android:orientation="vertical">
 
                     <ir.rahbod.habibi.widget.FontTextView
-                        android:id="@+id/txtCostDes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:gravity="right"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:textColor="@color/mainColor" />
-
-                    <ir.rahbod.habibi.widget.FontTextView
-                        android:id="@+id/txtDescriptionDes"
+                        android:id="@+id/txtInvoiceDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"

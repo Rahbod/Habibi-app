@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
     android:layout_marginBottom="@dimen/_10"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
@@ -13,8 +14,8 @@
     app:cardElevation="@dimen/card_view_elevation">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
@@ -22,10 +23,9 @@
 
         <ImageView
             android:id="@+id/imgIcon"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="25dp"
-            android:padding="@dimen/_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
             android:src="@drawable/ic_launcher_background" />
 
         <ir.rahbod.habibi.widget.FontTextView
@@ -34,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="15dp"
-            android:layout_marginTop="10dp"
             android:textColor="@color/mainColor" />
 
     </LinearLayout>

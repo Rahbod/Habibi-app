@@ -5,68 +5,68 @@
     android:orientation="vertical">
 
     <!--home-->
-    <LinearLayout
-        android:onClick="menuItem"
-        android:id="@+id/home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="@dimen/_10">
+    <!--<LinearLayout-->
+        <!--android:onClick="menuItem"-->
+        <!--android:id="@+id/home"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:clickable="true"-->
+        <!--android:focusable="true"-->
+        <!--android:foreground="?attr/selectableItemBackgroundBorderless"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="@dimen/_10">-->
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
+        <!--<View-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_weight="1" />-->
 
-        <ir.rahbod.habibi.widget.FontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="صفحه اصلی"
-            android:textColor="@color/mainColor" />
+        <!--<ir.rahbod.habibi.widget.FontTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="صفحه اصلی"-->
+            <!--android:textColor="@color/mainColor" />-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_10"
-            android:src="@drawable/home_icon" />
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="@dimen/_10"-->
+            <!--android:src="@drawable/home_icon" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
-    <!--transaction-->
-    <LinearLayout
-        android:onClick="menuItem"
-        android:id="@+id/transaction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="@dimen/_10">
+    <!--&lt;!&ndash;transaction&ndash;&gt;-->
+    <!--<LinearLayout-->
+        <!--android:onClick="menuItem"-->
+        <!--android:id="@+id/transaction"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:clickable="true"-->
+        <!--android:focusable="true"-->
+        <!--android:foreground="?attr/selectableItemBackgroundBorderless"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="@dimen/_10">-->
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
+        <!--<View-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_weight="1" />-->
 
-        <ir.rahbod.habibi.widget.FontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="تراکنش ها"
-            android:textColor="@color/mainColor" />
+        <!--<ir.rahbod.habibi.widget.FontTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="تراکنش ها"-->
+            <!--android:textColor="@color/mainColor" />-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_10"
-            android:src="@drawable/transaction_icon" />
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="@dimen/_10"-->
+            <!--android:src="@drawable/transaction_icon" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <!--cooperation-->
     <LinearLayout

@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterFactor;
@@ -29,14 +28,14 @@ import retrofit2.Response;
 public class RequestInfoActivity extends AppCompatActivity implements SnackView, View.OnClickListener {
 
     private TextView txtDevice, txtDate, txtTime, txtAddress, txtDescription, txtStatus,
-            txtRepairMan, txtCost, txtCostDes, txtDescriptionDes, txtCostMode;
-    private String strDevice, strDate, strTime, strAddress, strDescription, strStatus, strRepairMan, strCost, strCostDes, strDescriptionDes;
+            txtRepairMan, txtCost, txtInvoiceDescription, txtCostMode;
+    private String strDevice, strDate, strTime, strAddress, strDescription, strStatus, strRepairMan, strCost, strInvoiceDescription;
     private LinearLayout layout, linTitle2, linRepairMan;
     private MySnackBar snackBar;
     private View lineStatus;
     private RecyclerView recyclerView;
     private AdapterFactor adapter;
-    private CardView cardCost, cardCostDescription;
+    private CardView cardCost, cardInvoiceDescription;
     public static Activity requestInfo;
     private ImageView btnBack;
 
@@ -71,9 +70,8 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         cardCost = findViewById(R.id.card_3);
         txtCost = findViewById(R.id.txtCost);
         btnBack = findViewById(R.id.btnBack);
-        cardCostDescription = findViewById(R.id.card_2);
-        txtCostDes = findViewById(R.id.txtCostDes);
-        txtDescriptionDes = findViewById(R.id.txtDescriptionDes);
+        cardInvoiceDescription = findViewById(R.id.card_2);
+        txtInvoiceDescription= findViewById(R.id.txtInvoiceDescription);
         txtCostMode = findViewById(R.id.txtCostMode);
     }
 
@@ -100,8 +98,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                         adapter = new AdapterFactor(RequestInfoActivity.this, response.body().invoice.factors);
                         recyclerView.setAdapter(adapter);
                         strCost = response.body().invoice.cost;
-                        strCostDes = "مبلغ " + response.body().invoice.additionalCost + " تومان هزینه ایاب و ذهاب به فاکتور اضافه گردید.";
-                        strDescriptionDes = response.body().invoice.description;
+                        strInvoiceDescription= response.body().invoice.description;
                         if (response.body().invoice.paymentMethod.equals("cash"))
                             txtCostMode.setText("روش پرداخت: نقدی");
                         else
@@ -110,7 +107,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                         linTitle2.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.GONE);
                         cardCost.setVisibility(View.GONE);
-                        cardCostDescription.setVisibility(View.GONE);
+                        cardInvoiceDescription.setVisibility(View.GONE);
                     }
                     setValue();
                 } else {
@@ -131,8 +128,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         txtDevice.setText(strDevice);
         txtDate.setText(strDate);
         txtAddress.setText(strAddress);
-        txtCostDes.setText(strCostDes);
-        txtDescriptionDes.setText(strDescriptionDes);
+        txtInvoiceDescription.setText(strInvoiceDescription);
         switch (strStatus) {
             case "7":
             case "6":
@@ -200,7 +196,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnBack:
-                super.onBackPressed();
+                onBackPressed();
                 break;
         }
     }

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +21,7 @@ import ir.rahbod.habibi.adapter.AdapterRequestList;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
 import ir.rahbod.habibi.helper.MyDialog;
+import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
 import ir.rahbod.habibi.helper.snackBar.SnackView;
 import ir.rahbod.habibi.model.ItemRequest;
@@ -62,7 +64,7 @@ public class RequestListActivity extends AppCompatActivity implements View.OnCli
 
     private void sendRequest() {
         MyDialog.show(this);
-        ApiClient apiClient = new ApiClient();
+        final ApiClient apiClient = new ApiClient();
         ApiService call = apiClient.getApi();
         call.getRequest().enqueue(new Callback<RequestList>() {
             @Override

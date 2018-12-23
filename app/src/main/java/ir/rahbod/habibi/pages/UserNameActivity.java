@@ -71,17 +71,6 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
 
     private void sendRequest() {
         FirebaseMessaging.getInstance().subscribeToTopic("app-habibi");
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                        if (!task.isSuccessful()) {
-//                            return;
-//                        }
-//                        // Get new Instance ID token
-//                        token = task.getResult().getToken();
-//                    }
-//                });
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -95,7 +84,7 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
         MyDialog.show(this);
         ApiService call = apiClient.getApi();
         UserName userName = new UserName();
-        userName.name = (etGetName.getText().toString());
+        userName.name = (etGetName.getText().toString().trim());
         userName.regToken = token;
         call.setName(userName).enqueue(new Callback<UserName>() {
             @Override

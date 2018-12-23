@@ -42,12 +42,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements SnackView {
+public class MainActivity extends AppCompatActivity implements SnackView, View.OnClickListener {
 
     public static Activity mainActivity;
     private RecyclerView recyclerView;
     private ApiClient apiClient;
-    private DbHelper dbHelper;
     private DrawerLayout drawer;
     private static long backPressed;
     private boolean online;
@@ -121,10 +120,10 @@ public class MainActivity extends AppCompatActivity implements SnackView {
 
     private void onCreateMain() {
         drawer = findViewById(R.id.drawer);
-        dbHelper = new DbHelper(this);
         //change back icon
         ImageView back = findViewById(R.id.btnBack);
         back.setImageResource(R.drawable.wrench_icon);
+        back.setOnClickListener(this);
         ImageView menu = findViewById(R.id.btnMenu);
         menu.setVisibility(View.VISIBLE);
         menu.setOnClickListener(new View.OnClickListener() {
@@ -223,6 +222,16 @@ public class MainActivity extends AppCompatActivity implements SnackView {
             getDevicesList();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnBack:
+                startActivity(new Intent(this, RequestListActivity.class));
+                break;
+        }
+    }
+
+    //تقسیم کردن عرض گوشی برای ریسایکلر
     public static class Utility {
         static int calculateNoOfColumns(Context context) {
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -233,13 +242,13 @@ public class MainActivity extends AppCompatActivity implements SnackView {
 
     public void menuItem(View view) {
         switch (view.getId()) {
-            case R.id.home:
-                drawer.closeDrawer(Gravity.RIGHT);
-                break;
-            case R.id.transaction:
-                startActivity(new Intent(this, TransactionListActivity.class));
-                closeDrawer();
-                break;
+//            case R.id.home:
+//                drawer.closeDrawer(Gravity.RIGHT);
+//                break;
+//            case R.id.transaction:
+//                startActivity(new Intent(this, TransactionListActivity.class));
+//                closeDrawer();
+//                break;
             case R.id.cooperation:
                 startActivity(new Intent(this, CooperationRequestActivity.class));
                 closeDrawer();
