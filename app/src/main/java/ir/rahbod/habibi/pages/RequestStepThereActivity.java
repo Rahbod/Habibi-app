@@ -133,10 +133,7 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
             case R.id.btnAdd:
                 if (etAddress.getText().toString().trim().isEmpty())
                     etAddress.setError("لطفا آدرس خود را وارد کنید");
-                else if (etPhone.getText().toString().trim().isEmpty()) {
-                    etAddress.setError(null);
-                    etPhone.setError("لطفا تلفن خود راوارد کنید");
-                } else {
+                else {
                     etAddress.setError(null);
                     etPhone.setError(null);
                     addAddress(etAddress, etPhone);

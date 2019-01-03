@@ -12,6 +12,8 @@ import ir.rahbod.habibi.model.Register;
 import ir.rahbod.habibi.model.Request;
 import ir.rahbod.habibi.model.RequestList;
 import ir.rahbod.habibi.model.RequestInfo;
+import ir.rahbod.habibi.model.SubService;
+import ir.rahbod.habibi.model.SubServiceItem;
 import ir.rahbod.habibi.model.TransactionList;
 import ir.rahbod.habibi.model.UserName;
 import retrofit2.Call;
@@ -56,4 +58,7 @@ public interface ApiService {
 
     @POST("api/cooperation")
     Call<Cooperation> sendCooperation(@Body Cooperation cooperation);
+
+    @POST("api/devices")
+    Call<SubService> getSubService(@Body SubServiceItem subService);
 }

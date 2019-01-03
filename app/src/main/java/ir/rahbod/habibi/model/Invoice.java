@@ -15,6 +15,8 @@ public class Invoice {
     public String paymentMethod;
     @SerializedName("status")
     public String status;
+    @SerializedName("totalDiscount")
+    public String totalDiscont;
     @SerializedName("tariffs")
     public List<Factor> factors;
 }

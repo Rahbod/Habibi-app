@@ -6,15 +6,19 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterFactor;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
+import ir.rahbod.habibi.helper.CircleTransform;
 import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
@@ -28,8 +32,8 @@ import retrofit2.Response;
 public class RequestInfoActivity extends AppCompatActivity implements SnackView, View.OnClickListener {
 
     private TextView txtDevice, txtDate, txtTime, txtAddress, txtDescription, txtStatus,
-            txtRepairMan, txtCost, txtInvoiceDescription, txtCostMode;
-    private String strDevice, strDate, strTime, strAddress, strDescription, strStatus, strRepairMan, strCost, strInvoiceDescription;
+            txtRepairMan, txtCost, txtInvoiceDescription, txtCostMode, txtTotalDiscount;
+    private String strDevice, strDate, strTime, strAddress, strDescription, strStatus, strRepairMan, strCost;
     private LinearLayout layout, linTitle2, linRepairMan;
     private MySnackBar snackBar;
     private View lineStatus;
@@ -37,7 +41,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
     private AdapterFactor adapter;
     private CardView cardCost, cardInvoiceDescription;
     public static Activity requestInfo;
-    private ImageView btnBack;
+    private ImageView btnBack, avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +75,10 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         txtCost = findViewById(R.id.txtCost);
         btnBack = findViewById(R.id.btnBack);
         cardInvoiceDescription = findViewById(R.id.card_2);
-        txtInvoiceDescription= findViewById(R.id.txtInvoiceDescription);
+        txtInvoiceDescription = findViewById(R.id.txtInvoiceDescription);
         txtCostMode = findViewById(R.id.txtCostMode);
+        avatar = findViewById(R.id.avatar);
+        txtTotalDiscount = findViewById(R.id.totalDiscount);
     }
 
     private void sendRequest() {
@@ -85,20 +91,35 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             @Override
             public void onResponse(Call<RequestInfo> call, Response<RequestInfo> response) {
                 if (response.isSuccessful()) {
+                    //info
                     strDevice = response.body().deviceTitle;
                     strDate = response.body().requestedDate;
                     strTime = response.body().requestedTime;
                     strAddress = response.body().address;
                     strDescription = response.body().description;
                     strStatus = response.body().status;
+
+                    //repairMan
                     if (response.body().repairMan != null) {
                         strRepairMan = response.body().repairMan.name;
+                        if (response.body().repairMan.avatar.equals(""))
+                            Picasso.with(RequestInfoActivity.this).load(R.drawable.expertise_icon).transform(new CircleTransform()).into(avatar);
+                        else
+                            Picasso.with(RequestInfoActivity.this).load(response.body().repairMan.avatar).transform(new CircleTransform()).into(avatar);
                     }
+
+                    //invoice
                     if (response.body().invoice != null) {
                         adapter = new AdapterFactor(RequestInfoActivity.this, response.body().invoice.factors);
                         recyclerView.setAdapter(adapter);
                         strCost = response.body().invoice.cost;
-                        strInvoiceDescription= response.body().invoice.description;
+                        if (response.body().invoice.totalDiscont.equals("0") || response.body().invoice.description.isEmpty()) {
+                            cardInvoiceDescription.setVisibility(View.GONE);
+                        }if (!response.body().invoice.totalDiscont.equals("0"))
+                            txtTotalDiscount.setText(response.body().invoice.totalDiscont);
+                        if (!response.body().invoice.description.isEmpty()) {
+                            txtInvoiceDescription.setText(response.body().invoice.description);
+                        }
                         if (response.body().invoice.paymentMethod.equals("cash"))
                             txtCostMode.setText("روش پرداخت: نقدی");
                         else
@@ -109,6 +130,8 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                         cardCost.setVisibility(View.GONE);
                         cardInvoiceDescription.setVisibility(View.GONE);
                     }
+
+                    //setValue
                     setValue();
                 } else {
                     snackBar.snackShow(layout);
@@ -128,7 +151,6 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         txtDevice.setText(strDevice);
         txtDate.setText(strDate);
         txtAddress.setText(strAddress);
-        txtInvoiceDescription.setText(strInvoiceDescription);
         switch (strStatus) {
             case "7":
             case "6":

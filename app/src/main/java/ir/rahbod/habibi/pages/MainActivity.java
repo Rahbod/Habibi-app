@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
     private ApiClient apiClient;
     private DrawerLayout drawer;
     private static long backPressed;
-    private boolean online;
-    private CardView btnRequest;
+    private CardView btnRequest, btnOk;
     private MySnackBar snackBar;
     private ScrollView layout;
     private boolean showMain = false;
@@ -65,12 +64,10 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
         if (SessionManager.getExtrasPref(this).getBoolean(PutKey.REGISTERED)) {
             if (isNetworkConnected()) {
                 setContentView(R.layout.activity_main);
-                online = true;
                 showMain = true;
                 onCreateMain();
             } else {
                 setContentView(R.layout.activity_main_offline);
-                online = false;
                 showMain = false;
                 onCreateOffline();
             }
@@ -114,11 +111,24 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
                         null, null);
         RelativeLayout layout = findViewById(R.id.mainView);
         MySnackBar snackBar = new MySnackBar(this);
-        btnRequest.setEnabled(false);
-        snackBar.snackCustomShow(layout, "درخواست شما با موفقیت ثبت شد", "تایید");
+        if (showMain)
+            snackBar.snackCustomShow(drawer, "درخواست شما با موفقیت ثبت شد", "تایید");
+        else
+            snackBar.snackCustomShow(layout, "درخواست شما با موفقیت ثبت شد", "تایید");
     }
 
     private void onCreateMain() {
+        btnOk = findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS
+                ) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, 1001);
+                } else
+                    sendMessage();
+            }
+        });
         drawer = findViewById(R.id.drawer);
         //change back icon
         ImageView back = findViewById(R.id.btnBack);
@@ -139,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
     private void getDevicesList() {
         MyDialog.show(this);
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setNestedScrollingEnabled(false);
         ApiService call = apiClient.getApi();
         call.getDevices().enqueue(new Callback<DevicesList>() {
             @Override
@@ -190,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
                                 MyDialog.dismiss();
                                 btnOk.setEnabled(true);
                             } else {
+                                btnOk.setEnabled(true);
                                 snackBar.snackCustomShow(layout, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", "تایید");
                                 MyDialog.dismiss();
                             }
@@ -197,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
 
                         @Override
                         public void onFailure(Call<Register> call, Throwable t) {
+                            btnOk.setEnabled(true);
                             snackBar.snackCustomShow(layout, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", "تایید");
                             MyDialog.dismiss();
                         }
@@ -218,13 +231,12 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
 
     @Override
     public void retry() {
-        if (online)
-            getDevicesList();
+        getDevicesList();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnBack:
                 startActivity(new Intent(this, RequestListActivity.class));
                 break;
