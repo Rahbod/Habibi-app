@@ -1,6 +1,7 @@
 package ir.rahbod.habibi.api;
 
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;

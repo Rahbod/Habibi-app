@@ -17,16 +17,19 @@ import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.model.Factor;
 import ir.rahbod.habibi.model.SubServiceItem;
+import ir.rahbod.habibi.pages.BottomSheetMain;
 import ir.rahbod.habibi.pages.RequestStepOneActivity;
 
 public class AdapterBottomSheet extends RecyclerView.Adapter<AdapterBottomSheet.listViewHolder> {
 
     private List<SubServiceItem> list;
     private Context context;
+    private BottomSheetMain bottomSheetMain;
 
-    public AdapterBottomSheet(Context context, List<SubServiceItem> list) {
+    public AdapterBottomSheet(Context context, List<SubServiceItem> list, BottomSheetMain bottomSheetMain) {
         this.context = context;
         this.list = list;
+        this.bottomSheetMain = bottomSheetMain;
     }
 
     @Override
@@ -46,6 +49,7 @@ public class AdapterBottomSheet extends RecyclerView.Adapter<AdapterBottomSheet.
                 SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_TITLE, list.get(position).title);
                 SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_ICON, list.get(position).icon);
                 context.startActivity(intent);
+                bottomSheetMain.dismiss();
             }
         });
     }

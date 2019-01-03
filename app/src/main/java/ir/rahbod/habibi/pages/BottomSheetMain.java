@@ -36,11 +36,13 @@ import retrofit2.Response;
 public class BottomSheetMain extends BottomSheetDialogFragment {
 
     private List<SubServiceItem> list;
+    private static BottomSheetMain bottomSheetMain;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.bottom_sheet_main, container, false);
+        bottomSheetMain = this;
         final RecyclerView recyclerView = view.findViewById(R.id.recBottomSheet);
         recyclerView.setLayoutManager(new LinearLayoutManager(MyApp.context));
         list = new ArrayList<>();
@@ -54,13 +56,7 @@ public class BottomSheetMain extends BottomSheetDialogFragment {
             public void onResponse(Call<SubService> call, Response<SubService> response) {
                 if (response.isSuccessful()) {
                     list.addAll(response.body().list);
-                    list.addAll(response.body().list);
-                    list.addAll(response.body().list);
-                    list.addAll(response.body().list);
-                    list.addAll(response.body().list);
-                    list.addAll(response.body().list);
-                    list.addAll(response.body().list);
-                    AdapterBottomSheet adapter = new AdapterBottomSheet(MyApp.context, list);
+                    AdapterBottomSheet adapter = new AdapterBottomSheet(MyApp.context, list, bottomSheetMain);
                     recyclerView.setAdapter(adapter);
                     MyDialog.dismiss();
                 }

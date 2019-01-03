@@ -32,14 +32,14 @@ import retrofit2.Response;
 public class RequestInfoActivity extends AppCompatActivity implements SnackView, View.OnClickListener {
 
     private TextView txtDevice, txtDate, txtTime, txtAddress, txtDescription, txtStatus,
-            txtRepairMan, txtCost, txtInvoiceDescription, txtCostMode, txtTotalDiscount;
+            txtRepairMan, txtCost, txtInvoiceDescription, txtCostMode, txtTotalDiscount, txtCostDescription;
     private String strDevice, strDate, strTime, strAddress, strDescription, strStatus, strRepairMan, strCost;
-    private LinearLayout layout, linTitle2, linRepairMan;
+    private LinearLayout layout, linTitle2, linRepairMan, linAvatarRepairMan;
     private MySnackBar snackBar;
     private View lineStatus;
     private RecyclerView recyclerView;
     private AdapterFactor adapter;
-    private CardView cardCost, cardInvoiceDescription;
+    private CardView card2, card3, card4;
     public static Activity requestInfo;
     private ImageView btnBack, avatar;
 
@@ -71,14 +71,17 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         recyclerView = findViewById(R.id.recBill);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        cardCost = findViewById(R.id.card_3);
+        card2 = findViewById(R.id.card_2);
+        card3 = findViewById(R.id.card_3);
+        card4 = findViewById(R.id.card_4);
         txtCost = findViewById(R.id.txtCost);
         btnBack = findViewById(R.id.btnBack);
-        cardInvoiceDescription = findViewById(R.id.card_2);
         txtInvoiceDescription = findViewById(R.id.txtInvoiceDescription);
         txtCostMode = findViewById(R.id.txtCostMode);
         avatar = findViewById(R.id.avatar);
         txtTotalDiscount = findViewById(R.id.totalDiscount);
+        txtCostDescription = findViewById(R.id.txtCostDescription);
+        linAvatarRepairMan = findViewById(R.id.linAvatarRepairMan);
     }
 
     private void sendRequest() {
@@ -101,6 +104,8 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
 
                     //repairMan
                     if (response.body().repairMan != null) {
+                        linAvatarRepairMan.setVisibility(View.VISIBLE);
+                        linRepairMan.setVisibility(View.VISIBLE);
                         strRepairMan = response.body().repairMan.name;
                         if (response.body().repairMan.avatar.equals(""))
                             Picasso.with(RequestInfoActivity.this).load(R.drawable.expertise_icon).transform(new CircleTransform()).into(avatar);
@@ -113,9 +118,13 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                         adapter = new AdapterFactor(RequestInfoActivity.this, response.body().invoice.factors);
                         recyclerView.setAdapter(adapter);
                         strCost = response.body().invoice.cost;
-                        if (response.body().invoice.totalDiscont.equals("0") || response.body().invoice.description.isEmpty()) {
-                            cardInvoiceDescription.setVisibility(View.GONE);
-                        }if (!response.body().invoice.totalDiscont.equals("0"))
+                        txtCostDescription.setText(response.body().invoice.additionalCost);
+                        if (response.body().invoice.totalDiscont.equals("0"))
+                            card3.setVisibility(View.GONE);
+                        if (response.body().invoice.additionalCost.equals("0")) {
+                            card2.setVisibility(View.GONE);
+                        }
+                        if (!response.body().invoice.totalDiscont.equals("0"))
                             txtTotalDiscount.setText(response.body().invoice.totalDiscont);
                         if (!response.body().invoice.description.isEmpty()) {
                             txtInvoiceDescription.setText(response.body().invoice.description);
@@ -127,8 +136,9 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                     } else {
                         linTitle2.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.GONE);
-                        cardCost.setVisibility(View.GONE);
-                        cardInvoiceDescription.setVisibility(View.GONE);
+                        card4.setVisibility(View.GONE);
+                        card2.setVisibility(View.GONE);
+                        card3.setVisibility(View.GONE);
                     }
 
                     //setValue

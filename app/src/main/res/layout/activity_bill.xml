@@ -353,6 +353,7 @@
                     <!--RepairMan-->
                     <LinearLayout
                         android:id="@+id/linRepairMan"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/lineStatus"
@@ -383,7 +384,9 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linAvatarRepairMan"
                         android:layout_width="match_parent"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/linRepairMan"
                         android:layout_marginLeft="40dp"
@@ -453,13 +456,73 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:paddingBottom="@dimen/_10"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="16dp" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/card_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:cardCornerRadius="@dimen/card_view_radius"
+                app:cardElevation="@dimen/card_view_elevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/_10"
+                        android:paddingLeft="@dimen/_10"
+                        android:paddingRight="@dimen/_10"
+                        android:paddingTop="7dp">
+
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:id="@+id/txtCostDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/mainColor" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="هزینه اضافی"
+                            android:textColor="@color/mainColor" />
+
+                    </LinearLayout>
+
+                    <ir.rahbod.habibi.widget.FontTextView
+                        android:id="@+id/txtInvoiceDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textSize="12sp"
+                        android:paddingBottom="@dimen/_10"
+                        android:paddingRight="@dimen/_10"
+                        android:paddingLeft="@dimen/_10"
+                        android:textColor="@color/mainColor" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -475,17 +538,6 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical">
-
-                    <ir.rahbod.habibi.widget.FontTextView
-                        android:id="@+id/txtInvoiceDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginTop="16dp"
-                        android:gravity="right"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/mainColor" />
 
                     <LinearLayout
                         android:id="@+id/linTotalDiscount"
@@ -509,7 +561,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="تخفیف"
-                            android:textColor="@color/mainColor" />
+                            android:textColor="@color/colorAccent" />
 
                     </LinearLayout>
 
@@ -518,7 +570,7 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/card_3"
+                android:id="@+id/card_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
