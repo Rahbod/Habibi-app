@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.helper.DbHelper;
+import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.model.ItemRequest;
 import ir.rahbod.habibi.pages.RequestInfoActivity;
 
@@ -36,16 +38,17 @@ public class AdapterRequestList extends RecyclerView.Adapter<AdapterRequestList.
     }
 
     @Override
-    public void onBindViewHolder(listViewHolder holder, int position) {
+    public void onBindViewHolder(listViewHolder holder, final int position) {
         holder.recItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RequestInfoActivity.class);
+                intent.putExtra(PutKey.SERVICE_ID, requestLists.get(position).deviceID + "");
                 context.startActivity(intent);
             }
         });
-        holder.txtName.setText(dbHelper.getDevicesTitle(requestLists.get(position).deviceID));
-        holder.txtDate.setText(requestLists.get(position).requestedDate);
+        holder.txtName.setText(requestLists.get(position).device);
+        holder.txtDate.setText(requestLists.get(position).date);
         switch (requestLists.get(position).status) {
             case "7":
             case "6":

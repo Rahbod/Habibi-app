@@ -49,7 +49,6 @@ public class MySnackBar implements SnackPresenter {
         snackbar.setAction(button, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                snackView.retry();
             }
         });
         snackbar.show();

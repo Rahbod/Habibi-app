@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +27,8 @@ import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterRequestStepThere;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
+import ir.rahbod.habibi.helper.DbHelper;
+import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
@@ -49,7 +50,9 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
     private ImageView btnBack;
     private List<Address> addressList;
     private MySnackBar snackBar;
-    private LinearLayout layout;
+    private LinearLayout layout, linTitle;
+    private ApiClient apiClient;
+    private TextView txtEmpty;
     public static Activity there;
 
     @Override
@@ -71,30 +74,48 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setNestedScrollingEnabled(false);
         btnAddAddress = findViewById(R.id.btnAddAddress);
-        ApiClient apiClient = new ApiClient();
+        apiClient = new ApiClient();
         call = apiClient.getApi();
         btnOk = findViewById(R.id.btnOk);
         btnBack = findViewById(R.id.btnBack);
         snackBar = new MySnackBar(this);
         layout = findViewById(R.id.mainLayout);
+        linTitle = findViewById(R.id.linTitle);
+        txtEmpty = findViewById(R.id.txtEmpty);
     }
 
     private void getAddress() {
+        if (!MyDialog.dialog.isShowing())
+            MyDialog.show(this);
         call.getAddress().enqueue(new Callback<AddressList>() {
             @Override
             public void onResponse(Call<AddressList> call, Response<AddressList> response) {
                 if (response.isSuccessful()) {
+                    if (response.body().list.isEmpty()) {
+                        linTitle.setVisibility(View.INVISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                        txtEmpty.setVisibility(View.VISIBLE);
+                    } else {
+                        linTitle.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        txtEmpty.setVisibility(View.INVISIBLE);
+                    }
                     addressList = new ArrayList<>();
                     addressList.addAll(response.body().list);
                     Collections.reverse(addressList);
                     AdapterRequestStepThere adapter = new AdapterRequestStepThere(
                             RequestStepThereActivity.this, addressList);
                     recyclerView.setAdapter(adapter);
-                } else snackBar.snackShow(layout);
+                    MyDialog.dismiss();
+                } else {
+                    MyDialog.dismiss();
+                    snackBar.snackShow(layout);
+                }
             }
 
             @Override
             public void onFailure(Call<AddressList> call, Throwable t) {
+                MyDialog.dismiss();
                 snackBar.snackShow(layout);
             }
         });
@@ -112,13 +133,10 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
             case R.id.btnAdd:
                 if (etAddress.getText().toString().trim().isEmpty())
                     etAddress.setError("لطفا آدرس خود را وارد کنید");
-                else if (etPhone.getText().toString().trim().isEmpty()) {
-                    etAddress.setError(null);
-                    etPhone.setError("لطفا تلفن خود راوارد کنید");
-                } else {
+                else {
                     etAddress.setError(null);
                     etPhone.setError(null);
-                    sendAddress(etAddress, etPhone);
+                    addAddress(etAddress, etPhone);
                 }
                 break;
             case R.id.btnOk:
@@ -152,7 +170,9 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
         dialog.show();
     }
 
-    private void sendAddress(EditText etAddress, EditText etPhone) {
+    private void addAddress(EditText etAddress, EditText etPhone) {
+        btnAddAddress.setEnabled(false);
+        MyDialog.show(this);
         Address address = new Address();
         address.address = etAddress.getText().toString();
         address.telephone = etPhone.getText().toString();
@@ -162,13 +182,20 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
                 if (response.isSuccessful()) {
                     dialog.dismiss();
                     getAddress();
-                } else
-                    snackBar.snackShow(layout);
+                    btnAddAddress.setEnabled(true);
+                } else {
+                    try {
+                        apiClient.getError(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<AddressList> call, Throwable t) {
-                snackBar.snackShow(layout);
+                MyDialog.dismiss();
+                Toast.makeText(RequestStepThereActivity.this, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show();
             }
         });
     }

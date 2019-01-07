@@ -9,4 +9,6 @@ public class Devices {
     public String title;
     @SerializedName("icon")
     public String icon;
+    @SerializedName("hasChild")
+    public boolean hasChild;
 }

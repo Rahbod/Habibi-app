@@ -16,9 +16,11 @@
             layout="@layout/actionbar_view" />
 
         <ScrollView
+            android:fillViewport="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/actionBar">
+            android:layout_below="@id/actionBar"
+            android:layout_above="@id/btnOk">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,6 +49,47 @@
             </LinearLayout>
 
         </ScrollView>
+
+        <!--Button-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/btnOk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/card_view_elevation">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/background_gradient_sharp"
+                android:gravity="center"
+                android:paddingBottom="@dimen/_10"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+                android:paddingTop="@dimen/_10">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ir.rahbod.habibi.widget.FontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="-2dp"
+                        android:text="درخواست فوری"
+                        android:textColor="#fff"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
     </RelativeLayout>
 

@@ -17,7 +17,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.SmsManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -27,17 +26,12 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
-
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterMain;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
 import ir.rahbod.habibi.helper.DbHelper;
+import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
@@ -48,18 +42,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements SnackView {
+public class MainActivity extends AppCompatActivity implements SnackView, View.OnClickListener {
 
     public static Activity mainActivity;
     private RecyclerView recyclerView;
     private ApiClient apiClient;
-    private DbHelper dbHelper;
     private DrawerLayout drawer;
     private static long backPressed;
-    private boolean online;
-    private CardView btnRequest;
+    private CardView btnRequest, btnOk;
     private MySnackBar snackBar;
     private ScrollView layout;
+    private boolean showMain = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +64,11 @@ public class MainActivity extends AppCompatActivity implements SnackView {
         if (SessionManager.getExtrasPref(this).getBoolean(PutKey.REGISTERED)) {
             if (isNetworkConnected()) {
                 setContentView(R.layout.activity_main);
-                online = true;
+                showMain = true;
                 onCreateMain();
             } else {
                 setContentView(R.layout.activity_main_offline);
-                online = false;
+                showMain = false;
                 onCreateOffline();
             }
         } else {
@@ -118,16 +111,29 @@ public class MainActivity extends AppCompatActivity implements SnackView {
                         null, null);
         RelativeLayout layout = findViewById(R.id.mainView);
         MySnackBar snackBar = new MySnackBar(this);
-        btnRequest.setEnabled(false);
-        snackBar.snackCustomShow(layout, "درخواست شما با موفقیت ثبت شد", "تایید");
+        if (showMain)
+            snackBar.snackCustomShow(drawer, "درخواست شما با موفقیت ثبت شد", "تایید");
+        else
+            snackBar.snackCustomShow(layout, "درخواست شما با موفقیت ثبت شد", "تایید");
     }
 
     private void onCreateMain() {
+        btnOk = findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS
+                ) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, 1001);
+                } else
+                    sendMessage();
+            }
+        });
         drawer = findViewById(R.id.drawer);
-        dbHelper = new DbHelper(this);
         //change back icon
         ImageView back = findViewById(R.id.btnBack);
         back.setImageResource(R.drawable.wrench_icon);
+        back.setOnClickListener(this);
         ImageView menu = findViewById(R.id.btnMenu);
         menu.setVisibility(View.VISIBLE);
         menu.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +147,9 @@ public class MainActivity extends AppCompatActivity implements SnackView {
     }
 
     private void getDevicesList() {
+        MyDialog.show(this);
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setNestedScrollingEnabled(false);
         ApiService call = apiClient.getApi();
         call.getDevices().enqueue(new Callback<DevicesList>() {
             @Override
@@ -150,15 +158,16 @@ public class MainActivity extends AppCompatActivity implements SnackView {
                     recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, Utility.calculateNoOfColumns(MainActivity.this)));
                     AdapterMain adapter = new AdapterMain(MainActivity.this, response.body().list, Utility.calculateNoOfColumns(MainActivity.this));
                     recyclerView.setAdapter(adapter);
-                    for (int i = 0; i < response.body().list.size(); i++) {
-                        dbHelper.addDevices(response.body().list.get(i).title
-                                , response.body().list.get(i).id);
-                    }
-                } else snackBar.snackShow(drawer);
+                    MyDialog.dismiss();
+                } else {
+                    MyDialog.dismiss();
+                    snackBar.snackShow(drawer);
+                }
             }
 
             @Override
             public void onFailure(Call<DevicesList> call, Throwable t) {
+                MyDialog.dismiss();
                 snackBar.snackShow(drawer);
             }
         });
@@ -167,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements SnackView {
     private void onCreateRegister() {
         layout = findViewById(R.id.mainLayout);
         SessionManager.getExtrasPref(this).putExtra(PutKey.IS_LOGIN, false);
-        Button btnOk = findViewById(R.id.btnOk);
+        final Button btnOk = findViewById(R.id.btnOk);
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements SnackView {
                 else if (!checkMobileNumber(etGetNumber.getText().toString()))
                     Toast.makeText(MainActivity.this, "شماره تلفن وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
                 else {
+                    btnOk.setEnabled(false);
+                    MyDialog.show(MainActivity.this);
                     ApiService call = apiClient.getApi();
                     Register register = new Register();
                     register.mobile = etGetNumber.getText().toString();
@@ -187,13 +198,20 @@ public class MainActivity extends AppCompatActivity implements SnackView {
                                 Intent intent = new Intent(MainActivity.this, CheckCodeActivity.class);
                                 intent.putExtra(PutKey.MOBILE, etGetNumber.getText().toString());
                                 startActivity(intent);
-                            } else
+                                MyDialog.dismiss();
+                                btnOk.setEnabled(true);
+                            } else {
+                                btnOk.setEnabled(true);
                                 snackBar.snackCustomShow(layout, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", "تایید");
+                                MyDialog.dismiss();
+                            }
                         }
 
                         @Override
                         public void onFailure(Call<Register> call, Throwable t) {
+                            btnOk.setEnabled(true);
                             snackBar.snackCustomShow(layout, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", "تایید");
+                            MyDialog.dismiss();
                         }
                     });
                 }
@@ -213,10 +231,19 @@ public class MainActivity extends AppCompatActivity implements SnackView {
 
     @Override
     public void retry() {
-        if (online)
-            getDevicesList();
+        getDevicesList();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnBack:
+                startActivity(new Intent(this, RequestListActivity.class));
+                break;
+        }
+    }
+
+    //تقسیم کردن عرض گوشی برای ریسایکلر
     public static class Utility {
         static int calculateNoOfColumns(Context context) {
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -227,13 +254,13 @@ public class MainActivity extends AppCompatActivity implements SnackView {
 
     public void menuItem(View view) {
         switch (view.getId()) {
-            case R.id.home:
-                drawer.closeDrawer(Gravity.RIGHT);
-                break;
-            case R.id.transaction:
-                startActivity(new Intent(this, TransactionListActivity.class));
-                closeDrawer();
-                break;
+//            case R.id.home:
+//                drawer.closeDrawer(Gravity.RIGHT);
+//                break;
+//            case R.id.transaction:
+//                startActivity(new Intent(this, TransactionListActivity.class));
+//                closeDrawer();
+//                break;
             case R.id.cooperation:
                 startActivity(new Intent(this, CooperationRequestActivity.class));
                 closeDrawer();
@@ -256,13 +283,16 @@ public class MainActivity extends AppCompatActivity implements SnackView {
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(Gravity.RIGHT))
-            drawer.closeDrawer(Gravity.RIGHT);
-        else if (backPressed + 2000 > System.currentTimeMillis())
+        if (showMain)
+            if (drawer.isDrawerOpen(Gravity.RIGHT))
+                drawer.closeDrawer(Gravity.RIGHT);
+            else if (backPressed + 2000 > System.currentTimeMillis())
+                super.onBackPressed();
+            else {
+                Toast.makeText(mainActivity, "لطفا کلید برگشت را مجددا فشار دهید.", Toast.LENGTH_SHORT).show();
+                backPressed = System.currentTimeMillis();
+            }
+        else
             super.onBackPressed();
-        else {
-            Toast.makeText(mainActivity, "لطفا کلید برگشت را مجددا فشار دهید.", Toast.LENGTH_SHORT).show();
-            backPressed = System.currentTimeMillis();
-        }
     }
 }

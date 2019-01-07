@@ -3,6 +3,7 @@ package ir.rahbod.habibi.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -12,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -23,6 +23,7 @@ import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.model.Devices;
+import ir.rahbod.habibi.pages.BottomSheetMain;
 import ir.rahbod.habibi.pages.RequestStepOneActivity;
 
 public class AdapterMain extends RecyclerView.Adapter<AdapterMain.listViewHolder> {
@@ -51,11 +52,17 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.listViewHolder
         holder.itemRec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, RequestStepOneActivity.class);
-                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_ID, list.get(position).id);
-                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_TITLE, list.get(position).title);
-                SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_ICON, list.get(position).icon);
-                context.startActivity(intent);
+                if (list.get(position).hasChild) {
+                    SessionManager.getExtrasPref(context).putExtra(PutKey.PARENT_ID, list.get(position).id);
+                    BottomSheetMain bottomSheetMain = new BottomSheetMain();
+                    bottomSheetMain.show(((FragmentActivity) context).getSupportFragmentManager(), "test");
+                } else {
+                    Intent intent = new Intent(context, RequestStepOneActivity.class);
+                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_ID, list.get(position).id);
+                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_TITLE, list.get(position).title);
+                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_ICON, list.get(position).icon);
+                    context.startActivity(intent);
+                }
             }
         });
 

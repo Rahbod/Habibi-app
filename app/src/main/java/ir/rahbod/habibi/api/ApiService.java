@@ -5,10 +5,15 @@ import ir.rahbod.habibi.model.Address;
 import ir.rahbod.habibi.model.AddressList;
 import ir.rahbod.habibi.model.Authorization;
 import ir.rahbod.habibi.model.CheckCode;
+import ir.rahbod.habibi.model.Cooperation;
 import ir.rahbod.habibi.model.DevicesList;
+import ir.rahbod.habibi.model.ItemRequest;
 import ir.rahbod.habibi.model.Register;
 import ir.rahbod.habibi.model.Request;
 import ir.rahbod.habibi.model.RequestList;
+import ir.rahbod.habibi.model.RequestInfo;
+import ir.rahbod.habibi.model.SubService;
+import ir.rahbod.habibi.model.SubServiceItem;
 import ir.rahbod.habibi.model.TransactionList;
 import ir.rahbod.habibi.model.UserName;
 import retrofit2.Call;
@@ -47,4 +52,13 @@ public interface ApiService {
 
     @GET("api/transactions")
     Call<TransactionList> getTransaction();
+
+    @POST("api/requestInfo")
+    Call<RequestInfo> getDevicesInfo(@Body ItemRequest item);
+
+    @POST("api/cooperation")
+    Call<Cooperation> sendCooperation(@Body Cooperation cooperation);
+
+    @POST("api/devices")
+    Call<SubService> getSubService(@Body SubServiceItem subService);
 }

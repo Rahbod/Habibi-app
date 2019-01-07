@@ -7,12 +7,6 @@ public class UserName {
     public String name;
     @SerializedName("message")
     public String message;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @SerializedName("token")
+    public String regToken;
 }

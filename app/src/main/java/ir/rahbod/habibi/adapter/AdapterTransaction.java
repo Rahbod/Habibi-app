@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,9 +56,9 @@ public class AdapterTransaction extends RecyclerView.Adapter<AdapterTransaction.
                 View view = LayoutInflater.from(context).inflate(R.layout.dialog_transaction, null);
                 dialog.setContentView(view);
                 TextView txtStatus = view.findViewById(R.id.txtStatus);
-                TextView txtCode = view.findViewById(R.id.txtCode);
+//                TextView txtCode = view.findViewById(R.id.txtCode);
                 TextView txtAmount = view.findViewById(R.id.txtAmount);
-                CardView btnCancel = view.findViewById(R.id.btnCancel);
+                ImageView btnCancel = view.findViewById(R.id.btnCancel);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -71,7 +72,7 @@ public class AdapterTransaction extends RecyclerView.Adapter<AdapterTransaction.
                     txtStatus.setText("پرداخت نشده");
                     txtStatus.setTextColor(context.getResources().getColor(R.color.secondColor));
                 }
-                txtCode.setText(list.get(position).code);
+//                txtCode.setText(list.get(position).code);
                 txtAmount.setText(list.get(position).amount);
                 dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 dialog.show();
@@ -87,7 +88,7 @@ public class AdapterTransaction extends RecyclerView.Adapter<AdapterTransaction.
     class listViewHolder extends RecyclerView.ViewHolder {
 
         private TextView title, cost, date;
-        private LinearLayout recItem;
+        private CardView recItem;
 
         private listViewHolder(View itemView) {
             super(itemView);

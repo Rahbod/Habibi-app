@@ -7,8 +7,8 @@ public class Transaction {
     public String amount;
     @SerializedName("date")
     public String date;
-    @SerializedName("code")
-    public String code;
+//    @SerializedName("code")
+//    public String code;
     @SerializedName("status")
     public String status;
 }

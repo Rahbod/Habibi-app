@@ -1,19 +1,28 @@
 package ir.rahbod.habibi.pages;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.io.IOException;
 
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
+import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
@@ -30,6 +39,7 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
     private ApiClient apiClient;
     private ScrollView layout;
     private MySnackBar snackBar;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +70,22 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void sendRequest() {
+        FirebaseMessaging.getInstance().subscribeToTopic("app-habibi");
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (task.isSuccessful()) {
+                            token = task.getResult().getToken();
+                        }
+                    }
+                });
+        btnSave.setEnabled(false);
+        MyDialog.show(this);
         ApiService call = apiClient.getApi();
         UserName userName = new UserName();
-        userName.setName(etGetName.getText().toString());
+        userName.name = (etGetName.getText().toString().trim());
+        userName.regToken = token;
         call.setName(userName).enqueue(new Callback<UserName>() {
             @Override
             public void onResponse(Call<UserName> call, Response<UserName> response) {
@@ -74,12 +97,16 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
                     MainActivity.mainActivity.finish();
                     CheckCodeActivity.checkCode.finish();
                     finish();
-                } else
+                    btnSave.setEnabled(true);
+                } else {
+                    MyDialog.dismiss();
                     snackBar.snackShow(layout);
+                }
             }
 
             @Override
             public void onFailure(Call<UserName> call, Throwable t) {
+                MyDialog.dismiss();
                 snackBar.snackShow(layout);
             }
         });

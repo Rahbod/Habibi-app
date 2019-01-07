@@ -16,6 +16,7 @@ import java.io.IOException;
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
+import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
@@ -87,6 +88,8 @@ public class RequestStepFourActivity extends AppCompatActivity implements View.O
     }
 
     private void sendRequest() {
+        MyDialog.show(this);
+        btnOk.setEnabled(false);
         ApiService call = apiClient.getApi();
         final Request request = new Request();
         request.deviceID = SessionManager.getExtrasPref(this).getInt(PutKey.SERVICE_ID);
@@ -104,19 +107,24 @@ public class RequestStepFourActivity extends AppCompatActivity implements View.O
                     RequestStepTowActivity.tow.finish();
                     RequestStepThereActivity.there.finish();
                     finish();
-                } else
-                    snackBar.snackCustomShow(layout, "خطای اتصال به شبکه، لطفا دوباره امتحان کنید", "تایید");
+                    MyDialog.dismiss();
+                    btnOk.setEnabled(true);
+                } else {
+                    MyDialog.dismiss();
+                    snackBar.snackShow(layout);
+                }
             }
 
             @Override
             public void onFailure(Call<Request> call, Throwable t) {
-                snackBar.snackCustomShow(layout, "خطای اتصال به شبکه، لطفا دوباره امتحان کنید", "تایید");
+                MyDialog.dismiss();
+                snackBar.snackShow(layout);
             }
         });
     }
 
     @Override
     public void retry() {
-
+        sendRequest();
     }
 }

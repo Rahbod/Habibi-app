@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterTransaction;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
+import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
 import ir.rahbod.habibi.helper.snackBar.SnackView;
 import ir.rahbod.habibi.model.TransactionList;
@@ -28,6 +30,8 @@ public class TransactionListActivity extends AppCompatActivity implements View.O
     private ImageView btnBack;
     private RelativeLayout layout;
     private MySnackBar snackBar;
+    private LinearLayout linTitle;
+    private TextView txtEmpty;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,24 +50,38 @@ public class TransactionListActivity extends AppCompatActivity implements View.O
         btnBack = findViewById(R.id.btnBack);
         layout = findViewById(R.id.mainLayout);
         snackBar = new MySnackBar(this);
+        linTitle = findViewById(R.id.linTitle);
+        txtEmpty = findViewById(R.id.txtEmpty);
     }
 
     private void sendRequest() {
+        MyDialog.show(this);
         ApiClient apiClient = new ApiClient();
         ApiService call = apiClient.getApi();
         call.getTransaction().enqueue(new Callback<TransactionList>() {
             @Override
             public void onResponse(Call<TransactionList> call, Response<TransactionList> response) {
                 if (response.isSuccessful()) {
+                    if (response.body().list.isEmpty()) {
+                        txtEmpty.setVisibility(View.VISIBLE);
+                        linTitle.setVisibility(View.INVISIBLE);
+                    } else {
+                        txtEmpty.setVisibility(View.INVISIBLE);
+                        linTitle.setVisibility(View.VISIBLE);
+                    }
                     recyclerView.setLayoutManager(new LinearLayoutManager(TransactionListActivity.this));
                     AdapterTransaction adapter = new AdapterTransaction(TransactionListActivity.this, response.body().list);
                     recyclerView.setAdapter(adapter);
-                } else
+                    MyDialog.dismiss();
+                } else {
                     snackBar.snackShow(layout);
+                    MyDialog.dismiss();
+                }
             }
 
             @Override
             public void onFailure(Call<TransactionList> call, Throwable t) {
+                MyDialog.dismiss();
                 snackBar.snackShow(layout);
             }
         });
