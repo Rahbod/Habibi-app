@@ -48,6 +48,7 @@ public class AdapterBottomSheet extends RecyclerView.Adapter<AdapterBottomSheet.
                 SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_ID, list.get(position).id);
                 SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_TITLE, list.get(position).title);
                 SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_ICON, list.get(position).icon);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 bottomSheetMain.dismiss();
             }
