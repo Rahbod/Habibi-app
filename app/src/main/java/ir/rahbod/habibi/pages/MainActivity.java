@@ -165,26 +165,6 @@ public class MainActivity extends AppCompatActivity implements SnackView {
     }
 
     private void onCreateRegister() {
-        FirebaseMessaging.getInstance().subscribeToTopic("app-habibi");
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("masoud", "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-
-                        // Log and toast
-                        EditText aa = findViewById(R.id.token);
-                        aa.setText(token);
-                    }
-                });
-
         layout = findViewById(R.id.mainLayout);
         SessionManager.getExtrasPref(this).putExtra(PutKey.IS_LOGIN, false);
         Button btnOk = findViewById(R.id.btnOk);
