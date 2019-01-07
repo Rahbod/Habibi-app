@@ -95,7 +95,6 @@ public class CheckCodeActivity extends AppCompatActivity implements View.OnClick
                                         response.body().token.getRefreshToken(),
                                         response.body().token.getExpireIn()
                                 );
-                                FirebaseMessaging.getInstance().subscribeToTopic("all");
                                 Intent intent = new Intent(CheckCodeActivity.this, UserNameActivity.class);
                                 startActivity(intent);
                                 MyDialog.dismiss();
