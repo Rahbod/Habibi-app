@@ -48,6 +48,15 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
         bind();
 
         btnSave.setOnClickListener(this);
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (task.isSuccessful()) {
+                            token = task.getResult().getToken();
+                        }
+                    }
+                });
     }
 
     private void bind() {
@@ -70,16 +79,6 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void sendRequest() {
-        FirebaseMessaging.getInstance().subscribeToTopic("app-habibi");
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (task.isSuccessful()) {
-                            token = task.getResult().getToken();
-                        }
-                    }
-                });
         btnSave.setEnabled(false);
         MyDialog.show(this);
         ApiService call = apiClient.getApi();
