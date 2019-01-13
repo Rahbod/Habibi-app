@@ -38,6 +38,8 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
     private List<GetTime> list;
     private int mainDay, mainMonth, mainYear;
     public static Activity tow;
+    private boolean checkTime = false;
+    private AdapterGetTime adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +54,25 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
         btnBack.setOnClickListener(this);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        setListTime();
+    }
+
+    private void setListTime() {
         list = new ArrayList<>();
         GetTime timeAm = new GetTime();
         timeAm.startTime = 8;
         timeAm.endTime = 12;
+        timeAm.setCheckTime(false);
         list.add(timeAm);
         GetTime timePm = new GetTime();
         timePm.startTime = 12;
         timePm.endTime = 18;
+        timePm.setCheckTime(false);
         list.add(timePm);
         GetTime timeNight = new GetTime();
         timeNight.startTime = 18;
         timeNight.endTime = 22;
+        timeNight.setCheckTime(false);
         list.add(timeNight);
         Collections.reverse(list);
     }
@@ -127,9 +136,23 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-
         if (!checkDate(year, monthOfYear, dayOfMonth)) {
             Toast.makeText(this, "تاریخ انتخاب شده صحیح نمی باشد", Toast.LENGTH_SHORT).show();
+        } else if (("" + mainYear + mainMonth + mainDay).equals("" + year + monthOfYear + dayOfMonth)) {
+            checkTime = true;
+            if (!SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_TIME).isEmpty()) {
+                SessionManager.getExtrasPref(this).remove(PutKey.SERVICE_TIME);
+            }
+            monthOfYear = monthOfYear + 1;
+            String strDate = year + " / " + monthOfYear + " / " + dayOfMonth;
+            date.setText(strDate);
+            String month = addZero(monthOfYear + "");
+            String day = addZero(dayOfMonth + "");
+            SessionManager.getExtrasPref(this).putExtra(PutKey.SERVICE_DATE, year + "/" + month + "/" + day);
+            setListTime();
+            adapter = new AdapterGetTime(this, list, checkTime);
+            recyclerView.setAdapter(adapter);
+            checkTime = false;
         } else {
             monthOfYear = monthOfYear + 1;
             String strDate = year + " / " + monthOfYear + " / " + dayOfMonth;
@@ -137,6 +160,10 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
             String month = addZero(monthOfYear + "");
             String day = addZero(dayOfMonth + "");
             SessionManager.getExtrasPref(this).putExtra(PutKey.SERVICE_DATE, year + "/" + month + "/" + day);
+            setListTime();
+            adapter = new AdapterGetTime(this, list, checkTime);
+            recyclerView.setAdapter(adapter);
+            checkTime = false;
         }
     }
 
@@ -160,7 +187,7 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
         super.onResume();
         date.setText("");
         date.setHint("تاریخ حضور سرویس کار");
-        AdapterGetTime adapter = new AdapterGetTime(this, list);
+        adapter = new AdapterGetTime(this, list, checkTime);
         recyclerView.setAdapter(adapter);
         if (!SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_DATE).isEmpty()
                 || !SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_TIME).isEmpty()) {

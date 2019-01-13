@@ -7,4 +7,6 @@ public class RepairMan {
     public String name;
     @SerializedName("avatar")
     public String avatar;
+    @SerializedName("code")
+    public String code;
 }

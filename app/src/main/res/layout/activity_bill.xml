@@ -353,7 +353,6 @@
                     <!--RepairMan-->
                     <LinearLayout
                         android:id="@+id/linRepairMan"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/lineStatus"
@@ -361,6 +360,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="15dp"
                         android:layoutDirection="rtl"
+                        android:visibility="gone"
                         tools:targetApi="jelly_bean_mr1">
 
                         <ir.rahbod.habibi.widget.FontTextView
@@ -386,25 +386,44 @@
                     <LinearLayout
                         android:id="@+id/linAvatarRepairMan"
                         android:layout_width="match_parent"
-                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/linRepairMan"
                         android:layout_marginLeft="40dp"
                         android:layout_marginRight="40dp"
                         android:orientation="horizontal"
                         android:paddingBottom="10dp"
-                        android:paddingTop="10dp">
+                        android:paddingTop="10dp"
+                        android:visibility="gone">
 
-                        <ir.rahbod.habibi.widget.FontTextView
-                            android:id="@+id/txtRepairMan"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="right"
-                            android:paddingLeft="@dimen/_10"
-                            android:paddingRight="@dimen/_10"
-                            android:textSize="13sp" />
+                            android:layout_gravity="center"
+                            android:orientation="vertical">
+
+                            <ir.rahbod.habibi.widget.FontTextView
+                                android:id="@+id/txtRepairMan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="right"
+                                android:paddingLeft="@dimen/_10"
+                                android:paddingRight="@dimen/_10"
+                                android:textSize="13sp" />
+
+                            <ir.rahbod.habibi.widget.FontTextView
+                                android:id="@+id/txtRepairManCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="right"
+                                android:text="ffff"
+                                android:paddingLeft="@dimen/_10"
+                                android:paddingRight="@dimen/_10"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
 
                         <ImageView
                             android:id="@+id/avatar"
@@ -511,11 +530,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:textSize="12sp"
                         android:paddingBottom="@dimen/_10"
-                        android:paddingRight="@dimen/_10"
                         android:paddingLeft="@dimen/_10"
-                        android:textColor="@color/mainColor" />
+                        android:paddingRight="@dimen/_10"
+                        android:textColor="@color/mainColor"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 

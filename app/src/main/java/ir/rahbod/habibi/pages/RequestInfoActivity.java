@@ -31,9 +31,9 @@ import retrofit2.Response;
 
 public class RequestInfoActivity extends AppCompatActivity implements SnackView, View.OnClickListener {
 
-    private TextView txtDevice, txtDate, txtTime, txtAddress, txtDescription, txtStatus,
+    private TextView txtDevice, txtDate, txtTime, txtAddress, txtDescription, txtStatus, txtRepairManCode,
             txtRepairMan, txtCost, txtInvoiceDescription, txtCostMode, txtTotalDiscount, txtCostDescription;
-    private String strDevice, strDate, strTime, strAddress, strDescription, strStatus, strRepairMan, strCost;
+    private String strDevice, strDate, strTime, strAddress, strDescription, strStatus, strRepairMan, strCost, strRepairManCode;
     private LinearLayout layout, linTitle2, linRepairMan, linAvatarRepairMan;
     private MySnackBar snackBar;
     private View lineStatus;
@@ -82,6 +82,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         txtTotalDiscount = findViewById(R.id.totalDiscount);
         txtCostDescription = findViewById(R.id.txtCostDescription);
         linAvatarRepairMan = findViewById(R.id.linAvatarRepairMan);
+        txtRepairManCode = findViewById(R.id.txtRepairManCode);
     }
 
     private void sendRequest() {
@@ -107,6 +108,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                         linAvatarRepairMan.setVisibility(View.VISIBLE);
                         linRepairMan.setVisibility(View.VISIBLE);
                         strRepairMan = response.body().repairMan.name;
+                        strRepairManCode = response.body().repairMan.code;
                         if (response.body().repairMan.avatar.equals(""))
                             Picasso.with(RequestInfoActivity.this).load(R.drawable.expertise_icon).transform(new CircleTransform()).into(avatar);
                         else
@@ -206,8 +208,10 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             linRepairMan.setVisibility(View.GONE);
             txtRepairMan.setVisibility(View.GONE);
             lineStatus.setVisibility(View.GONE);
-        } else
+        } else {
             txtRepairMan.setText(strRepairMan);
+            txtRepairManCode.setText("کد: " + strRepairManCode);
+        }
         if (strCost != null)
             txtCost.setText(strCost);
         MyDialog.dismiss();

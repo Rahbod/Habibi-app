@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import ir.rahbod.habibi.R;
@@ -22,10 +24,15 @@ public class AdapterGetTime extends RecyclerView.Adapter<AdapterGetTime.listView
     private List<GetTime> list;
     private Context context;
     private int lastPosition = -1;
+    private String nowTime;
+    private boolean checkTime;
 
-    public AdapterGetTime(Context context, List<GetTime> list) {
+    public AdapterGetTime(Context context, List<GetTime> list, boolean checkTime) {
         this.context = context;
         this.list = list;
+        this.checkTime = checkTime;
+        SimpleDateFormat formatter = new SimpleDateFormat("HH");
+        nowTime = formatter.format(new Date(Long.parseLong(String.valueOf(System.currentTimeMillis()))));
     }
 
     @Override
@@ -37,6 +44,19 @@ public class AdapterGetTime extends RecyclerView.Adapter<AdapterGetTime.listView
 
     @Override
     public void onBindViewHolder(final listViewHolder holder, final int position) {
+        if (checkTime) {
+            if (Integer.valueOf(nowTime) >= 8)
+                list.get(2).setCheckTime(true);
+            if (Integer.valueOf(nowTime) >= 12) {
+                list.get(2).setCheckTime(true);
+                list.get(1).setCheckTime(true);
+            }
+            if (Integer.valueOf(nowTime) >= 20) {
+                list.get(2).setCheckTime(true);
+                list.get(1).setCheckTime(true);
+                list.get(0).setCheckTime(true);
+            }
+        }
         holder.startTime.setText(list.get(position).startTime + "");
         holder.endTime.setText(list.get(position).endTime + "");
         if (lastPosition == position) {
@@ -56,6 +76,13 @@ public class AdapterGetTime extends RecyclerView.Adapter<AdapterGetTime.listView
             holder.startTime.setTextColor(context.getResources().getColor(R.color.mainColor));
             holder.endTime.setTextColor(context.getResources().getColor(R.color.mainColor));
             holder.txt.setTextColor(context.getResources().getColor(R.color.mainColor));
+        }
+        if (list.get(position).isCheckTime()) {
+            holder.item.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_rec_time_disable));
+            holder.startTime.setTextColor(context.getResources().getColor(R.color.gray2));
+            holder.endTime.setTextColor(context.getResources().getColor(R.color.gray2));
+            holder.txt.setTextColor(context.getResources().getColor(R.color.gray2));
+            holder.item.setEnabled(false);
         }
     }
 
