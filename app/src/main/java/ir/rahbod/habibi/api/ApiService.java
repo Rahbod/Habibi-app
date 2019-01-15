@@ -9,6 +9,7 @@ import ir.rahbod.habibi.model.Cooperation;
 import ir.rahbod.habibi.model.DevicesList;
 import ir.rahbod.habibi.model.ItemRequest;
 import ir.rahbod.habibi.model.Register;
+import ir.rahbod.habibi.model.RepairManInfo;
 import ir.rahbod.habibi.model.Request;
 import ir.rahbod.habibi.model.RequestList;
 import ir.rahbod.habibi.model.RequestInfo;
@@ -20,6 +21,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -61,4 +64,7 @@ public interface ApiService {
 
     @POST("api/devices")
     Call<SubService> getSubService(@Body SubServiceItem subService);
+
+    @GET("api/repairman/{code}")
+    Call<RepairManInfo> getRepairManInfo(@Path("code") String code);
 }

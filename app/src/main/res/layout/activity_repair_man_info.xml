@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:orientation="vertical"
+    tools:context=".pages.RepairManInfoActivity">
+
+    <include layout="@layout/actionbar_view" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--title-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="16dp"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<View-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@color/mainColor" />-->
+
+                <!--<ir.rahbod.habibi.widget.FontTextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingLeft="@dimen/_10"-->
+                    <!--android:paddingRight="@dimen/_10"-->
+                    <!--android:text="اطلاعات سرویس کار"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:textColor="@color/mainColor"-->
+                    <!--android:textSize="17sp" />-->
+
+                <!--<View-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@color/mainColor" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--RepairMan-->
+            <LinearLayout
+                android:layout_marginTop="16dp"
+                android:id="@+id/linRepairMan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/avatar"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:src="@drawable/experience_icon" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <ir.rahbod.habibi.widget.FontTextView
+                    android:id="@+id/txtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/mainColor"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <!--card-1-->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:cardCornerRadius="@dimen/card_view_radius"
+                app:cardElevation="@dimen/card_view_elevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/linDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lineDetails"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layoutDirection="rtl"
+                        tools:targetApi="jelly_bean_mr1">
+
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="سرویس کار"
+                            android:textColor="@color/mainColor"
+                            android:textSize="16sp"
+                            tools:ignore="RtlHardcoded" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/expertise_icon"
+                            android:tint="@color/mainColor" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="vertical">
+
+                        <!--code-->
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:id="@+id/txtCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="right"
+                            android:textSize="13sp" />
+
+                        <!--mobile-->
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:id="@+id/txtMobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="right"
+                            android:textSize="13sp" />
+
+                        <!--expertise-->
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:id="@+id/txtExpertise"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="right"
+                            android:textSize="13sp" />
+
+                        <!--experience-->
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:id="@+id/txtExperience"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="right"
+                            android:textSize="13sp" />
+
+                        <!--description-->
+                        <ir.rahbod.habibi.widget.FontTextView
+                            android:id="@+id/txtDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="right"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!--card-1-->
+            <!--<android.support.v7.widget.CardView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="16dp"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--app:cardCornerRadius="@dimen/card_view_radius"-->
+            <!--app:cardElevation="@dimen/card_view_elevation">-->
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<LinearLayout-->
+            <!--android:id="@+id/linAvatarRepairMan"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:paddingTop="10dp">-->
+
+            <!--&lt;!&ndash;code&ndash;&gt;-->
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingLeft="@dimen/_10"-->
+            <!--android:paddingRight="@dimen/_10"-->
+            <!--android:weightSum="5">-->
+
+            <!--<ir.rahbod.habibi.widget.FontTextView-->
+            <!--android:id="@+id/txtCode"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="3"-->
+            <!--android:gravity="right"-->
+            <!--android:textColor="@color/mainColor"-->
+            <!--android:textSize="13sp" />-->
+
+            <!--<ir.rahbod.habibi.widget.FontTextViewBold-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="2"-->
+            <!--android:gravity="right"-->
+            <!--android:text="کد:"-->
+            <!--android:textColor="@color/mainColor"-->
+            <!--android:textSize="13sp" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--&lt;!&ndash;mobile&ndash;&gt;-->
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingLeft="@dimen/_10"-->
+            <!--android:paddingRight="@dimen/_10"-->
+            <!--android:weightSum="5">-->
+
+            <!--<ir.rahbod.habibi.widget.FontTextView-->
+            <!--android:id="@+id/txtMobile"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="3"-->
+            <!--android:gravity="right"-->
+            <!--android:textColor="@color/mainColor"-->
+            <!--android:textSize="13sp" />-->
+
+            <!--<ir.rahbod.habibi.widget.FontTextViewBold-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="2"-->
+            <!--android:gravity="right"-->
+            <!--android:text="شماره تماس:"-->
+            <!--android:textColor="@color/mainColor"-->
+            <!--android:textSize="13sp" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--&lt;!&ndash;expertise&ndash;&gt;-->
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingLeft="@dimen/_10"-->
+            <!--android:paddingRight="@dimen/_10"-->
+            <!--android:weightSum="5">-->
+
+            <!--<ir.rahbod.habibi.widget.FontTextView-->
+            <!--android:id="@+id/txtExpertise"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="3"-->
+            <!--android:gravity="right"-->
+            <!--android:textColor="@color/mainColor"-->
+            <!--android:textSize="13sp" />-->
+
+            <!--<ir.rahbod.habibi.widget.FontTextViewBold-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="2"-->
+            <!--android:gravity="right"-->
+            <!--android:text="تخصص:"-->
+            <!--android:textColor="@color/mainColor"-->
+            <!--android:textSize="13sp" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--&lt;!&ndash;experience&ndash;&gt;-->
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingLeft="@dimen/_10"-->
+            <!--android:paddingRight="@dimen/_10"-->
+            <!--android:weightSum="5">-->
+
+            <!--<ir.rahbod.habibi.widget.FontTextView-->
+            <!--android:id="@+id/txtExperience"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="3"-->
+            <!--android:gravity="right"-->
+            <!--android:textColor="@color/mainColor"-->
+            <!--android:textSize="13sp" />-->
+
+            <!--<ir.rahbod.habibi.widget.FontTextViewBold-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="2"-->
+            <!--android:gravity="right"-->
+            <!--android:text="تجربه:"-->
+            <!--android:textColor="@color/mainColor"-->
+            <!--android:textSize="13sp" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--&lt;!&ndash;description&ndash;&gt;-->
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingLeft="@dimen/_10"-->
+            <!--android:paddingRight="@dimen/_10"-->
+            <!--android:weightSum="5">-->
+
+            <!--<ir.rahbod.habibi.widget.FontTextView-->
+            <!--android:id="@+id/txtDescription"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="3"-->
+            <!--android:gravity="right"-->
+            <!--android:textColor="@color/mainColor"-->
+            <!--android:textSize="13sp" />-->
+
+            <!--<ir.rahbod.habibi.widget.FontTextViewBold-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="2"-->
+            <!--android:gravity="right"-->
+            <!--android:text="توضیحات:"-->
+            <!--android:textColor="@color/mainColor"-->
+            <!--android:textSize="13sp" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--</LinearLayout>-->
+
+            <!--</LinearLayout>-->
+
+            <!--</android.support.v7.widget.CardView>-->
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

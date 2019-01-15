@@ -6,18 +6,40 @@ public class Address {
     private boolean checked = false;
 
     @SerializedName("id")
-    public int id;
+    private int id;
     @SerializedName("telephone")
-    public String telephone;
+    private String telephone;
     @SerializedName("address")
-    public String address;
+    private String address;
+    @SerializedName("map_lat")
+    private double lat;
+    @SerializedName("map_lng")
+    private double lng;
+    @SerializedName("map_zoom")
+    private double zoom;
 
-
-    public Address(String address) {
-        this.address = address;
+    public boolean isChecked() {
+        return checked;
     }
 
-    public Address() {
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     public String getAddress() {
@@ -28,11 +50,27 @@ public class Address {
         this.address = address;
     }
 
-    public boolean getChecked() {
-        return checked;
+    public double getLat() {
+        return lat;
     }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(double map_zoom) {
+        this.zoom = map_zoom;
     }
 }

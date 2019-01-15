@@ -61,7 +61,7 @@ public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequest
                 @Override
                 public void onClick(View view) {
                     lastPosition = getAdapterPosition();
-                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address_ID, list.get(getAdapterPosition()).id);
+                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address_ID, list.get(getAdapterPosition()).getId());
                     SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address, txt.getText().toString());
                     notifyDataSetChanged();
                 }
@@ -71,7 +71,7 @@ public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequest
                 @Override
                 public void onClick(View view) {
                     lastPosition = getAdapterPosition();
-                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address_ID, list.get(getAdapterPosition()).id);
+                    SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address_ID, list.get(getAdapterPosition()).getId());
                     SessionManager.getExtrasPref(context).putExtra(PutKey.SERVICE_Address, txt.getText().toString());
                     notifyDataSetChanged();
                 }

@@ -54,6 +54,8 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
     private ApiClient apiClient;
     private TextView txtEmpty;
     public static Activity there;
+    private static final int MAP_RESULT = 20001;
+    private double lat = 0, lng = 0, zoom = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +137,6 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
                     etAddress.setError("لطفا آدرس خود را وارد کنید");
                 else {
                     etAddress.setError(null);
-                    etPhone.setError(null);
                     addAddress(etAddress, etPhone);
                 }
                 break;
@@ -162,20 +163,45 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
         dialog.setCancelable(false);
         etAddress = dialogView.findViewById(R.id.etGetAddress);
         etPhone = dialogView.findViewById(R.id.etGetTelephone);
+        TextView btnMap = dialogView.findViewById(R.id.btnMap);
         Button btnOk = dialogView.findViewById(R.id.btnAdd);
         Button btnCancel = dialogView.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RequestStepThereActivity.this, MapActivity.class);
+                startActivityForResult(intent, MAP_RESULT);
+            }
+        });
         dialog.getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == MAP_RESULT) {
+            if (resultCode == Activity.RESULT_OK) {
+                lat = data.getDoubleExtra(PutKey.LAT, 0);
+                lng = data.getDoubleExtra(PutKey.LNG, 0);
+                zoom = data.getDoubleExtra(PutKey.ZOOM, 0);
+            }
+        }
     }
 
     private void addAddress(EditText etAddress, EditText etPhone) {
         btnAddAddress.setEnabled(false);
         MyDialog.show(this);
         Address address = new Address();
-        address.address = etAddress.getText().toString();
-        address.telephone = etPhone.getText().toString();
+        address.setAddress(etAddress.getText().toString());
+        address.setTelephone(etPhone.getText().toString());
+        if (lat != 0) {
+            address.setLat(lat);
+            address.setLng(lng);
+            address.setZoom(zoom);
+        }
         call.addAddress(address).enqueue(new Callback<AddressList>() {
             @Override
             public void onResponse(Call<AddressList> call, Response<AddressList> response) {

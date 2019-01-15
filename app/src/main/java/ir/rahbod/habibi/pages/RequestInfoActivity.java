@@ -1,6 +1,7 @@
 package ir.rahbod.habibi.pages;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -42,6 +43,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
     private CardView card2, card3, card4;
     public static Activity requestInfo;
     private ImageView btnBack, avatar;
+    private String repairManID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
 
                     //repairMan
                     if (response.body().repairMan != null) {
+                        repairManID = response.body().repairMan.code;
                         linAvatarRepairMan.setVisibility(View.VISIBLE);
                         linRepairMan.setVisibility(View.VISIBLE);
                         strRepairMan = response.body().repairMan.name;
@@ -235,5 +238,11 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                 onBackPressed();
                 break;
         }
+    }
+
+    public void repairMan(View view) {
+        Intent intent = new Intent(this, RepairManInfoActivity.class);
+        intent.putExtra(PutKey.REPAIR_MAN_ID, repairManID);
+        startActivity(intent);
     }
 }

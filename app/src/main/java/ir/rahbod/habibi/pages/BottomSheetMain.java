@@ -61,7 +61,7 @@ public class BottomSheetMain extends BottomSheetDialogFragment {
                     MyDialog.dismiss();
                 }
                 else {
-                    getActivity().finish();
+                    bottomSheetMain.dismiss();
                     MyDialog.dismiss();
                     Toast.makeText(getActivity(), "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show();
                 }
@@ -69,7 +69,7 @@ public class BottomSheetMain extends BottomSheetDialogFragment {
 
             @Override
             public void onFailure(Call<SubService> call, Throwable t) {
-                getActivity().finish();
+                bottomSheetMain.dismiss();
                 MyDialog.dismiss();
                 Toast.makeText(getActivity(), "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show();
             }

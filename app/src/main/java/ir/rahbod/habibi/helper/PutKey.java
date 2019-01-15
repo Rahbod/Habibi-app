@@ -21,4 +21,8 @@ public class PutKey {
     public static final String REPAIR_MAN = "repairMan";
     public static final String SERVICE_STATUS = "status";
     public static final String PARENT_ID = "parentID";
+    public static final String REPAIR_MAN_ID = "repairManID";
+    public static final String LAT = "lat";
+    public static final String LNG = "lng";
+    public static final String ZOOM = "zoom";
 }
