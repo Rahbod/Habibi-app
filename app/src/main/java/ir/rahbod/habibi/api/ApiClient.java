@@ -28,7 +28,7 @@ public class ApiClient {
     private ApiService apiService;
     private static final String CLIENT_ID = "78750f0bea1bd9acd7ff1b07bc21c066";
     private static final String CLIENT_SECRET = "a74b4aa72bdfc21ec893fa86edd13384";
-    private static final String BASE_URL = "http://www.acharchii.com";
+    private static final String BASE_URL = "http://panel.acharchii.com";
 
     public ApiClient() {
         OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();

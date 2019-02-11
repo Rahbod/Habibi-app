@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 public class UserNameActivity extends AppCompatActivity implements View.OnClickListener, SnackView {
 
-    private EditText etGetName;
+    private EditText etGetName, etGEtReagent;
     private Button btnSave;
     private ApiClient apiClient;
     private ScrollView layout;
@@ -61,6 +61,7 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
 
     private void bind() {
         etGetName = findViewById(R.id.etGetName);
+        etGEtReagent = findViewById(R.id.etGetReagent);
         btnSave = findViewById(R.id.btnRegister);
         apiClient = new ApiClient();
         layout = findViewById(R.id.mainLayout);
@@ -85,30 +86,63 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
         UserName userName = new UserName();
         userName.name = (etGetName.getText().toString().trim());
         userName.regToken = token;
-        call.setName(userName).enqueue(new Callback<UserName>() {
-            @Override
-            public void onResponse(Call<UserName> call, Response<UserName> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(UserNameActivity.this, response.body().message, Toast.LENGTH_LONG).show();
-                    SessionManager.getExtrasPref(UserNameActivity.this).putExtra(PutKey.REGISTERED, true);
-                    Intent intent = new Intent(UserNameActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    MainActivity.mainActivity.finish();
-                    CheckCodeActivity.checkCode.finish();
-                    finish();
-                    btnSave.setEnabled(true);
-                } else {
+        if (!etGEtReagent.getText().toString().trim().isEmpty()) {
+            if (!etGEtReagent.getText().toString().trim().substring(0, 2).equals("AR")) {
+                Toast.makeText(this, "کد معرف صحیح نمی باشد", Toast.LENGTH_LONG).show();
+                MyDialog.dismiss();
+                btnSave.setEnabled(true);
+            }else {
+                userName.reagent = etGEtReagent.getText().toString().trim();
+                call.setName(userName).enqueue(new Callback<UserName>() {
+                    @Override
+                    public void onResponse(Call<UserName> call, Response<UserName> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(UserNameActivity.this, response.body().message, Toast.LENGTH_LONG).show();
+                            SessionManager.getExtrasPref(UserNameActivity.this).putExtra(PutKey.REGISTERED, true);
+                            Intent intent = new Intent(UserNameActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            MainActivity.mainActivity.finish();
+                            CheckCodeActivity.checkCode.finish();
+                            finish();
+                            btnSave.setEnabled(true);
+                        } else {
+                            MyDialog.dismiss();
+                            snackBar.snackShow(layout);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserName> call, Throwable t) {
+                        MyDialog.dismiss();
+                        snackBar.snackShow(layout);
+                    }
+                });
+            }
+        } else
+            call.setName(userName).enqueue(new Callback<UserName>() {
+                @Override
+                public void onResponse(Call<UserName> call, Response<UserName> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(UserNameActivity.this, response.body().message, Toast.LENGTH_LONG).show();
+                        SessionManager.getExtrasPref(UserNameActivity.this).putExtra(PutKey.REGISTERED, true);
+                        Intent intent = new Intent(UserNameActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        MainActivity.mainActivity.finish();
+                        CheckCodeActivity.checkCode.finish();
+                        finish();
+                        btnSave.setEnabled(true);
+                    } else {
+                        MyDialog.dismiss();
+                        snackBar.snackShow(layout);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserName> call, Throwable t) {
                     MyDialog.dismiss();
                     snackBar.snackShow(layout);
                 }
-            }
-
-            @Override
-            public void onFailure(Call<UserName> call, Throwable t) {
-                MyDialog.dismiss();
-                snackBar.snackShow(layout);
-            }
-        });
+            });
     }
 
     @Override

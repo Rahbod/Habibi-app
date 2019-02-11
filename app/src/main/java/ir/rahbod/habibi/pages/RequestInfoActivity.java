@@ -1,6 +1,7 @@
 package ir.rahbod.habibi.pages;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +9,9 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,14 +36,13 @@ import retrofit2.Response;
 public class RequestInfoActivity extends AppCompatActivity implements SnackView, View.OnClickListener {
 
     private TextView txtDevice, txtDate, txtTime, txtAddress, txtDescription, txtStatus, txtRepairManCode,
-            txtRepairMan, txtCost, txtInvoiceDescription, txtCostMode, txtTotalDiscount, txtCostDescription;
-    private String strDevice, strDate, strTime, strAddress, strDescription, strStatus, strRepairMan, strCost, strRepairManCode;
+            txtRepairMan, txtCost, txtSum, txtDiscount, txtDiscountPercent, txtFinalCost;
     private LinearLayout layout, linTitle2, linRepairMan, linAvatarRepairMan;
     private MySnackBar snackBar;
     private View lineStatus;
     private RecyclerView recyclerView;
     private AdapterFactor adapter;
-    private CardView card2, card3, card4;
+    private CardView card4;
     public static Activity requestInfo;
     private ImageView btnBack, avatar;
     private String repairManID;
@@ -73,18 +75,16 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         recyclerView = findViewById(R.id.recBill);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        card2 = findViewById(R.id.card_2);
-        card3 = findViewById(R.id.card_3);
         card4 = findViewById(R.id.card_4);
         txtCost = findViewById(R.id.txtCost);
         btnBack = findViewById(R.id.btnBack);
-        txtInvoiceDescription = findViewById(R.id.txtInvoiceDescription);
-        txtCostMode = findViewById(R.id.txtCostMode);
         avatar = findViewById(R.id.avatar);
-        txtTotalDiscount = findViewById(R.id.totalDiscount);
-        txtCostDescription = findViewById(R.id.txtCostDescription);
         linAvatarRepairMan = findViewById(R.id.linAvatarRepairMan);
         txtRepairManCode = findViewById(R.id.txtRepairManCode);
+        txtSum = findViewById(R.id.txtSum);
+        txtDiscount = findViewById(R.id.txtDiscount);
+        txtDiscountPercent = findViewById(R.id.txtDiscountPercent);
+        txtFinalCost = findViewById(R.id.txtFinalCost);
     }
 
     private void sendRequest() {
@@ -97,57 +97,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             @Override
             public void onResponse(Call<RequestInfo> call, Response<RequestInfo> response) {
                 if (response.isSuccessful()) {
-                    //info
-                    strDevice = response.body().deviceTitle;
-                    strDate = response.body().requestedDate;
-                    strTime = response.body().requestedTime;
-                    strAddress = response.body().address;
-                    strDescription = response.body().description;
-                    strStatus = response.body().status;
-
-                    //repairMan
-                    if (response.body().repairMan != null) {
-                        repairManID = response.body().repairMan.code;
-                        linAvatarRepairMan.setVisibility(View.VISIBLE);
-                        linRepairMan.setVisibility(View.VISIBLE);
-                        strRepairMan = response.body().repairMan.name;
-                        strRepairManCode = response.body().repairMan.code;
-                        if (response.body().repairMan.avatar.equals(""))
-                            Picasso.with(RequestInfoActivity.this).load(R.drawable.expertise_icon).transform(new CircleTransform()).into(avatar);
-                        else
-                            Picasso.with(RequestInfoActivity.this).load(response.body().repairMan.avatar).transform(new CircleTransform()).into(avatar);
-                    }
-
-                    //invoice
-                    if (response.body().invoice != null) {
-                        adapter = new AdapterFactor(RequestInfoActivity.this, response.body().invoice.factors);
-                        recyclerView.setAdapter(adapter);
-                        strCost = response.body().invoice.cost;
-                        txtCostDescription.setText(response.body().invoice.additionalCost);
-                        if (response.body().invoice.totalDiscont.equals("0"))
-                            card3.setVisibility(View.GONE);
-                        if (response.body().invoice.additionalCost.equals("0")) {
-                            card2.setVisibility(View.GONE);
-                        }
-                        if (!response.body().invoice.totalDiscont.equals("0"))
-                            txtTotalDiscount.setText(response.body().invoice.totalDiscont);
-                        if (!response.body().invoice.description.isEmpty()) {
-                            txtInvoiceDescription.setText(response.body().invoice.description);
-                        }
-                        if (response.body().invoice.paymentMethod.equals("cash"))
-                            txtCostMode.setText("روش پرداخت: نقدی");
-                        else
-                            txtCostMode.setText("روش پرداخت: کارت خوان");
-                    } else {
-                        linTitle2.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.GONE);
-                        card4.setVisibility(View.GONE);
-                        card2.setVisibility(View.GONE);
-                        card3.setVisibility(View.GONE);
-                    }
-
-                    //setValue
-                    setValue();
+                    setValue(response.body());
                 } else {
                     snackBar.snackShow(layout);
                     MyDialog.dismiss();
@@ -162,11 +112,35 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         });
     }
 
-    private void setValue() {
-        txtDevice.setText(strDevice);
-        txtDate.setText(strDate);
-        txtAddress.setText(strAddress);
-        switch (strStatus) {
+    private void setValue(RequestInfo info) {
+        //repairMan
+        if (info.repairMan != null) {
+            repairManID = info.repairMan.code;
+            linAvatarRepairMan.setVisibility(View.VISIBLE);
+            linRepairMan.setVisibility(View.VISIBLE);
+            if (info.repairMan.avatar.equals(""))
+                Picasso.with(RequestInfoActivity.this).load(R.drawable.expertise_icon).transform(new CircleTransform()).into(avatar);
+            else
+                Picasso.with(RequestInfoActivity.this).load(info.repairMan.avatar).transform(new CircleTransform()).into(avatar);
+        }
+
+        //invoice
+        if (info.invoice != null) {
+            adapter = new AdapterFactor(RequestInfoActivity.this, info.invoice.factors);
+            recyclerView.setAdapter(adapter);
+        } else {
+            linTitle2.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+            card4.setVisibility(View.GONE);
+        }
+        txtSum.setText(info.invoice.sum);
+        txtDiscount.setText(info.invoice.discount);
+        txtDiscountPercent.setText(info.invoice.discountPercent);
+        txtFinalCost.setText(info.invoice.finalCost);
+        txtDevice.setText(info.deviceTitle);
+        txtDate.setText(info.requestedDate);
+        txtAddress.setText(info.requestedTime);
+        switch (info.status) {
             case "7":
             case "6":
                 txtStatus.setText("پرداخت شده");
@@ -191,12 +165,12 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                 txtStatus.setTextColor(getResources().getColor(R.color.secondColor));
                 break;
         }
-        if (strDescription.isEmpty())
+        if (info.description.isEmpty())
             txtDescription.setText("شما هیچ توضیحاتی وارد نکرده اید");
         else
-            txtDescription.setText(strDescription);
+            txtDescription.setText(info.description);
 
-        switch (strTime) {
+        switch (info.requestedTime) {
             case "am":
                 txtTime.setText("صبح (ساعت 8 الی 12)");
                 break;
@@ -207,16 +181,16 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                 txtTime.setText("شب (ساعت 18 الی 22)");
                 break;
         }
-        if (strRepairMan == null) {
+        if (info.repairMan.name == null) {
             linRepairMan.setVisibility(View.GONE);
             txtRepairMan.setVisibility(View.GONE);
             lineStatus.setVisibility(View.GONE);
         } else {
-            txtRepairMan.setText(strRepairMan);
-            txtRepairManCode.setText("کد: " + strRepairManCode);
+            txtRepairMan.setText(info.repairMan.name);
+            txtRepairManCode.setText("کد: " + info.repairMan.code);
         }
-        if (strCost != null)
-            txtCost.setText(strCost);
+        if (info.invoice.cost != null)
+            txtCost.setText(info.invoice.cost);
         MyDialog.dismiss();
     }
 
@@ -229,6 +203,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
     protected void onResume() {
         super.onResume();
         sendRequest();
+        showComment();
     }
 
     @Override
@@ -244,5 +219,25 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         Intent intent = new Intent(this, RepairManInfoActivity.class);
         intent.putExtra(PutKey.REPAIR_MAN_ID, repairManID);
         startActivity(intent);
+    }
+
+    public void showRate(RequestInfo info){
+        Dialog dialog = new Dialog(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.rate_dialog, null);
+        ImageView imgAvatar = view.findViewById(R.id.imgAvatar);
+        TextView txtName = view.findViewById(R.id.txtName);
+        Picasso.with(this).load(info.repairMan.avatar).transform(new CircleTransform()).into(imgAvatar);
+        txtName.setText(info.repairMan.name);
+        dialog.setContentView(view);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+    }
+
+    public void showComment(){
+        Dialog dialog = new Dialog(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.comment_dialog, null);
+        dialog.setContentView(view);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
     }
 }

@@ -19,4 +19,12 @@ public class Invoice {
     public String totalDiscont;
     @SerializedName("tariffs")
     public List<Factor> factors;
+    @SerializedName("sum")
+    public String sum;
+    @SerializedName("finalCost")
+    public String finalCost;
+    @SerializedName("discount")
+    public String discount;
+    @SerializedName("discountPercent")
+    public String discountPercent;
 }

@@ -33,6 +33,10 @@ public class AdapterFactor extends RecyclerView.Adapter<AdapterFactor.listViewHo
     public void onBindViewHolder(listViewHolder holder, int position) {
         holder.title.setText(list.get(position).title);
         holder.cost.setText(list.get(position).cost);
+        if (position == list.size() - 1) {
+            holder.title.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            holder.cost.setTextColor(context.getResources().getColor(R.color.colorAccent));
+        }
     }
 
     @Override

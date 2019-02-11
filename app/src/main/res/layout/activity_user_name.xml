@@ -50,7 +50,7 @@
             android:layout_marginBottom="40dp"
             android:layout_marginLeft="70dp"
             android:layout_marginRight="70dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             android:orientation="vertical">
 
             <ir.rahbod.habibi.widget.FontTextView
@@ -75,6 +75,22 @@
                 android:textSize="14sp"
                 tools:ignore="RtlHardcoded" />
 
+            <ir.rahbod.habibi.widget.EditTextFont
+                android:id="@+id/etGetReagent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:drawableLeft="@drawable/hand_shake"
+                android:gravity="right"
+                android:hint="کد معرف خود راوارد کنید (اختیاری)"
+                android:layout_marginTop="20dp"
+                android:maxLength="50"
+                android:singleLine="true"
+                android:textColor="@color/mainColor"
+                android:textCursorDrawable="@color/mainColor"
+                android:textSize="14sp"
+                tools:ignore="RtlHardcoded" />
+
             <ir.rahbod.habibi.widget.ButtonFont
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
@@ -82,7 +98,7 @@
                 android:layout_marginBottom="3dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/background_gradient"
                 android:text="ثبت نام"
                 android:textColor="#fff" />

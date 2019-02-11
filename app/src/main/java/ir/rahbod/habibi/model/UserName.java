@@ -9,4 +9,6 @@ public class UserName {
     public String message;
     @SerializedName("token")
     public String regToken;
+    @SerializedName("reagent")
+    public String reagent;
 }
