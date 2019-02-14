@@ -8,6 +8,7 @@ import ir.rahbod.habibi.model.CheckCode;
 import ir.rahbod.habibi.model.Cooperation;
 import ir.rahbod.habibi.model.DevicesList;
 import ir.rahbod.habibi.model.ItemRequest;
+import ir.rahbod.habibi.model.Payment;
 import ir.rahbod.habibi.model.Register;
 import ir.rahbod.habibi.model.RepairManInfo;
 import ir.rahbod.habibi.model.Request;
@@ -67,4 +68,7 @@ public interface ApiService {
 
     @GET("api/repairman/{code}")
     Call<RepairManInfo> getRepairManInfo(@Path("code") String code);
+
+    @POST("api/setPaymentMethod")
+    Call<Payment> paymentInvoice(@Body Payment payment);
 }

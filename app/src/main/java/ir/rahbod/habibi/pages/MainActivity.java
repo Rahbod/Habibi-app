@@ -258,9 +258,10 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
 
     public void menuItem(View view) {
         switch (view.getId()) {
-//            case R.id.home:
-//                drawer.closeDrawer(Gravity.RIGHT);
-//                break;
+            case R.id.collaboration:
+                startActivity(new Intent(this, IntroductionActivity.class));
+                closeDrawer();
+                break;
 //            case R.id.transaction:
 //                startActivity(new Intent(this, TransactionListActivity.class));
 //                closeDrawer();

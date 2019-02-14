@@ -28,6 +28,7 @@ import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
 import ir.rahbod.habibi.helper.snackBar.SnackView;
 import ir.rahbod.habibi.model.UserName;
+import ir.rahbod.habibi.notification.Config;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,7 +47,7 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_name);
         bind();
-
+        Log.e("qqqq", "onCreate: " );
         btnSave.setOnClickListener(this);
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -98,6 +99,7 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
                     public void onResponse(Call<UserName> call, Response<UserName> response) {
                         if (response.isSuccessful()) {
                             Toast.makeText(UserNameActivity.this, response.body().message, Toast.LENGTH_LONG).show();
+                            SessionManager.getExtrasPref(UserNameActivity.this).putExtra(PutKey.REAGENT_CODE, response.body().reagentCode);
                             SessionManager.getExtrasPref(UserNameActivity.this).putExtra(PutKey.REGISTERED, true);
                             Intent intent = new Intent(UserNameActivity.this, MainActivity.class);
                             startActivity(intent);
@@ -125,6 +127,7 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
                     if (response.isSuccessful()) {
                         Toast.makeText(UserNameActivity.this, response.body().message, Toast.LENGTH_LONG).show();
                         SessionManager.getExtrasPref(UserNameActivity.this).putExtra(PutKey.REGISTERED, true);
+                        SessionManager.getExtrasPref(UserNameActivity.this).putExtra(PutKey.REAGENT_CODE, response.body().reagentCode);
                         Intent intent = new Intent(UserNameActivity.this, MainActivity.class);
                         startActivity(intent);
                         MainActivity.mainActivity.finish();

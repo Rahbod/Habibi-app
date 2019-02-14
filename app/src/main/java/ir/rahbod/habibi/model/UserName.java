@@ -11,4 +11,6 @@ public class UserName {
     public String regToken;
     @SerializedName("reagent")
     public String reagent;
+    @SerializedName("reagentCode")
+    public String reagentCode;
 }

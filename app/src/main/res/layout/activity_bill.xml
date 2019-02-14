@@ -486,6 +486,8 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="25dp"
+                android:animateLayoutChanges="true"
                 app:cardCornerRadius="@dimen/card_view_radius"
                 app:cardElevation="@dimen/card_view_elevation">
 
@@ -544,18 +546,18 @@
                                 android:layout_weight="1" />
 
                             <ir.rahbod.habibi.widget.FontTextView
-                                android:id="@+id/txtDiscount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:textColor="@color/mainColor" />
-
-                            <ir.rahbod.habibi.widget.FontTextView
                                 android:id="@+id/txtDiscountPercent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/mainColor"
                                 android:textSize="12sp" />
+
+                            <ir.rahbod.habibi.widget.FontTextView
+                                android:id="@+id/txtDiscount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:textColor="@color/mainColor" />
 
                         </LinearLayout>
 
@@ -608,6 +610,7 @@
                     </LinearLayout>
 
                     <android.support.v7.widget.CardView
+                        android:id="@+id/cardPayment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
@@ -623,10 +626,12 @@
                             android:layout_height="wrap_content">
 
                             <ir.rahbod.habibi.widget.FontTextView
+                                android:id="@+id/payCash"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@color/colorAccent"
+                                android:foreground="?attr/selectableItemBackgroundBorderless"
                                 android:gravity="center"
                                 android:paddingBottom="10dp"
                                 android:paddingTop="10dp"
@@ -639,10 +644,12 @@
                                 android:layout_height="match_parent" />
 
                             <ir.rahbod.habibi.widget.FontTextView
+                                android:id="@+id/payPos"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@color/colorAccent"
+                                android:foreground="?attr/selectableItemBackgroundBorderless"
                                 android:gravity="center"
                                 android:paddingBottom="10dp"
                                 android:paddingTop="10dp"
@@ -658,7 +665,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@color/colorAccent"
+                                android:background="@color/gray2"
                                 android:gravity="center"
                                 android:paddingBottom="10dp"
                                 android:paddingTop="10dp"

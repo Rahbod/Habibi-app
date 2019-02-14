@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -27,7 +28,9 @@ import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
 import ir.rahbod.habibi.helper.snackBar.SnackView;
+import ir.rahbod.habibi.model.Invoice;
 import ir.rahbod.habibi.model.ItemRequest;
+import ir.rahbod.habibi.model.Payment;
 import ir.rahbod.habibi.model.RequestInfo;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,10 +45,14 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
     private View lineStatus;
     private RecyclerView recyclerView;
     private AdapterFactor adapter;
-    private CardView card4;
+    private CardView card4, cardPayment;
     public static Activity requestInfo;
     private ImageView btnBack, avatar;
     private String repairManID;
+    private TextView payCard, payPos;
+    private Invoice invoice;
+    private boolean payment, getOrder;
+    private String paymentMethod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,8 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         requestInfo = this;
         bind();
         btnBack.setOnClickListener(this);
+        payCard.setOnClickListener(this);
+        payPos.setOnClickListener(this);
     }
 
     private void bind() {
@@ -85,6 +94,9 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         txtDiscount = findViewById(R.id.txtDiscount);
         txtDiscountPercent = findViewById(R.id.txtDiscountPercent);
         txtFinalCost = findViewById(R.id.txtFinalCost);
+        payCard = findViewById(R.id.payCash);
+        payPos = findViewById(R.id.payPos);
+        cardPayment = findViewById(R.id.cardPayment);
     }
 
     private void sendRequest() {
@@ -97,8 +109,10 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             @Override
             public void onResponse(Call<RequestInfo> call, Response<RequestInfo> response) {
                 if (response.isSuccessful()) {
+                    invoice = response.body().invoice;
                     setValue(response.body());
                 } else {
+                    getOrder = true;
                     snackBar.snackShow(layout);
                     MyDialog.dismiss();
                 }
@@ -106,6 +120,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
 
             @Override
             public void onFailure(Call<RequestInfo> call, Throwable t) {
+                getOrder = true;
                 MyDialog.dismiss();
                 snackBar.snackShow(layout);
             }
@@ -128,15 +143,16 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         if (info.invoice != null) {
             adapter = new AdapterFactor(RequestInfoActivity.this, info.invoice.factors);
             recyclerView.setAdapter(adapter);
+            txtSum.setText(info.invoice.sum);
+            txtDiscount.setText(info.invoice.discount);
+            if (!info.invoice.discount.equals("0"))
+                txtDiscountPercent.setText(info.invoice.discountPercent);
+            txtFinalCost.setText(info.invoice.finalCost);
         } else {
             linTitle2.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
             card4.setVisibility(View.GONE);
         }
-        txtSum.setText(info.invoice.sum);
-        txtDiscount.setText(info.invoice.discount);
-        txtDiscountPercent.setText(info.invoice.discountPercent);
-        txtFinalCost.setText(info.invoice.finalCost);
         txtDevice.setText(info.deviceTitle);
         txtDate.setText(info.requestedDate);
         txtAddress.setText(info.requestedTime);
@@ -145,6 +161,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             case "6":
                 txtStatus.setText("پرداخت شده");
                 txtStatus.setTextColor(getResources().getColor(R.color.green));
+                cardPayment.setVisibility(View.GONE);
                 break;
             case "5":
                 txtStatus.setText("در انتظار پرداخت");
@@ -189,21 +206,24 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             txtRepairMan.setText(info.repairMan.name);
             txtRepairManCode.setText("کد: " + info.repairMan.code);
         }
-        if (info.invoice.cost != null)
-            txtCost.setText(info.invoice.cost);
         MyDialog.dismiss();
     }
 
     @Override
     public void retry() {
-        sendRequest();
+        if (payment) {
+            paymentInvoice(paymentMethod);
+            payment = false;
+        } else if (getOrder) {
+            getOrder = false;
+            sendRequest();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         sendRequest();
-        showComment();
     }
 
     @Override
@@ -212,7 +232,41 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             case R.id.btnBack:
                 onBackPressed();
                 break;
+            case R.id.payCash:
+                paymentInvoice("cash");
+                break;
+            case R.id.payPos:
+                paymentInvoice("pos");
+                break;
         }
+    }
+
+    private void paymentInvoice(final String method) {
+        ApiClient apiClient = new ApiClient();
+        ApiService call = apiClient.getApi();
+        Payment pay = new Payment();
+        pay.id = invoice.id;
+        pay.method = method;
+        call.paymentInvoice(pay).enqueue(new Callback<Payment>() {
+            @Override
+            public void onResponse(Call<Payment> call, Response<Payment> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(RequestInfoActivity.this, response.body().message, Toast.LENGTH_LONG).show();
+                    cardPayment.setVisibility(View.GONE);
+                } else {
+                    payment = true;
+                    paymentMethod = method;
+                    snackBar.snackShow(layout);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Payment> call, Throwable t) {
+                payment = true;
+                paymentMethod = method;
+                snackBar.snackShow(layout);
+            }
+        });
     }
 
     public void repairMan(View view) {
@@ -221,7 +275,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         startActivity(intent);
     }
 
-    public void showRate(RequestInfo info){
+    public void showRate(RequestInfo info) {
         Dialog dialog = new Dialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.rate_dialog, null);
         ImageView imgAvatar = view.findViewById(R.id.imgAvatar);
@@ -229,15 +283,15 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         Picasso.with(this).load(info.repairMan.avatar).transform(new CircleTransform()).into(imgAvatar);
         txtName.setText(info.repairMan.name);
         dialog.setContentView(view);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
     }
 
-    public void showComment(){
+    public void showComment() {
         Dialog dialog = new Dialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.comment_dialog, null);
         dialog.setContentView(view);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
     }
 }

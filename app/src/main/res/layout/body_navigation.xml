@@ -4,73 +4,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--home-->
-    <!--<LinearLayout-->
-        <!--android:onClick="menuItem"-->
-        <!--android:id="@+id/home"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:clickable="true"-->
-        <!--android:focusable="true"-->
-        <!--android:foreground="?attr/selectableItemBackgroundBorderless"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:padding="@dimen/_10">-->
-
-        <!--<View-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:layout_weight="1" />-->
-
-        <!--<ir.rahbod.habibi.widget.FontTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="صفحه اصلی"-->
-            <!--android:textColor="@color/mainColor" />-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:padding="@dimen/_10"-->
-            <!--android:src="@drawable/home_icon" />-->
-
-    <!--</LinearLayout>-->
-
     <!--&lt;!&ndash;transaction&ndash;&gt;-->
     <!--<LinearLayout-->
-        <!--android:onClick="menuItem"-->
-        <!--android:id="@+id/transaction"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:clickable="true"-->
-        <!--android:focusable="true"-->
-        <!--android:foreground="?attr/selectableItemBackgroundBorderless"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:padding="@dimen/_10">-->
+    <!--android:onClick="menuItem"-->
+    <!--android:id="@+id/transaction"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:clickable="true"-->
+    <!--android:focusable="true"-->
+    <!--android:foreground="?attr/selectableItemBackgroundBorderless"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:padding="@dimen/_10">-->
 
-        <!--<View-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:layout_weight="1" />-->
+    <!--<View-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_weight="1" />-->
 
-        <!--<ir.rahbod.habibi.widget.FontTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="تراکنش ها"-->
-            <!--android:textColor="@color/mainColor" />-->
+    <!--<ir.rahbod.habibi.widget.FontTextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="تراکنش ها"-->
+    <!--android:textColor="@color/mainColor" />-->
 
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:padding="@dimen/_10"-->
-            <!--android:src="@drawable/transaction_icon" />-->
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="@dimen/_10"-->
+    <!--android:src="@drawable/transaction_icon" />-->
 
     <!--</LinearLayout>-->
 
     <!--cooperation-->
     <LinearLayout
-        android:onClick="menuItem"
         android:id="@+id/cooperation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,6 +45,7 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
+        android:onClick="menuItem"
         android:orientation="horizontal"
         android:padding="@dimen/_10">
 
@@ -96,13 +64,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/_10"
+            android:tint="@color/mainColor"
             android:src="@drawable/hand_shake" />
 
     </LinearLayout>
 
     <!-- requestList-->
     <LinearLayout
-        android:onClick="menuItem"
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -110,6 +78,7 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:gravity="center"
+        android:onClick="menuItem"
         android:orientation="horizontal"
         android:padding="@dimen/_10">
 
@@ -129,6 +98,39 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_10"
             android:src="@drawable/wrench_icon" />
+
+    </LinearLayout>
+
+    <!--home-->
+    <LinearLayout
+        android:id="@+id/collaboration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:onClick="menuItem"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="معرفی به دوستان"
+            android:textColor="@color/mainColor" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10"
+            android:src="@drawable/collaboration_menu"
+            android:tint="@color/mainColor" />
 
     </LinearLayout>
 

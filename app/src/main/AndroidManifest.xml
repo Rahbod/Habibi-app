@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -25,6 +24,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="allowBackup">
+        <activity android:name=".pages.IntroductionActivity"/>
         <activity
             android:name=".pages.MainActivity"
             android:windowSoftInputMode="stateHidden">
@@ -53,9 +53,7 @@
         <activity android:name=".pages.RepairManInfoActivity" />
         <activity
             android:name=".pages.CooperationRequestActivity"
-            android:windowSoftInputMode="stateHidden" />
-
-        <!-- services -->
+            android:windowSoftInputMode="stateHidden" /> <!-- services -->
         <service android:name=".notification.MyFireBaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -82,8 +80,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".pages.MapActivity"/>
+        <activity android:name=".pages.MapActivity" />
     </application>
 
 </manifest>
