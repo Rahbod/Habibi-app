@@ -3,6 +3,8 @@ package ir.rahbod.habibi.model;
 import com.google.gson.annotations.SerializedName;
 
 public class RequestInfo {
+    @SerializedName("id")
+    public int ID;
     @SerializedName("description")
     public String description;
     @SerializedName("requestedDate")
@@ -19,4 +21,6 @@ public class RequestInfo {
     public RepairMan repairMan;
     @SerializedName("invoice")
     public Invoice invoice;
+    @SerializedName("message")
+    public String message;
 }

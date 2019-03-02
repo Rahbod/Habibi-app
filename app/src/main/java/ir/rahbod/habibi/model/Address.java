@@ -17,6 +17,10 @@ public class Address {
     private double lng;
     @SerializedName("map_zoom")
     private double zoom;
+    @SerializedName("message")
+    private String message;
+    @SerializedName("status")
+    private boolean status;
 
     public boolean isChecked() {
         return checked;
@@ -72,5 +76,21 @@ public class Address {
 
     public void setZoom(double map_zoom) {
         this.zoom = map_zoom;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
