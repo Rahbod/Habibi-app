@@ -71,4 +71,13 @@ public interface ApiService {
 
     @POST("api/setPaymentMethod")
     Call<Payment> paymentInvoice(@Body Payment payment);
+
+    @POST("api/deleteAddress")
+    Call<Address> removeAddress(@Body Address address);
+
+    @POST("api/updateAddress")
+    Call<Address> editAddress(@Body Address address);
+
+    @POST("api/deleteAddress")
+    Call<RequestInfo> cancelRequest(@Body RequestInfo info);
 }

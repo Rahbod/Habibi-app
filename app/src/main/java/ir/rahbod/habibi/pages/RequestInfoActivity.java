@@ -45,7 +45,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
     private View lineStatus;
     private RecyclerView recyclerView;
     private AdapterFactor adapter;
-    private CardView card4, cardPayment;
+    private CardView card4, cardPayment, btnCancel;
     public static Activity requestInfo;
     private ImageView btnBack, avatar;
     private String repairManID;
@@ -53,6 +53,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
     private Invoice invoice;
     private boolean payment, getOrder;
     private String paymentMethod;
+    private int requestID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         btnBack.setOnClickListener(this);
         payCard.setOnClickListener(this);
         payPos.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
     }
 
     private void bind() {
@@ -97,6 +99,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         payCard = findViewById(R.id.payCash);
         payPos = findViewById(R.id.payPos);
         cardPayment = findViewById(R.id.cardPayment);
+        btnCancel = findViewById(R.id.btnCancel);
     }
 
     private void sendRequest() {
@@ -128,6 +131,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
     }
 
     private void setValue(RequestInfo info) {
+        requestID = info.ID;
         //repairMan
         if (info.repairMan != null) {
             repairManID = info.repairMan.code;
@@ -155,7 +159,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         }
         txtDevice.setText(info.deviceTitle);
         txtDate.setText(info.requestedDate);
-        txtAddress.setText(info.requestedTime);
+        txtAddress.setText(info.address);
         switch (info.status) {
             case "7":
             case "6":
@@ -171,11 +175,13 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             case "3":
                 txtStatus.setText("در صف سرویس");
                 txtStatus.setTextColor(getResources().getColor(R.color.blue));
+                btnCancel.setVisibility(View.VISIBLE);
                 break;
             case "2":
             case "1":
                 txtStatus.setText("در انتظار بررسی");
                 txtStatus.setTextColor(getResources().getColor(R.color.gray2));
+                btnCancel.setVisibility(View.VISIBLE);
                 break;
             case "-1":
                 txtStatus.setText("لغو شده");
@@ -198,7 +204,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                 txtTime.setText("شب (ساعت 18 الی 22)");
                 break;
         }
-        if (info.repairMan.name == null) {
+        if (info.repairMan == null) {
             linRepairMan.setVisibility(View.GONE);
             txtRepairMan.setVisibility(View.GONE);
             lineStatus.setVisibility(View.GONE);
@@ -238,7 +244,35 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             case R.id.payPos:
                 paymentInvoice("pos");
                 break;
+            case R.id.btnCancel:
+                cancelRequest();
         }
+    }
+
+    private void cancelRequest() {
+        ApiClient apiClient = new ApiClient();
+        ApiService call = apiClient.getApi();
+        RequestInfo requestInfo = new RequestInfo();
+        Toast.makeText(this, "" + requestID, Toast.LENGTH_SHORT).show();
+        requestInfo.ID = requestID;
+        call.cancelRequest(requestInfo).enqueue(new Callback<RequestInfo>() {
+            @Override
+            public void onResponse(Call<RequestInfo> call, Response<RequestInfo> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(RequestInfoActivity.this, "" + response.body().message, Toast.LENGTH_LONG).show();
+                    txtStatus.setText("لغو شده");
+                    txtStatus.setTextColor(getResources().getColor(R.color.secondColor));
+                    btnCancel.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(RequestInfoActivity.this, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RequestInfo> call, Throwable t) {
+                Toast.makeText(RequestInfoActivity.this, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void paymentInvoice(final String method) {

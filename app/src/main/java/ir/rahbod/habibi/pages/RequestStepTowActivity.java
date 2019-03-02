@@ -40,6 +40,7 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
     public static Activity tow;
     private boolean checkTime = false;
     private AdapterGetTime adapter;
+    private PersianCalendar mainCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,15 +97,15 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.date:
-                PersianCalendar calendar = new PersianCalendar();
+                mainCalendar = new PersianCalendar();
                 DatePickerDialog dialog = DatePickerDialog.newInstance(
                         RequestStepTowActivity.this
-                        , calendar.getPersianYear()
-                        , calendar.getPersianMonth()
-                        , calendar.getPersianDay());
-                mainDay = calendar.getPersianDay();
-                mainMonth = calendar.getPersianMonth();
-                mainYear = calendar.getPersianYear();
+                        , mainCalendar.getPersianYear()
+                        , mainCalendar.getPersianMonth()
+                        , mainCalendar.getPersianDay());
+                mainDay = mainCalendar.getPersianDay();
+                mainMonth = mainCalendar.getPersianMonth();
+                mainYear = mainCalendar.getPersianYear();
                 dialog.show(getFragmentManager(), "Datepickerdialog");
                 dialog.setThemeDark(false);
                 dialog.setCancelable(true);
@@ -136,7 +137,9 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        if (!checkDate(year, monthOfYear, dayOfMonth)) {
+        PersianCalendar calendar = new PersianCalendar();
+        calendar.setPersianDate(year, monthOfYear, dayOfMonth);
+        if (!mainCalendar.before(calendar)) {
             Toast.makeText(this, "تاریخ انتخاب شده صحیح نمی باشد", Toast.LENGTH_SHORT).show();
         } else if (("" + mainYear + mainMonth + mainDay).equals("" + year + monthOfYear + dayOfMonth)) {
             checkTime = true;
@@ -168,7 +171,10 @@ public class RequestStepTowActivity extends AppCompatActivity implements View.On
     }
 
     private boolean checkDate(int year, int monthOfYear, int dayOfMonth) {
-        return year >= mainYear && monthOfYear >= mainMonth && dayOfMonth >= mainDay;
+        if (year >= mainYear)
+            if (monthOfYear >= mainMonth)
+                return year >= mainYear && monthOfYear >= mainMonth && dayOfMonth >= mainDay;
+        return false;
     }
 
     @Override

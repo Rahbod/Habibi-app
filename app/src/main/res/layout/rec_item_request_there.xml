@@ -5,18 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
-    app:cardElevation="@dimen/card_view_elevation"
+    android:background="@drawable/radius_background"
     app:cardCornerRadius="@dimen/card_view_radius"
-    android:background="@drawable/radius_background">
+    app:cardElevation="@dimen/card_view_elevation">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:paddingBottom="15dp"
         android:paddingLeft="@dimen/_10"
+        android:paddingTop="15dp"
+        android:gravity="center"
         android:paddingRight="@dimen/_10"
-        android:paddingTop="15dp">
+        android:paddingBottom="15dp">
+
+        <ImageView
+            android:id="@+id/removeAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@drawable/close_icon"
+            android:tint="@color/secondColor" />
+
+        <ImageView
+            android:id="@+id/editAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@drawable/edit_icon"
+            android:tint="@color/mainColor" />
 
         <ir.rahbod.habibi.widget.FontTextView
             android:id="@+id/txt"

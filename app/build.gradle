@@ -30,7 +30,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -52,6 +59,7 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.cedarmaps:CedarMapsSDK:3.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

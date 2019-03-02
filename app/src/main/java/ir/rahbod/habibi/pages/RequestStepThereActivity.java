@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +57,7 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
     public static Activity there;
     private static final int MAP_RESULT = 20001;
     private double lat = 0, lng = 0, zoom = 0;
+    private int addressID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +108,12 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
                     addressList.addAll(response.body().list);
                     Collections.reverse(addressList);
                     AdapterRequestStepThere adapter = new AdapterRequestStepThere(
-                            RequestStepThereActivity.this, addressList);
+                            RequestStepThereActivity.this, addressList, txtEmpty, linTitle, new AdapterRequestStepThere.EditItemClickListener() {
+                        @Override
+                        public void editAddress(int ID, String address, String phone) {
+                            showDialog(ID, address, phone);
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                     MyDialog.dismiss();
                 } else {
@@ -127,13 +134,15 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAddAddress:
-                showDialog();
+                showDialog(-1, "", "");
                 break;
             case R.id.btnCancel:
                 dialog.dismiss();
                 break;
             case R.id.btnAdd:
-                if (etAddress.getText().toString().trim().isEmpty())
+                if (addressID != -1)
+                    editAddress(etAddress, etPhone);
+                else if (etAddress.getText().toString().trim().isEmpty())
                     etAddress.setError("لطفا آدرس خود را وارد کنید");
                 else {
                     etAddress.setError(null);
@@ -156,13 +165,19 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
         }
     }
 
-    private void showDialog() {
+    private void showDialog(int ID, String address, String phone) {
+        if (ID != -1)
+            addressID = ID;
         dialog = new Dialog(RequestStepThereActivity.this);
         View dialogView = LayoutInflater.from(RequestStepThereActivity.this).inflate(R.layout.dialog_request_3, null);
         dialog.setContentView(dialogView);
         dialog.setCancelable(false);
         etAddress = dialogView.findViewById(R.id.etGetAddress);
         etPhone = dialogView.findViewById(R.id.etGetTelephone);
+        if (!address.equals(""))
+            etAddress.setText(address);
+        if (!phone.equals(""))
+            etPhone.setText(phone);
         TextView btnMap = dialogView.findViewById(R.id.btnMap);
         Button btnOk = dialogView.findViewById(R.id.btnAdd);
         Button btnCancel = dialogView.findViewById(R.id.btnCancel);
@@ -189,6 +204,44 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
                 zoom = data.getDoubleExtra(PutKey.ZOOM, 0);
             }
         }
+    }
+
+    private void editAddress(EditText etAddress, EditText etPhone) {
+        btnAddAddress.setEnabled(false);
+        MyDialog.show(this);
+        Address address = new Address();
+        Toast.makeText(this, "" + addressID, Toast.LENGTH_SHORT).show();
+        address.setAddress(etAddress.getText().toString());
+        address.setTelephone(etPhone.getText().toString());
+        address.setId(addressID);
+        if (lat != 0) {
+            address.setLat(lat);
+            address.setLng(lng);
+            address.setZoom(zoom);
+        }
+        call.editAddress(address).enqueue(new Callback<Address>() {
+            @Override
+            public void onResponse(Call<Address> call, Response<Address> response) {
+                if (response.isSuccessful()) {
+                    dialog.dismiss();
+                    getAddress();
+                    btnAddAddress.setEnabled(true);
+                    Toast.makeText(RequestStepThereActivity.this, "" + response.body().getMessage(), Toast.LENGTH_LONG).show();
+                } else {
+                    try {
+                        apiClient.getError(response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Address> call, Throwable t) {
+                MyDialog.dismiss();
+                Toast.makeText(RequestStepThereActivity.this, "خطا در اتصال به شبکه، لطفا مجددا تلاش کنید", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void addAddress(EditText etAddress, EditText etPhone) {
@@ -233,7 +286,12 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
         addressList = new ArrayList<>();
         getAddress();
         AdapterRequestStepThere adapter = new AdapterRequestStepThere(
-                RequestStepThereActivity.this, addressList);
+                RequestStepThereActivity.this, addressList, txtEmpty, linTitle, new AdapterRequestStepThere.EditItemClickListener() {
+            @Override
+            public void editAddress(int ID, String address, String phone) {
+                showDialog(ID, address, phone);
+            }
+        });
         recyclerView.setAdapter(adapter);
         if (!SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_Address).isEmpty())
             SessionManager.getExtrasPref(this).remove(PutKey.SERVICE_Address);
