@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <com.cedarstudios.cedarmapssdk.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnOk"
+        mapbox:mapbox_cameraZoom="14" />
+
+    <ImageView
+        android:id="@+id/location"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/location_icon_map"
+        android:tint="@color/secondColor" />
+
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/showCurrentLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnOk"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_location"
+        tools:ignore="VectorDrawableCompat" />
+
+    <!--Button-->
+    <android.support.v7.widget.CardView
+        android:id="@+id/btnOk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="@dimen/card_view_elevation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/background_gradient_sharp"
+            android:gravity="center"
+            android:paddingLeft="35dp"
+            android:paddingTop="@dimen/_10"
+            android:paddingRight="35dp"
+            android:paddingBottom="@dimen/_10">
+
+            <ir.rahbod.habibi.widget.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-2dp"
+                android:text="ثبت آدرس"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

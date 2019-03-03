@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.NewMapActivity">
+    android:orientation="vertical">
 
-    <com.cedarstudios.cedarmapssdk.MapView
-        android:id="@+id/mapView"
+    <include
+        android:id="@+id/actionBar"
+        layout="@layout/actionbar_view" />
+
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:mapbox_cameraTargetLat="34.639568"
-        app:mapbox_cameraTargetLng="50.875765"
-        app:mapbox_cameraZoom="14" />
+        android:layout_below="@id/actionBar"
+        android:visibility="gone" />
 
-    <ImageView
-        android:id="@+id/myLocation"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        android:src="@drawable/ic_location"
-        android:tint="@color/secondColor" />
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

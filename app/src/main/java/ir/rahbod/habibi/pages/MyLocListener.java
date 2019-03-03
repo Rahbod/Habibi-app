@@ -34,7 +34,6 @@ class MyLocListener implements LocationListener {
             latLng.setLatitude(myLocation.getLatitude());
             latLng.setLongitude(myLocation.getLongitude());
         }
-        Log.e("qqqq", "getDeviceLocation: " + latLng.getLatitude() );
         return latLng;
     }
 }
