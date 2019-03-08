@@ -60,34 +60,20 @@ public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequest
     public void onBindViewHolder(final listViewHolder holder, final int position) {
         holder.txt.setText(list.get(position).getAddress());
         holder.radioButton.setChecked(lastPosition == position);
-        holder.remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("آیا مایل به حذف آدرس \"" + list.get(position).getAddress() + "\" هستید؟")
-                        .setCancelable(false)
-                        .setPositiveButton("بله", new DialogInterface.OnClickListener() {
-                            public void onClick(final DialogInterface dialog, final int id) {
-                                removeAddress(list.get(position).getId(), position);
-                            }
-                        })
-                        .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
-                            public void onClick(final DialogInterface dialog, final int id) {
-                                dialog.cancel();
-                            }
-                        });
-                final AlertDialog alert = builder.create();
-                alert.show();
-            }
+        holder.remove.setOnClickListener(v -> {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage("آیا مایل به حذف آدرس \"" + list.get(position).getAddress() + "\" هستید؟")
+                    .setCancelable(false)
+                    .setPositiveButton("بله", (dialog, id) -> removeAddress(list.get(position).getId(), position))
+                    .setNegativeButton("خیر", (dialog, id) -> dialog.cancel());
+            final AlertDialog alert = builder.create();
+            alert.show();
         });
-        holder.edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String telephone = "";
-                if (list.get(position).getTelephone() != null)
-                    telephone = list.get(position).getTelephone();
-                editAddress(list.get(position).getId(), list.get(position).getAddress(), telephone);
-            }
+        holder.edit.setOnClickListener(v -> {
+            String telephone = "";
+            if (list.get(position).getTelephone() != null)
+                telephone = list.get(position).getTelephone();
+            editAddress(list.get(position).getId(), list.get(position).getAddress(), telephone);
         });
     }
 
