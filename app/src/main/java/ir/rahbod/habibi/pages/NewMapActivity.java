@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ public class NewMapActivity extends AppCompatActivity {
     private ProgressBar loader;
     private FrameLayout frameLayout;
     private LinearLayout btnOk;
+    private ImageView btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,16 @@ public class NewMapActivity extends AppCompatActivity {
         loader = findViewById(R.id.loader);
         frameLayout = findViewById(R.id.content);
         btnOk = findViewById(R.id.btnOk);
+        btnBack = findViewById(R.id.btnBack);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                SessionManager.getExtrasPref(NewMapActivity.this).remove(PutKey.LAT);
+                SessionManager.getExtrasPref(NewMapActivity.this).remove(PutKey.LNG);
+            }
+        });
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,11 +55,6 @@ public class NewMapActivity extends AppCompatActivity {
                 if (SessionManager.getExtrasPref(NewMapActivity.this).getString(PutKey.LAT).isEmpty()){
                     Toast.makeText(NewMapActivity.this, "لطفا روی نقشه کلیک کنید", Toast.LENGTH_LONG).show();
                 }else {
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra(PutKey.LAT, SessionManager.getExtrasPref(NewMapActivity.this).getString(PutKey.LAT));
-                    returnIntent.putExtra(PutKey.LNG, SessionManager.getExtrasPref(NewMapActivity.this).getString(PutKey.LNG));
-                    returnIntent.putExtra(PutKey.ZOOM, 15);
-                    setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 }
             }
@@ -68,7 +75,12 @@ public class NewMapActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        SessionManager.getExtrasPref(this).remove(PutKey.LAT);
+        SessionManager.getExtrasPref(this).remove(PutKey.LNG);
+        super.onBackPressed();
     }
 }

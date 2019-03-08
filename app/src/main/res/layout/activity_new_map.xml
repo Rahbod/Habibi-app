@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/actionBar"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:layout_above="@id/btnOk"/>
 
     <LinearLayout
         android:id="@+id/btnOk"

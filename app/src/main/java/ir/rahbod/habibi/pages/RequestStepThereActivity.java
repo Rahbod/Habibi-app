@@ -190,7 +190,7 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RequestStepThereActivity.this, NewMapActivity.class);
-                startActivityForResult(intent, MAP_RESULT);
+                startActivity(intent);
             }
         });
         dialog.getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -217,7 +217,7 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RequestStepThereActivity.this, NewMapActivity.class);
-                startActivityForResult(intent, MAP_RESULT);
+                startActivity(intent);
             }
         });
         dialog.getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
