@@ -3,6 +3,7 @@ package ir.rahbod.habibi.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
@@ -20,14 +21,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.cedarstudios.cedarmapssdk.CedarMaps;
 import com.cedarstudios.cedarmapssdk.MapView;
-import com.cedarstudios.cedarmapssdk.listeners.ReverseGeocodeResultListener;
-import com.cedarstudios.cedarmapssdk.model.geocoder.reverse.ReverseGeocode;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineListener;
 import com.mapbox.android.core.location.LocationEnginePriority;
@@ -43,6 +40,8 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.controller.MyApp;
 import ir.rahbod.habibi.helper.Constants;
+import ir.rahbod.habibi.helper.PutKey;
+import ir.rahbod.habibi.helper.SessionManager;
 
 import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 
@@ -51,7 +50,6 @@ public class MapFragment extends Fragment implements LocationEngineListener {
     private MapView mMapView;
     private MapboxMap mMapboxMap;
     private LocationEngine mLocationEngine = null;
-    private ImageView location;
     private ProgressBar loader;
 
     @Override
@@ -66,7 +64,6 @@ public class MapFragment extends Fragment implements LocationEngineListener {
 
         mMapView = view.findViewById(R.id.mapView);
         loader = view.findViewById(R.id.loader);
-        location = view.findViewById(R.id.location);
 
         mMapView.onCreate(savedInstanceState);
 
@@ -77,7 +74,7 @@ public class MapFragment extends Fragment implements LocationEngineListener {
             mMapboxMap.setMinZoomPreference(6);
             mMapboxMap.setCameraPosition(
                     new CameraPosition.Builder()
-                            .target(Constants.VANAK_SQUARE)
+                            .target(Constants.QOM)
                             .zoom(15)
                             .build());
 
@@ -85,8 +82,8 @@ public class MapFragment extends Fragment implements LocationEngineListener {
                 enableLocationComponent();
             }
 
-            //Add marker to map
-            addMarkerToMapViewAtPosition(Constants.VANAK_SQUARE);
+//            //Add marker to map
+//            addMarkerToMapViewAtPosition(Constants.QOM);
 
             //Set a touch event listener on the map
             mMapboxMap.addOnMapClickListener(point -> {
@@ -96,37 +93,27 @@ public class MapFragment extends Fragment implements LocationEngineListener {
 
             setupCurrentLocationButton();
         });
-
-        mMapView.getMapAsync(mapboxMap -> {
-            mMapboxMap = mapboxMap;
-
-            mMapboxMap.setMaxZoomPreference(17);
-            mMapboxMap.setMinZoomPreference(6);
-
-            reverseGeocode(mapboxMap.getCameraPosition());
-            mMapboxMap.addOnCameraIdleListener(() -> reverseGeocode(mMapboxMap.getCameraPosition()));
-        });
     }
 
-    private void reverseGeocode(CameraPosition position) {
-        loader.setVisibility(View.VISIBLE);
-        location.setVisibility(View.GONE);
-        CedarMaps.getInstance().reverseGeocode(
-                position.target,
-                new ReverseGeocodeResultListener() {
-                    @Override
-                    public void onSuccess(@NonNull ReverseGeocode result) {
-                        Toast.makeText(MyApp.context, "" + result.getAddress(), Toast.LENGTH_SHORT).show();
-                        loader.setVisibility(View.GONE);
-                        location.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull String errorMessage) {
-
-                    }
-                });
-    }
+//    private void reverseGeocode(CameraPosition position) {
+//        loader.setVisibility(View.VISIBLE);
+//        location.setVisibility(View.GONE);
+//        CedarMaps.getInstance().reverseGeocode(
+//                position.target,
+//                new ReverseGeocodeResultListener() {
+//                    @Override
+//                    public void onSuccess(@NonNull ReverseGeocode result) {
+//                        Toast.makeText(MyApp.context, "" + result.getAddress(), Toast.LENGTH_SHORT).show();
+//                        loader.setVisibility(View.GONE);
+//                        location.setVisibility(View.VISIBLE);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(@NonNull String errorMessage) {
+//
+//                    }
+//                });
+//    }
 
     public boolean statusCheck() {
         int locationMode = 0;
@@ -155,6 +142,7 @@ public class MapFragment extends Fragment implements LocationEngineListener {
                 .setPositiveButton("بله", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        loader.setVisibility(View.VISIBLE);
                     }
                 })
                 .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
@@ -168,12 +156,17 @@ public class MapFragment extends Fragment implements LocationEngineListener {
 
     //Add a marker to the map
     private void addMarkerToMapViewAtPosition(LatLng coordinate) {
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(coordinate);
-        markerOptions.title("آدرس دقیق شما روی نقشه");
-//        if (mMapboxMap != null) {
-//            mMapboxMap.addMarker(new MarkerOptions().position(coordinate));
-//        }
+        mMapboxMap.addMarker(new MarkerOptions().position(coordinate));
+        SessionManager.getExtrasPref(MyApp.context).putExtra(PutKey.LAT, String.valueOf(coordinate.getLatitude()));
+        SessionManager.getExtrasPref(MyApp.context).putExtra(PutKey.LNG, String.valueOf(coordinate.getLongitude()));
+    }
+
+    public static int convertToPixels(Context context, int nDP)
+    {
+        final float conversionScale = context.getResources().getDisplayMetrics().density;
+
+        return (int) ((nDP * conversionScale) + 0.5f) ;
+
     }
 
     //Clear all markers on the map

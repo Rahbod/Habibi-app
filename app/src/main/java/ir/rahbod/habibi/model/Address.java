@@ -8,15 +8,15 @@ public class Address {
     @SerializedName("id")
     private int id;
     @SerializedName("telephone")
-    private String telephone;
+    private String telephone = "";
     @SerializedName("address")
     private String address;
     @SerializedName("map_lat")
-    private double lat;
+    private String lat;
     @SerializedName("map_lng")
-    private double lng;
+    private String lng;
     @SerializedName("map_zoom")
-    private double zoom;
+    private String zoom;
     @SerializedName("message")
     private String message;
     @SerializedName("status")
@@ -54,28 +54,28 @@ public class Address {
         this.address = address;
     }
 
-    public double getLat() {
+    public String getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    public void setLat(String lat) {
         this.lat = lat;
     }
 
-    public double getLng() {
+    public String getLng() {
         return lng;
     }
 
-    public void setLng(double lng) {
+    public void setLng(String lng) {
         this.lng = lng;
     }
 
-    public double getZoom() {
+    public String getZoom() {
         return zoom;
     }
 
-    public void setZoom(double map_zoom) {
-        this.zoom = map_zoom;
+    public void setZoom(String zoom) {
+        this.zoom = zoom;
     }
 
     public String getMessage() {

@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterFactor;
 import ir.rahbod.habibi.api.ApiClient;
@@ -184,6 +186,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
                 btnCancel.setVisibility(View.VISIBLE);
                 break;
             case "-1":
+            case "-2":
                 txtStatus.setText("لغو شده");
                 txtStatus.setTextColor(getResources().getColor(R.color.secondColor));
                 break;
@@ -253,7 +256,6 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         ApiClient apiClient = new ApiClient();
         ApiService call = apiClient.getApi();
         RequestInfo requestInfo = new RequestInfo();
-        Toast.makeText(this, "" + requestID, Toast.LENGTH_SHORT).show();
         requestInfo.ID = requestID;
         call.cancelRequest(requestInfo).enqueue(new Callback<RequestInfo>() {
             @Override

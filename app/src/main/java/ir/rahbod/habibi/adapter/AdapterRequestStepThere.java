@@ -1,6 +1,9 @@
 package ir.rahbod.habibi.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -60,13 +63,30 @@ public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequest
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeAddress(list.get(position).getId(), position);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("آیا مایل به حذف آدرس \"" + list.get(position).getAddress() + "\" هستید؟")
+                        .setCancelable(false)
+                        .setPositiveButton("بله", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                removeAddress(list.get(position).getId(), position);
+                            }
+                        })
+                        .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                dialog.cancel();
+                            }
+                        });
+                final AlertDialog alert = builder.create();
+                alert.show();
             }
         });
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editAddress(list.get(position).getId(), list.get(position).getAddress(), list.get(position).getTelephone());
+                String telephone = "";
+                if (list.get(position).getTelephone() != null)
+                    telephone = list.get(position).getTelephone();
+                editAddress(list.get(position).getId(), list.get(position).getAddress(), telephone);
             }
         });
     }

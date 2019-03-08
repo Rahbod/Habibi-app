@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -133,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
                     sendMessage();
             }
         });
+
         drawer = findViewById(R.id.drawer);
         //change back icon
         ImageView back = findViewById(R.id.btnBack);
@@ -148,6 +151,12 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
         });
 
         getDevicesList();
+
+        // set credit text
+        NavigationView navigation = findViewById(R.id.aboutNavView);
+        View header = navigation.getHeaderView(0);
+        TextView txtCredit = header.findViewById(R.id.txtCredit);
+        txtCredit.append(SessionManager.getExtrasPref(this).getString(PutKey.CREDIT_SHOW));
     }
 
     private void getDevicesList() {
@@ -159,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
             @Override
             public void onResponse(Call<DevicesList> call, Response<DevicesList> response) {
                 if (response.isSuccessful()) {
+                    SessionManager.getExtrasPref(MainActivity.this).putExtra(PutKey.CREDIT_SHOW, response.body().showCredit);
+                    SessionManager.getExtrasPref(MainActivity.this).putExtra(PutKey.CREDIT, response.body().credit);
                     recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, Utility.calculateNoOfColumns(MainActivity.this)));
                     AdapterMain adapter = new AdapterMain(MainActivity.this, response.body().list, Utility.calculateNoOfColumns(MainActivity.this));
                     recyclerView.setAdapter(adapter);

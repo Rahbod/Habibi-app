@@ -15,6 +15,29 @@
         android:layout_below="@id/actionBar"
         android:visibility="gone" />
 
+    <LinearLayout
+        android:id="@+id/btnOk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/background_gradient_sharp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:paddingLeft="35dp"
+        android:paddingTop="@dimen/_10"
+        android:paddingRight="35dp"
+        android:paddingBottom="@dimen/_10">
+
+        <ir.rahbod.habibi.widget.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-2dp"
+            android:text="ثبت آدرس"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/loader"
         android:layout_width="wrap_content"

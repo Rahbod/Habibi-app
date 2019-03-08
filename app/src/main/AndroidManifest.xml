@@ -25,17 +25,16 @@
         android:theme="@style/AppTheme"
         tools:replace="allowBackup">
         <activity android:name=".pages.NewMapActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".pages.IntroductionActivity" />
         <activity
             android:name=".pages.MainActivity"
             android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".pages.CheckCodeActivity"

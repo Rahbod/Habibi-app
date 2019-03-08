@@ -40,6 +40,7 @@ public class ApiClient {
                 builder.addHeader("Content-Type", "application/json");
                 if (SessionManager.getExtrasPref(MyApp.context).checkLogin() && !tokenIsExpired()) {
                     builder.addHeader("Authorization", "Bearer " + SessionManager.getExtrasPref(MyApp.context).getAccessToken());
+                    Log.e("qqqq", "intercept: " + "Bearer " + SessionManager.getExtrasPref(MyApp.context).getAccessToken() );
                 } else {
                     builder.addHeader("Authorization", getHeaders());
                 }

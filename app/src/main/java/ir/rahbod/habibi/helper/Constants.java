@@ -10,6 +10,6 @@ public class Constants {
     static final String CLIENT_ID = "YOUR_CLIENT_ID";
     static final String CLIENT_SECRET = "YOUR_CLIENT_SECRET";
 
-    public static final LatLng VANAK_SQUARE = new LatLng(34.639846, 50.875681);
+    public static final LatLng QOM = new LatLng(34.639846, 50.875681);
 
 }
