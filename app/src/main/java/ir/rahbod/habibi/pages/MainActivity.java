@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
     private MySnackBar snackBar;
     private ScrollView layout;
     private boolean showMain = false;
+    private TextView txtCredit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,12 +152,6 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
         });
 
         getDevicesList();
-
-        // set credit text
-        NavigationView navigation = findViewById(R.id.aboutNavView);
-        View header = navigation.getHeaderView(0);
-        TextView txtCredit = header.findViewById(R.id.txtCredit);
-        txtCredit.append(SessionManager.getExtrasPref(this).getString(PutKey.CREDIT_SHOW));
     }
 
     private void getDevicesList() {
@@ -168,6 +163,11 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
             @Override
             public void onResponse(Call<DevicesList> call, Response<DevicesList> response) {
                 if (response.isSuccessful()) {
+                    // set credit text
+                    NavigationView navigation = findViewById(R.id.aboutNavView);
+                    View header = navigation.getHeaderView(0);
+                    txtCredit = header.findViewById(R.id.txtCredit);
+                    txtCredit.append(response.body().showCredit);
                     SessionManager.getExtrasPref(MainActivity.this).putExtra(PutKey.CREDIT_SHOW, response.body().showCredit);
                     SessionManager.getExtrasPref(MainActivity.this).putExtra(PutKey.CREDIT, response.body().credit);
                     recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, Utility.calculateNoOfColumns(MainActivity.this)));

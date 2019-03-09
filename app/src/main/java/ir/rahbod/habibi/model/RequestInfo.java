@@ -23,4 +23,10 @@ public class RequestInfo {
     public Invoice invoice;
     @SerializedName("message")
     public String message;
+    @SerializedName("serviceDate")
+    public String serviceDate;
+    @SerializedName("serviceTime")
+    public String serviceTime;
+    @SerializedName("cancelable")
+    public boolean cancelable;
 }
