@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "1022876184345",
-    "firebase_url": "https://habibi-app.firebaseio.com",
-    "project_id": "habibi-app",
-    "storage_bucket": "habibi-app.appspot.com"
+    "project_number": "526479026135",
+    "firebase_url": "https://habibi-1644a.firebaseio.com",
+    "project_id": "habibi-1644a",
+    "storage_bucket": "habibi-1644a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1022876184345:android:eb69179fffe04c01",
+        "mobilesdk_app_id": "1:526479026135:android:eb69179fffe04c01",
         "android_client_info": {
           "package_name": "ir.rahbod.habibi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1022876184345-hrtkhbke90v6mlq59jrc9sjtqa92oruo.apps.googleusercontent.com",
+          "client_id": "526479026135-h27a06hu29r9c20a8itaksb6ov66fue9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBEoWBbiRyQbKGeP_aZproK1RP2On30-74"
+          "current_key": "AIzaSyCucYthF5gkH4PTs8N-0FQlCX4gN5eR1rs"
         }
       ],
       "services": {
