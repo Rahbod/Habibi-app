@@ -6,6 +6,7 @@ import ir.rahbod.habibi.model.AddressList;
 import ir.rahbod.habibi.model.Authorization;
 import ir.rahbod.habibi.model.CheckCode;
 import ir.rahbod.habibi.model.Cooperation;
+import ir.rahbod.habibi.model.DataAddress;
 import ir.rahbod.habibi.model.DevicesList;
 import ir.rahbod.habibi.model.ItemRequest;
 import ir.rahbod.habibi.model.Payment;
@@ -76,8 +77,8 @@ public interface ApiService {
     Call<Address> removeAddress(@Body Address address);
 
     @POST("api/updateAddress")
-    Call<Address> editAddress(@Body Address address);
+    Call<DataAddress> editAddress(@Body Address address);
 
-    @POST("api/deleteAddress")
+    @POST("api/cancelRequest")
     Call<RequestInfo> cancelRequest(@Body RequestInfo info);
 }

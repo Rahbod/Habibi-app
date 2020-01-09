@@ -27,4 +27,6 @@ public class PutKey {
     public static final String ZOOM = "zoom";
     public static final String REAGENT_CODE = "reagentCode";
     public static final String USER_ID = "userID";
+    public static final String CREDIT = "credit";
+    public static final String CREDIT_SHOW = "creditShow";
 }

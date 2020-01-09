@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterFactor;
 import ir.rahbod.habibi.api.ApiClient;
@@ -40,13 +42,13 @@ import retrofit2.Response;
 public class RequestInfoActivity extends AppCompatActivity implements SnackView, View.OnClickListener {
 
     private TextView txtDevice, txtDate, txtTime, txtAddress, txtDescription, txtStatus, txtRepairManCode,
-            txtRepairMan, txtCost, txtSum, txtDiscount, txtDiscountPercent, txtFinalCost;
-    private LinearLayout layout, linTitle2, linRepairMan, linAvatarRepairMan;
+            txtRepairMan, txtCost, txtSum, txtDiscount, txtDiscountPercent, txtFinalCost, txtDateAccepted, txtTimeAccepted;
+    private LinearLayout layout, linTitle2, linRepairMan, linAvatarRepairMan, linDateAccepted, linBtnPayment;
     private MySnackBar snackBar;
     private View lineStatus;
     private RecyclerView recyclerView;
     private AdapterFactor adapter;
-    private CardView card4, cardPayment, btnCancel;
+    private CardView card4, btnCancel;
     public static Activity requestInfo;
     private ImageView btnBack, avatar;
     private String repairManID;
@@ -99,8 +101,11 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         txtFinalCost = findViewById(R.id.txtFinalCost);
         payCard = findViewById(R.id.payCash);
         payPos = findViewById(R.id.payPos);
-        cardPayment = findViewById(R.id.cardPayment);
         btnCancel = findViewById(R.id.btnCancel);
+        txtDateAccepted = findViewById(R.id.txtDateAccepted);
+        txtTimeAccepted = findViewById(R.id.txtTimeAccepted);
+        linDateAccepted = findViewById(R.id.linDateAccepted);
+        linBtnPayment = findViewById(R.id.linBtnPayment);
     }
 
     private void sendRequest() {
@@ -132,12 +137,31 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
     }
 
     private void setValue(RequestInfo info) {
+        if (info.cancelable)
+            btnCancel.setVisibility(View.VISIBLE);
+        else
+            btnCancel.setVisibility(View.GONE);
         requestID = info.ID;
         //repairMan
         if (info.repairMan != null) {
+            linDateAccepted.setVisibility(View.VISIBLE);
+            txtDateAccepted.setText(info.serviceDate);
+            txtTimeAccepted.setText(info.serviceTime);
+            switch (info.serviceTime) {
+                case "am":
+                    txtTimeAccepted.setText("صبح (ساعت 8 الی 12)");
+                    break;
+                case "pm":
+                    txtTimeAccepted.setText("بعدازظهر (ساعت 12 الی 18)");
+                    break;
+                case "night":
+                    txtTimeAccepted.setText("شب (ساعت 18 الی 22)");
+                    break;
+            }
             repairManID = info.repairMan.code;
             linAvatarRepairMan.setVisibility(View.VISIBLE);
             linRepairMan.setVisibility(View.VISIBLE);
+
             if (info.repairMan.avatar.equals(""))
                 Picasso.with(RequestInfoActivity.this).load(R.drawable.expertise_icon).transform(new CircleTransform()).into(avatar);
             else
@@ -166,7 +190,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             case "6":
                 txtStatus.setText("پرداخت شده");
                 txtStatus.setTextColor(getResources().getColor(R.color.green));
-                cardPayment.setVisibility(View.GONE);
+                linBtnPayment.setVisibility(View.GONE);
                 break;
             case "5":
                 txtStatus.setText("در انتظار پرداخت");
@@ -176,15 +200,14 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             case "3":
                 txtStatus.setText("در صف سرویس");
                 txtStatus.setTextColor(getResources().getColor(R.color.blue));
-                btnCancel.setVisibility(View.VISIBLE);
                 break;
             case "2":
             case "1":
                 txtStatus.setText("در انتظار بررسی");
                 txtStatus.setTextColor(getResources().getColor(R.color.gray2));
-                btnCancel.setVisibility(View.VISIBLE);
                 break;
             case "-1":
+            case "-2":
                 txtStatus.setText("لغو شده");
                 txtStatus.setTextColor(getResources().getColor(R.color.secondColor));
                 break;
@@ -254,7 +277,6 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         ApiClient apiClient = new ApiClient();
         ApiService call = apiClient.getApi();
         RequestInfo requestInfo = new RequestInfo();
-        Toast.makeText(this, "" + requestID, Toast.LENGTH_SHORT).show();
         requestInfo.ID = requestID;
         call.cancelRequest(requestInfo).enqueue(new Callback<RequestInfo>() {
             @Override
@@ -287,7 +309,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
             public void onResponse(Call<Payment> call, Response<Payment> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(RequestInfoActivity.this, response.body().message, Toast.LENGTH_LONG).show();
-                    cardPayment.setVisibility(View.GONE);
+                    linBtnPayment.setVisibility(View.GONE);
                 } else {
                     payment = true;
                     paymentMethod = method;

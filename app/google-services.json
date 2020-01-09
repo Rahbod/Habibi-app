@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "526479026135-gtf0blm3j0eif29gibrss2pmatbavo71.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ir.rahbod.habibi",
-            "certificate_hash": "c5b0a75a42281c6e95510b9d6f46676a09db1cda"
-          }
-        },
-        {
           "client_id": "526479026135-h27a06hu29r9c20a8itaksb6ov66fue9.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "526479026135-h27a06hu29r9c20a8itaksb6ov66fue9.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

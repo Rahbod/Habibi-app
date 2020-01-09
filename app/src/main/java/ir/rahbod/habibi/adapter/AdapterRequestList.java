@@ -69,6 +69,7 @@ public class AdapterRequestList extends RecyclerView.Adapter<AdapterRequestList.
                 holder.txtCondition.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_status_gray));
                 break;
             case "-1":
+            case "-2":
                 holder.txtCondition.setText("لغو شده");
                 holder.txtCondition.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.background_status_red));
                 break;
