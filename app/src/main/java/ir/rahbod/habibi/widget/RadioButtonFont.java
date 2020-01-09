@@ -3,7 +3,7 @@ package ir.rahbod.habibi.widget;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.v7.widget.AppCompatRadioButton;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 
 public class RadioButtonFont extends AppCompatRadioButton {

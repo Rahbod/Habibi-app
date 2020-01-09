@@ -15,7 +15,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -38,11 +38,11 @@ public class NotificationUtils {
         this.mContext = mContext;
     }
 
-    public void showNotificationMessage(NotificationData notificationData, Intent intent) {
+    public void showNotificationMessage(NotifyData notificationData, Intent intent) {
         showNotificationMessage(notificationData, intent, null);
     }
 
-    public void showNotificationMessage(NotificationData notificationData, Intent intent, String imageUrl) {
+    public void showNotificationMessage(NotifyData notificationData, Intent intent, String imageUrl) {
         // Check for empty push message
         if (TextUtils.isEmpty(notificationData.getDescription()))
             return;
@@ -81,7 +81,7 @@ public class NotificationUtils {
     }
 
 
-    private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, NotificationData notificationData, PendingIntent resultPendingIntent, Uri alarmSound) {
+    private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, NotifyData notificationData, PendingIntent resultPendingIntent, Uri alarmSound) {
 
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -134,7 +134,7 @@ public class NotificationUtils {
     private void showBigNotification(
             Bitmap bitmap,
             NotificationCompat.Builder mBuilder,
-            NotificationData notificationData,
+            NotifyData notificationData,
 //            String timeStamp,
             PendingIntent resultPendingIntent
             , Uri alarmSound) {

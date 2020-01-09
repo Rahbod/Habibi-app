@@ -4,7 +4,7 @@ package ir.rahbod.habibi.notification;
  * Created by ebtekar on 11/5/2017.
  */
 
-public class NotificationData {
+public class NotifyData {
 
     private String title = null;
     private String description = null;
@@ -17,7 +17,7 @@ public class NotificationData {
     private String type = null;
     private String timestamp = null;
 
-    public NotificationData() {
+    public NotifyData() {
     }
 
     public String getTitle() {

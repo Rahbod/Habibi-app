@@ -1,31 +1,24 @@
 package ir.rahbod.habibi.pages;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.KeyEvent;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterRequestList;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
 import ir.rahbod.habibi.helper.MyDialog;
-import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
 import ir.rahbod.habibi.helper.snackBar.SnackView;
-import ir.rahbod.habibi.model.ItemRequest;
-import ir.rahbod.habibi.model.Request;
 import ir.rahbod.habibi.model.RequestList;
 import retrofit2.Call;
 import retrofit2.Callback;

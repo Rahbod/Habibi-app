@@ -3,11 +3,12 @@ package ir.rahbod.habibi.pages;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,7 +145,7 @@ public class RequestInfoActivity extends AppCompatActivity implements SnackView,
         }
 
         //invoice
-        if (info.invoice != null) {
+        if (info.invoice != null && (Integer.parseInt(info.invoice.status) == 0 || Integer.parseInt(info.invoice.status) == 1)) {
             adapter = new AdapterFactor(RequestInfoActivity.this, info.invoice.factors);
             recyclerView.setAdapter(adapter);
             txtSum.setText(info.invoice.sum);

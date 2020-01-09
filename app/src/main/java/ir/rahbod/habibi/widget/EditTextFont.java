@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.support.v7.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatEditText;
 
 public class EditTextFont extends AppCompatEditText {
     public EditTextFont(Context context) {

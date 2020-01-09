@@ -1,8 +1,9 @@
 package ir.rahbod.habibi.notification;
 
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -14,33 +15,29 @@ import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.pages.RequestInfoActivity;
 
-public class MyFireBAseMessagingService extends FirebaseMessagingService {
-
-    private static final String TAG = "MyFireBAseMessaging";
+public class MyPushListenerService extends FirebaseMessagingService {
     private static final String ACTION = "action";
     private static final String SELECT_REPAIR_MAN = "selectRepairMan";
     private static final String INVOICING = "invoicing";
     private static final String MESSAGE = "message";
     private static final String DEVICE_ID = "id";
-    private Intent intent;
-    private NotificationUtils notificationUtils;
-    private NotificationData data;
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
         JSONObject object = new JSONObject(remoteMessage.getData());
         try {
-            String action = object.getString(ACTION);
+            JSONObject content = new JSONObject(object.getString("custom_content"));
+            String action = content.getString(ACTION);
             switch (action) {
                 case SELECT_REPAIR_MAN:
-                    intent = new Intent(getApplicationContext(), RequestInfoActivity.class);
-                    intent.putExtra(PutKey.SERVICE_ID, object.getString(DEVICE_ID));
+                    Intent intent = new Intent(getApplicationContext(), RequestInfoActivity.class);
+                    intent.putExtra(PutKey.SERVICE_ID, content.getString(DEVICE_ID));
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-                    notificationUtils = new NotificationUtils(getApplicationContext());
-                    data = new NotificationData();
-                    data.setDescription(object.getString(MESSAGE));
+                    NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+                    NotifyData data = new NotifyData();
+                    data.setDescription(content.getString(MESSAGE));
                     data.setTitle(getResources().getString(R.string.app_name));
                     if (RequestInfoActivity.requestInfo != null)
                         RequestInfoActivity.requestInfo.finish();
@@ -48,11 +45,11 @@ public class MyFireBAseMessagingService extends FirebaseMessagingService {
                     break;
                 case INVOICING:
                     Intent intent2 = new Intent(getApplicationContext(), RequestInfoActivity.class);
-                    intent2.putExtra(PutKey.SERVICE_ID, object.getString(DEVICE_ID));
+                    intent2.putExtra(PutKey.SERVICE_ID, content.getString(DEVICE_ID));
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent2);
                     notificationUtils = new NotificationUtils(getApplicationContext());
-                    data = new NotificationData();
-                    data.setDescription(object.getString(MESSAGE));
+                    data = new NotifyData();
+                    data.setDescription(content.getString(MESSAGE));
                     data.setTitle(getResources().getString(R.string.app_name));
                     if (RequestInfoActivity.requestInfo != null)
                         RequestInfoActivity.requestInfo.finish();

@@ -1,7 +1,7 @@
 package ir.rahbod.habibi.helper.snackBar;
 
 import android.graphics.Typeface;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -19,9 +19,9 @@ public class MySnackBar implements SnackPresenter {
 
     private void show(View view) {
         Snackbar snackbar = Snackbar.make(view, "خطا در اتصال به شبکه", Snackbar.LENGTH_INDEFINITE);
-        TextView txtMessage = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        TextView txtMessage = snackbar.getView().findViewById(R.id.snackbar_text);
         txtMessage.setGravity(Gravity.LEFT);
-        TextView txtButton = snackbar.getView().findViewById(android.support.design.R.id.snackbar_action);
+        TextView txtButton = snackbar.getView().findViewById(R.id.snackbar_action);
         Typeface face = Typeface.createFromAsset(MyApp.context.getAssets(), "fonts/IRANSans.ttf");
         txtMessage.setTypeface(face);
         txtButton.setTypeface(face);
@@ -38,9 +38,9 @@ public class MySnackBar implements SnackPresenter {
 
     private void customShow(View view, String message, String button) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
-        TextView txtMessage = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        TextView txtMessage = snackbar.getView().findViewById(R.id.snackbar_text);
         txtMessage.setGravity(Gravity.LEFT);
-        TextView txtButton = snackbar.getView().findViewById(android.support.design.R.id.snackbar_action);
+        TextView txtButton = snackbar.getView().findViewById(R.id.snackbar_action);
         Typeface face = Typeface.createFromAsset(MyApp.context.getAssets(), "fonts/IRANSans.ttf");
         txtMessage.setTypeface(face);
         txtButton.setTypeface(face);

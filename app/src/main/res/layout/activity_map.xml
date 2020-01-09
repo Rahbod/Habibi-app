@@ -2,24 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/actionbar_view"
         android:id="@+id/actionBar"/>
 
-    <fragment
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:layout_below="@id/actionBar"
-        android:layout_above="@id/btnOk"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <ir.map.sdk_map.maps.MapView
+        android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".pages.MapActivity" />
+        android:layout_below="@id/actionBar"
+        mapbox:mapbox_cameraZoomMax="20"
+        mapbox:mapbox_cameraZoomMin="1" />
 
     <!--Button-->
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/btnOk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,6 +56,6 @@
             </LinearLayout>
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

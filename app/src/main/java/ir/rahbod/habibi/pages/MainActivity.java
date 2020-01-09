@@ -7,17 +7,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.telephony.SmsManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -27,14 +27,11 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import ir.map.sdk_map.Mapir;
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterMain;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
-import ir.rahbod.habibi.helper.DbHelper;
 import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
@@ -42,9 +39,18 @@ import ir.rahbod.habibi.helper.snackBar.MySnackBar;
 import ir.rahbod.habibi.helper.snackBar.SnackView;
 import ir.rahbod.habibi.model.DevicesList;
 import ir.rahbod.habibi.model.Register;
+import ir.rahbod.habibi.notification.NotificationUtils;
+import ir.rahbod.habibi.notification.NotifyData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import com.pushpole.sdk.NotificationButtonData;
+import com.pushpole.sdk.NotificationData;
+import com.pushpole.sdk.PushPole;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements SnackView, View.OnClickListener {
 
@@ -57,6 +63,16 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
     private MySnackBar snackBar;
     private ScrollView layout;
     private boolean showMain = false;
+
+    private static final String TAG = "MyFireBAseMessaging";
+    private static final String ACTION = "action";
+    private static final String SELECT_REPAIR_MAN = "selectRepairMan";
+    private static final String INVOICING = "invoicing";
+    private static final String MESSAGE = "message";
+    private static final String DEVICE_ID = "id";
+    private Intent intent;
+    private NotificationUtils notificationUtils;
+    private NotifyData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +164,65 @@ public class MainActivity extends AppCompatActivity implements SnackView, View.O
         });
 
         getDevicesList();
+
+        PushPole.initialize(this,true);
+
+        Mapir.getInstance(this, "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjJlMmFhZmUzZjI3YzE4ODJlNGM5YWEwYWU1OTUzYzQ1MGJjNmVhYWUyOTdmM2JlMTNlNzFjZDUyODdmNzg4NzUxMDM0MDU1NjE0YmYyNmM1In0.eyJhdWQiOiI1MzU2IiwianRpIjoiMmUyYWFmZTNmMjdjMTg4MmU0YzlhYTBhZTU5NTNjNDUwYmM2ZWFhZTI5N2YzYmUxM2U3MWNkNTI4N2Y3ODg3NTEwMzQwNTU2MTRiZjI2YzUiLCJpYXQiOjE1NjY1MDA0MDQsIm5iZiI6MTU2NjUwMDQwNCwiZXhwIjoxNTY5MTM3NDc0LCJzdWIiOiIiLCJzY29wZXMiOlsiYmFzaWMiXX0.QwUzOOMm8uts4QeRBd2aTZ5cMoGLOqGyeLjrxq3HW1GyRwlsYb7opxFNkCYGDUgKnvQtjRaoZs2fo_k7c4gVgdqdiOqmmLX3FKKn5xRLoTBn0eEelmh-GRnbSVxV5ieuLpzdR0Xu0SdtuLcXWI59cZeHTwMwiFtzkU3g_OjKYxhUDuLGgn9i4fgkXsSJ_miJK0ItIDxlclaB17IkSHB9_ftw1hgGFI_aWktLJJun-SIKUoI3hxUTYR7XGBa0cWJF9EbECfg9p9I95seaIXAn9LFUfchuHBUrEmqvDNcBZwgMBfdePPOCsPQ0Hv_maz6LDclHX_kjCAvh7nlVXNYUww");
+
+//        // Pusheh Listener
+//        PushPole.setNotificationListener(new PushPole.NotificationListener() {
+//            @Override
+//            public void onNotificationReceived(@NonNull NotificationData notificationData) {
+//                JSONObject object = notificationData.getCustomContent();
+//                try {
+//                    String action = object.getString(ACTION);
+//                    switch (action) {
+//                        case SELECT_REPAIR_MAN:
+//                            intent = new Intent(getApplicationContext(), RequestInfoActivity.class);
+//                            intent.putExtra(PutKey.SERVICE_ID, object.getString(DEVICE_ID));
+//                            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+//                            notificationUtils = new NotificationUtils(getApplicationContext());
+//                            data = new NotifyData();
+//                            data.setDescription(object.getString(MESSAGE));
+//                            data.setTitle(getResources().getString(R.string.app_name));
+//                            if (RequestInfoActivity.requestInfo != null)
+//                                RequestInfoActivity.requestInfo.finish();
+//                            notificationUtils.showNotificationMessage(data, intent);
+//                            break;
+//                        case INVOICING:
+//                            Intent intent2 = new Intent(getApplicationContext(), RequestInfoActivity.class);
+//                            intent2.putExtra(PutKey.SERVICE_ID, object.getString(DEVICE_ID));
+//                            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent2);
+//                            notificationUtils = new NotificationUtils(getApplicationContext());
+//                            data = new NotifyData();
+//                            data.setDescription(object.getString(MESSAGE));
+//                            data.setTitle(getResources().getString(R.string.app_name));
+//                            if (RequestInfoActivity.requestInfo != null)
+//                                RequestInfoActivity.requestInfo.finish();
+//                            notificationUtils.showNotificationMessage(data, intent2);
+//                            break;
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            @Override
+//            public void onNotificationClicked(@NonNull NotificationData notificationData) {
+//                // click
+//            }
+//            @Override
+//            public void onNotificationButtonClicked(@NonNull NotificationData notificationData, @NonNull NotificationButtonData clickedButton) {
+//                // button click
+//            }
+//            @Override
+//            public void onCustomContentReceived(@NonNull JSONObject customContent) {
+//                // custom content (JSON) received
+//            }
+//            @Override
+//            public void onNotificationDismissed(@NonNull NotificationData notificationData) {
+//                // dismissed
+//            }
+//        });
     }
 
     private void getDevicesList() {

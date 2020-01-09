@@ -3,9 +3,8 @@ package ir.rahbod.habibi.pages;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.mapbox.mapboxsdk.geometry.LatLng;
+//import com.mapbox.mapboxsdk.geometry.LatLng;
 
 class MyLocListener implements LocationListener {
 
@@ -28,13 +27,13 @@ class MyLocListener implements LocationListener {
     public void onProviderDisabled(String provider) {
     }
 
-    public LatLng getDeviceLocation() {
-        LatLng latLng = new LatLng();
-        if (myLocation != null) {
-            latLng.setLatitude(myLocation.getLatitude());
-            latLng.setLongitude(myLocation.getLongitude());
-        }
-        Log.e("qqqq", "getDeviceLocation: " + latLng.getLatitude() );
-        return latLng;
-    }
+//    public LatLng getDeviceLocation() {
+//        LatLng latLng = new LatLng();
+//        if (myLocation != null) {
+//            latLng.setLatitude(myLocation.getLatitude());
+//            latLng.setLongitude(myLocation.getLongitude());
+//        }
+//        Log.e("qqqq", "getDeviceLocation: " + latLng.getLatitude() );
+//        return latLng;
+//    }
 }

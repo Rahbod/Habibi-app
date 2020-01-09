@@ -1,7 +1,7 @@
 package ir.rahbod.habibi.pages;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
-import ir.rahbod.habibi.notification.Config;
 
 public class IntroductionActivity extends AppCompatActivity {
 

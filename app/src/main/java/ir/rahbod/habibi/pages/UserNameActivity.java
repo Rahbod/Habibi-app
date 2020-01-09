@@ -1,8 +1,8 @@
 package ir.rahbod.habibi.pages;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,13 +11,7 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.io.IOException;
+import com.pushpole.sdk.PushPole;
 
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.api.ApiClient;
@@ -28,7 +22,6 @@ import ir.rahbod.habibi.helper.SessionManager;
 import ir.rahbod.habibi.helper.snackBar.MySnackBar;
 import ir.rahbod.habibi.helper.snackBar.SnackView;
 import ir.rahbod.habibi.model.UserName;
-import ir.rahbod.habibi.notification.Config;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,17 +40,17 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_name);
         bind();
-        Log.e("qqqq", "onCreate: " );
         btnSave.setOnClickListener(this);
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (task.isSuccessful()) {
-                            token = task.getResult().getToken();
-                        }
-                    }
-                });
+        token = PushPole.getPushPoleId(this);
+//        FirebaseInstanceId.getInstance().getInstanceId()
+//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                        if (task.isSuccessful()) {
+//                            token = task.getResult().getToken();
+//                        }
+//                    }
+//                });
     }
 
     private void bind() {
@@ -124,6 +117,7 @@ public class UserNameActivity extends AppCompatActivity implements View.OnClickL
             call.setName(userName).enqueue(new Callback<UserName>() {
                 @Override
                 public void onResponse(Call<UserName> call, Response<UserName> response) {
+                    Log.e("masoud", "onResponse: "+response);
                     if (response.isSuccessful()) {
                         Toast.makeText(UserNameActivity.this, response.body().message, Toast.LENGTH_LONG).show();
                         SessionManager.getExtrasPref(UserNameActivity.this).putExtra(PutKey.REGISTERED, true);

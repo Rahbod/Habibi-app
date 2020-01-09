@@ -1,9 +1,9 @@
 package ir.rahbod.habibi.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +56,7 @@ public class AdapterRequestStepThere extends RecyclerView.Adapter<AdapterRequest
     @Override
     public void onBindViewHolder(final listViewHolder holder, final int position) {
         holder.txt.setText(list.get(position).getAddress());
-        holder.radioButton.setChecked(lastPosition == position);
+        holder.radioButton.setChecked(SessionManager.getExtrasPref(context).getInt(PutKey.SERVICE_Address_ID) == list.get(position).getId());
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

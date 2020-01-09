@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.support.v7.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatButton;
 
 public class ButtonFont extends AppCompatButton {
     public ButtonFont(Context context) {

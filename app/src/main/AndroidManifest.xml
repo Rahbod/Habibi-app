@@ -10,7 +10,7 @@
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
+         location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -23,30 +23,26 @@
         android:roundIcon="@mipmap/launcher_icon_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        tools:replace="allowBackup">
-        <activity android:name=".pages.NewMapActivity">
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:replace="allowBackup,android:appComponentFactory"
+        android:appComponentFactory="whateverString"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="p">
+
+        <!-- Activities -->
+        <activity android:name=".pages.MainActivity" android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".pages.MapActivity" />
         <activity android:name=".pages.IntroductionActivity" />
-        <activity
-            android:name=".pages.MainActivity"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
-        <activity
-            android:name=".pages.CheckCodeActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".pages.UserNameActivity"
-            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".pages.CheckCodeActivity" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".pages.UserNameActivity" android:windowSoftInputMode="stateHidden" />
         <activity android:name=".pages.RequestInfoActivity" />
-        <activity
-            android:name=".pages.RequestStepOneActivity"
-            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".pages.RequestStepOneActivity" android:windowSoftInputMode="stateHidden" />
         <activity android:name=".pages.RequestStepTowActivity" />
         <activity android:name=".pages.RequestStepThereActivity" />
         <activity android:name=".pages.RequestStepFourActivity" />
@@ -54,36 +50,31 @@
         <activity android:name=".pages.RequestListActivity" />
         <activity android:name=".pages.TransactionListActivity" />
         <activity android:name=".pages.RepairManInfoActivity" />
-        <activity
-            android:name=".pages.CooperationRequestActivity"
-            android:windowSoftInputMode="stateHidden" /> <!-- services -->
-        <service android:name=".notification.MyFireBaseInstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".notification.MyFireBAseMessagingService">
+        <activity android:name=".pages.CooperationRequestActivity" android:windowSoftInputMode="stateHidden" />
+
+        <!-- Services -->
+        <service android:name="com.pushpole.sdk.fcm.FcmService" tools:node="remove" />
+        <service android:name=".notification.MyPushListenerService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <!--<service android:name=".notification.MyFireBaseInstanceIdService">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
+        <!--<service android:name=".notification.MyFireBAseMessagingService">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="e2fff1b624707ad6107784c994a91e41f76e2328" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+        <!-- Data -->
+        <meta-data android:name="io.fabric.ApiKey" android:value="e2fff1b624707ad6107784c994a91e41f76e2328" />
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/google_maps_key" />
+        <meta-data android:name="com.pushpole.sdk.token" android:value="PUSHPOLE_861566940908"/>
 
-        <activity android:name=".pages.MapActivity" />
     </application>
 
 </manifest>

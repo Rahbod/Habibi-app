@@ -1,12 +1,9 @@
 package ir.rahbod.habibi.pages;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
 import ir.rahbod.habibi.R;
-import ir.rahbod.habibi.widget.ButtonFont;
 
 public class RegisterStepTowActivity extends AppCompatActivity {
 

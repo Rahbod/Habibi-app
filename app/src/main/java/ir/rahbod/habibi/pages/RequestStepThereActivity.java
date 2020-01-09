@@ -3,12 +3,12 @@ package ir.rahbod.habibi.pages;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +28,6 @@ import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.adapter.AdapterRequestStepThere;
 import ir.rahbod.habibi.api.ApiClient;
 import ir.rahbod.habibi.api.ApiService;
-import ir.rahbod.habibi.helper.DbHelper;
 import ir.rahbod.habibi.helper.MyDialog;
 import ir.rahbod.habibi.helper.PutKey;
 import ir.rahbod.habibi.helper.SessionManager;
@@ -152,7 +151,7 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
             case R.id.btnOk:
                 if (addressList.isEmpty())
                     Toast.makeText(this, "لطفا آدرس خود را وارد کنید", Toast.LENGTH_LONG).show();
-                else if (SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_Address).isEmpty())
+                else if (SessionManager.getExtrasPref(this).getInt(PutKey.SERVICE_Address_ID) == 0)
                     Toast.makeText(this, "لطفا آدرس خود را انتخاب کنید", Toast.LENGTH_LONG).show();
                 else {
                     Intent intent = new Intent(this, RequestStepFourActivity.class);
@@ -166,8 +165,7 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
     }
 
     private void showDialog(int ID, String address, String phone) {
-        if (ID != -1)
-            addressID = ID;
+        addressID = ID;
         dialog = new Dialog(RequestStepThereActivity.this);
         View dialogView = LayoutInflater.from(RequestStepThereActivity.this).inflate(R.layout.dialog_request_3, null);
         dialog.setContentView(dialogView);
@@ -210,7 +208,6 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
         btnAddAddress.setEnabled(false);
         MyDialog.show(this);
         Address address = new Address();
-        Toast.makeText(this, "" + addressID, Toast.LENGTH_SHORT).show();
         address.setAddress(etAddress.getText().toString());
         address.setTelephone(etPhone.getText().toString());
         address.setId(addressID);
@@ -226,7 +223,6 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
                     dialog.dismiss();
                     getAddress();
                     btnAddAddress.setEnabled(true);
-                    Toast.makeText(RequestStepThereActivity.this, "" + response.body().getMessage(), Toast.LENGTH_LONG).show();
                 } else {
                     try {
                         apiClient.getError(response.errorBody().string());
@@ -250,11 +246,13 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
         Address address = new Address();
         address.setAddress(etAddress.getText().toString());
         address.setTelephone(etPhone.getText().toString());
+
         if (lat != 0) {
             address.setLat(lat);
             address.setLng(lng);
             address.setZoom(zoom);
         }
+
         call.addAddress(address).enqueue(new Callback<AddressList>() {
             @Override
             public void onResponse(Call<AddressList> call, Response<AddressList> response) {
@@ -262,6 +260,9 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
                     dialog.dismiss();
                     getAddress();
                     btnAddAddress.setEnabled(true);
+
+                    SessionManager.getExtrasPref(RequestStepThereActivity.this).putExtra(PutKey.SERVICE_Address_ID, response.body().address.getId());
+                    SessionManager.getExtrasPref(RequestStepThereActivity.this).putExtra(PutKey.SERVICE_Address, response.body().address.getAddress());
                 } else {
                     try {
                         apiClient.getError(response.errorBody().string());
@@ -293,8 +294,8 @@ public class RequestStepThereActivity extends AppCompatActivity implements View.
             }
         });
         recyclerView.setAdapter(adapter);
-        if (!SessionManager.getExtrasPref(this).getString(PutKey.SERVICE_Address).isEmpty())
-            SessionManager.getExtrasPref(this).remove(PutKey.SERVICE_Address);
+        if (SessionManager.getExtrasPref(this).getInt(PutKey.SERVICE_Address_ID) != 0)
+            SessionManager.getExtrasPref(this).remove(PutKey.SERVICE_Address_ID);
     }
 
     @Override

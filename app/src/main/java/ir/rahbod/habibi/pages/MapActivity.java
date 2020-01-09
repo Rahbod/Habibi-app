@@ -1,66 +1,61 @@
 package ir.rahbod.habibi.pages;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.Build;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
-import android.text.TextUtils;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
 
+import ir.map.sdk_map.MapirStyle;
 import ir.rahbod.habibi.R;
 import ir.rahbod.habibi.helper.PutKey;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+import static com.mapbox.mapboxsdk.style.layers.Property.ICON_ROTATION_ALIGNMENT_VIEWPORT;
 
-    private GoogleMap mMap;
-    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 10001;
-    private static final float DEFAULT_ZOOM = 17f;
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private boolean locationPermissionGranted = false;
-    private double lat = 0, lng = 0, zoom = 0;
+public class MapActivity extends FragmentActivity {
+
+    MapboxMap map;
+    Style mapStyle;
+    MapView mapView;
+    LatLng qomPoint = new LatLng(34.642678, 50.879720);
+
+    SymbolManager symbolManager;
+    Symbol selectedPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        getLocationPermission();
-        if (!statusCheck())
-            buildAlertMessageNoGps();
+
+        mapView = findViewById(R.id.map_view);
+        mapView.onCreate(savedInstanceState);
+        initMap();
+
         CardView btnOk = findViewById(R.id.btnOk);
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lat == 0 && lng == 0 && zoom == 0) {
-                    Toast.makeText(MapActivity.this, "لطفا روی نقشه کلیک کنید", Toast.LENGTH_LONG).show();
+                if (selectedPoint == null) {
+                    Toast.makeText(MapActivity.this, "لطفا مکان مورد نظر را از روی نقشه انتخاب کنید.", Toast.LENGTH_LONG).show();
                 } else {
                     Intent returnIntent = new Intent();
-                    returnIntent.putExtra(PutKey.LAT, lat);
-                    returnIntent.putExtra(PutKey.LNG, lng);
-                    returnIntent.putExtra(PutKey.ZOOM, zoom);
+                    returnIntent.putExtra(PutKey.LAT, selectedPoint.getLatLng().getLatitude());
+                    returnIntent.putExtra(PutKey.LNG, selectedPoint.getLatLng().getLongitude());
+                    returnIntent.putExtra(PutKey.ZOOM, map.getCameraPosition().zoom);
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 }
@@ -68,134 +63,69 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         });
     }
 
-    private void getLocationPermission() {
-        String[] permission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-        if (ContextCompat.checkSelfPermission(MapActivity.this, FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(MapActivity.this, COARSE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                locationPermissionGranted = true;
-                initMap();
-            } else {
-                ActivityCompat.requestPermissions(MapActivity.this,
-                        permission,
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
-        } else {
-            ActivityCompat.requestPermissions(MapActivity.this,
-                    permission,
-                    MY_PERMISSIONS_REQUEST_LOCATION);
-        }
-    }
-
     private void initMap() {
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mMap.setMyLocationEnabled(true);
-        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
-            public void onMapClick(LatLng latLng) {
-                lat = latLng.latitude;
-                lng = latLng.longitude;
-                zoom = mMap.getCameraPosition().zoom;
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title("آدرس دقیق شما روی نقشه");
-                mMap.clear();
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.addMarker(markerOptions);
+            public void onMapReady(@NonNull MapboxMap mapboxMap) {
+                map = mapboxMap;
+                map.setStyle(new Style.Builder().fromUri(MapirStyle.MAIN_MOBILE_VECTOR_STYLE), new Style.OnStyleLoaded() {
+                    @Override
+                    public void onStyleLoaded(@NonNull Style style) {
+                        mapStyle = style;
+
+                        // Change camera position to qom
+                        map.setCameraPosition(new CameraPosition.Builder()
+                                .target(qomPoint)
+                                .zoom(11)
+                                .build());
+
+                        // Set map click listener
+                        map.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
+                            @SuppressLint("ShowToast")
+                            @Override
+                            public boolean onMapClick(@NonNull LatLng point) {
+                                addSymbolToMap(point);
+                                return false;
+                            }
+                        });
+                    }
+                });
             }
         });
     }
 
-    private void getLocationDevice() {
-        FusedLocationProviderClient mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        if (locationPermissionGranted) {
-            try {
-                Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            Location currentLocation = (Location) task.getResult();
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
-                        }
-                    }
-                });
-            } catch (SecurityException e) {
-                //notCatch
+    private void addSymbolToMap(LatLng point) {
+        mapStyle.addImage("sample_image_id", getResources().getDrawable(R.drawable.mapbox_marker_icon_default));
+
+        // create symbol manager object
+        if (symbolManager != null)
+            symbolManager.delete(selectedPoint);
+
+        symbolManager = new SymbolManager(mapView, map, mapStyle);
+
+        /*symbolManager.addClickListener(new OnSymbolClickListener() {
+            @Override
+            public void onAnnotationClick(Symbol symbol) {
+                Toast.makeText(MapActivity.this, "This is CLICK_EVENT"+symbol.getLatLng().toString(), Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    public boolean statusCheck() {
-        int locationMode = 0;
-        String locationProviders;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                locationMode = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
-
-            } catch (Settings.SettingNotFoundException e) {
-                e.printStackTrace();
-                return false;
+        });
+        symbolManager.addLongClickListener(new OnSymbolLongClickListener() {
+            @Override
+            public void onAnnotationLongClick(Symbol symbol) {
+                Toast.makeText(MapActivity.this, "This is LONG_CLICK_EVENT", Toast.LENGTH_SHORT).show();
             }
+        });*/
 
-            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+        // set non-data-driven properties, such as:
+        symbolManager.setIconAllowOverlap(true);
+        symbolManager.setIconRotationAlignment(ICON_ROTATION_ALIGNMENT_VIEWPORT);
 
-        } else {
-            locationProviders = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-            return !TextUtils.isEmpty(locationProviders);
-        }
-    }
+        // Add symbol at specified lat/lon
+        SymbolOptions symbolOptions = new SymbolOptions();
+        symbolOptions.withLatLng(point);
+        symbolOptions.withIconImage("sample_image_id");
+        symbolOptions.withIconSize(1.0f);
 
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("برای کار با نقشه باید GPS دستگاه خود را روشن کنید، آیا مایل به روشن کردن آن هستید؟")
-                .setCancelable(false)
-                .setPositiveButton("بله", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("خیر", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    private void moveCamera(LatLng latLng, float zoom) {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        locationPermissionGranted = false;
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
-                if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
-                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                            locationPermissionGranted = false;
-                            return;
-                        }
-                    }
-                    locationPermissionGranted = true;
-                    initMap();
-                }
-            }
-
-        }
+        selectedPoint = symbolManager.create(symbolOptions);
     }
 }
